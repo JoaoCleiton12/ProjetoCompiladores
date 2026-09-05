@@ -1,0 +1,23 @@
+# Pasta de compilação do CMake (onde ficam os executáveis e arquivos de build)
+build/
+
+# Código C/C++ auto-gerado pelo Flex (não deve ir para o GitHub)
+*.yy.cc
+*.yy.c
+lex.yy.c
+lex.yy.cc
+
+# Arquivos executáveis gerados
+*.out
+*.exe
+classes
+
+# Configurações locais e caches do VS Code
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+.cache/
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db

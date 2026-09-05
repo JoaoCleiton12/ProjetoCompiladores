@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake Configure",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S",
+        ".",
+        "-B",
+        "${workspaceFolder}/build"
+      ],
+      "group": "none",
+      "problemMatcher": [],
+      "detail": "Gera os arquivos de build na pasta build/"
+    },
+    {
+      "label": "CMake Build",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOn": [
+        "CMake Configure"
+      ],
+      "problemMatcher": "$gcc",
+      "detail": "Compila o analisador lexico chamando o Flex e o compilador C/C++"
+    }
+  ]
+}
