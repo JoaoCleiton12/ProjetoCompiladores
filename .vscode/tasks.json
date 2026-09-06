@@ -13,7 +13,7 @@
       ],
       "group": "none",
       "problemMatcher": [],
-      "detail": "Gera os arquivos de build na pasta build/"
+      "detail": "Gera os arquivos de build na pasta build/",
     },
     {
       "label": "CMake Build",
@@ -33,5 +33,13 @@
       "problemMatcher": "$gcc",
       "detail": "Compila o analisador lexico chamando o Flex e o compilador C/C++"
     }
-  ]
+  ],
+  "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      }
 }

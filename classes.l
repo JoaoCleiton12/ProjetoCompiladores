@@ -13,10 +13,16 @@ letra_maiuscula [A-Z]
 letras [a-zA-Z]
 segmento {letra_maiuscula}{letras}*
 
-/* Regra para identificação de nomes de classes */
+    /* Regra para identificação de nomes de classes */
 classe {segmento}(_{segmento})*
-
 invalido [^ \t\n]+
+
+estereotipoOne "event"|"situation"|"process"|"category"|"mixin"|"phaseMixin"
+estereotipoTwo "roleMixin"|"historicalRoleMixin"|"kind"|"collective"|"quantity"
+estereotipoThree "quality"|"mode"|"intrisicMode"|"extrinsicMode"|"subKind"
+estereotipoFour "phase"|"role"|"historicalRole"
+estereotipoFinal {estereotipoOne}|{estereotipoTwo}|{estereotipoThree}|{estereotipoFour}
+
 
 %%
 {brancos}   ;
@@ -34,8 +40,11 @@ invalido [^ \t\n]+
 
     /* Nome das classes */
 {classe}    {cout << YYText() << " é um nome de classe válido!\n";}
-{invalido}  {cout << YYText() << " é um nome de classe inválido!\n";}
 
+{estereotipoFinal}  {cout << YYText() << " é um estereótipo válido!\n";}
+
+    /*Precisa definir uma saída */
+{invalido}  {cout << YYText() << " é um nome de classe inválido!\n";}
 
 %%
 
