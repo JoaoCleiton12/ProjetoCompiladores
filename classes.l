@@ -4,7 +4,7 @@
 #include <unordered_set>
 using namespace std;
 enum { ESTEREOTIPO_CLASSE = 1, ESTEREOTIPO_RELACAO, PALAVRA_RESERVADA, 
-SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS, DADOS_CRIADOS, META_ATRIBUTOS, INVALIDO };   
+SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS_NATIVOS, DADOS_CRIADOS, META_ATRIBUTOS, INVALIDO };   
 %}
 
 %option noyywrap
@@ -57,6 +57,12 @@ invalido [^ \t\n]+
 "package" return PALAVRA_RESERVADA;
 "import" return PALAVRA_RESERVADA;
 "functional-complexes" return PALAVRA_RESERVADA;
+"number" return DADOS_NATIVOS;
+"string" return DADOS_NATIVOS;
+"boolean" return DADOS_NATIVOS;
+"date" return DADOS_NATIVOS;
+"time" return DADOS_NATIVOS;
+"datetime" return DADOS_NATIVOS;
 
 {novo_tipo_dado}/":" return DADOS_CRIADOS;
     /*Simbolos especiais*/
