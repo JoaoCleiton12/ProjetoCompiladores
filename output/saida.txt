@@ -1,7 +1,19 @@
 =====================================================
+                 VISAO ANALITICA                     
+=====================================================
+Classe:  University
+Classe:  Organization
+Classe:  Address
+Classe:  Department
+Classe:  Classroom
+Classe:  JuniorStaff
+Classe:  SeniorStaff
+=====================================================
                 TABELA DE SINTESE                    
 =====================================================
 CATEGORIA                 | QUANTIDADE               
-Palavras Reservadas       | 3
-Estereótipos              | 1
-Classes                   | 3
+Palavras Reservadas       | 0
+Estereótipos de classe    | 1
+Classes                   | 7
+Inválidos                 | 12
+Símbolos Especiais        | 7

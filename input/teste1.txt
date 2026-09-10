@@ -1,10 +1,9 @@
-package
-import
-event
-Child
-Second_Baptist
-Minha_Classe
-minhaClasse
-Minha__Classe
-genset
-123Classe
+kind University specializes Organization {
+address: Address
+@componentOf
+[1] <>-- has -- [1..*] Department
+@componentOf
+[1] <>-- has -- [0..*] Classroom
+}
+relation Department [1] <>-- [1] JuniorStaff
+relation Department [1] <>-- [1] SeniorStaff

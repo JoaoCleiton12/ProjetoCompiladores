@@ -1,8 +1,10 @@
 %{
 #include <iostream>
 #include <fstream>
+#include <unordered_set>
 using namespace std;
-enum { CLASSE = 1, ESTEREOTIPO, INVALIDO, PALAVRA_RESERVADA };   
+enum { ESTEREOTIPO_CLASSE = 1, ESTEREOTIPO_RELACAO, PALAVRA_RESERVADA, 
+SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS, DADOS_CRIADOS, META_ATRIBUTOS, INVALIDO };   
 %}
 
 %option noyywrap
@@ -14,19 +16,37 @@ brancos {delim}+
 letra_maiuscula [A-Z]
 letras [a-zA-Z]
 segmento {letra_maiuscula}{letras}*
-classe {segmento}(_{segmento})*    
+    /*precisamos melhorar essa regra, pois quando definimos um tipo de dado novo
+    como address: Address, o lexer não reconhece address como um tipo de dado válido, 
+    e sim como uma classe, então precisamos criar uma regra para reconhecer tipos de dados que são definidos pelo usuário.
+    */
+classe [^":"]{segmento}(_{segmento})*
+simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"
+novo_tipo_dado [a-z]+
 invalido [^ \t\n]+
-
-estereotipoOne "event"|"situation"|"process"|"category"|"mixin"|"phaseMixin"
-estereotipoTwo "roleMixin"|"historicalRoleMixin"|"kind"|"collective"|"quantity"
-estereotipoThree "quality"|"mode"|"intrisicMode"|"extrinsicMode"|"subKind"
-estereotipoFour "phase"|"role"|"historicalRole"
-estereotipoFinal {estereotipoOne}|{estereotipoTwo}|{estereotipoThree}|{estereotipoFour}
-
 
 %%
 {brancos}   ;
-
+    /* estereotipos de classe*/
+"event" return ESTEREOTIPO_CLASSE;
+"situation" return ESTEREOTIPO_CLASSE;
+"process" return ESTEREOTIPO_CLASSE;
+"category" return ESTEREOTIPO_CLASSE;
+"mixin" return ESTEREOTIPO_CLASSE;
+"phaseMixin" return ESTEREOTIPO_CLASSE;
+"roleMixin" return ESTEREOTIPO_CLASSE;
+"historicalRoleMixin" return ESTEREOTIPO_CLASSE;
+"kind" return ESTEREOTIPO_CLASSE;
+"collective" return ESTEREOTIPO_CLASSE;
+"quantity" return ESTEREOTIPO_CLASSE;
+"quality" return ESTEREOTIPO_CLASSE;
+"mode" return ESTEREOTIPO_CLASSE;
+"intrisicMode" return ESTEREOTIPO_CLASSE;
+"extrinsicMode" return ESTEREOTIPO_CLASSE;
+"subKind" return ESTEREOTIPO_CLASSE;
+"phase" return ESTEREOTIPO_CLASSE;
+"role" return ESTEREOTIPO_CLASSE;
+"historicalRole" return ESTEREOTIPO_CLASSE;
     /* palavras reservadas */
 "genset" return PALAVRA_RESERVADA;
 "disjoint" return PALAVRA_RESERVADA;
@@ -38,12 +58,13 @@ estereotipoFinal {estereotipoOne}|{estereotipoTwo}|{estereotipoThree}|{estereoti
 "import" return PALAVRA_RESERVADA;
 "functional-complexes" return PALAVRA_RESERVADA;
 
+{novo_tipo_dado}/":" return DADOS_CRIADOS;
+    /*Simbolos especiais*/
+{simbolo_especial} return SIMBOLO_ESPECIAL;
     /* Nome das classes */
 {classe} return CLASSE;
-
-    /* Estereótipos */
-
-{estereotipoFinal}  return ESTEREOTIPO;
+    /* Novos tipos de dado */
+{novo_tipo_dado} return DADOS_CRIADOS;
 
     /*Precisa definir uma saída */
 {invalido}  return INVALIDO;
@@ -71,11 +92,17 @@ int main() {
     int total_palavras_reservadas = 0;
     int total_estereotipos = 0;
     int total_classes = 0;
+    int total_invalidos = 0;
+    int total_simbolos = 0;
+    int total_dados_criados = 0;
+
+    //tabela hash para controlar os nomes de classe únicos
+    unordered_set<string> nomes_classes_unicos;
 
     //rececbe o token do lexer e verifica se é diferente de 0, 
     //apenas vai ser 0 quando o arquivo acabar.
     saida << "=====================================================" << endl;
-    saida << "                TABELA DE SINTESE                    " << endl;
+    saida << "                 VISAO ANALITICA                     " << endl;
     saida << "=====================================================" << endl;
 
     while ((token = lexer.yylex()) != 0) {
@@ -83,17 +110,43 @@ int main() {
         if (token == PALAVRA_RESERVADA) {
             total_palavras_reservadas++;
         }
-        if (token == ESTEREOTIPO) {
+        if (token == ESTEREOTIPO_CLASSE) {
             total_estereotipos++;
         }
         if (token == CLASSE) {
-            total_classes++;
+
+            string nome_classe = lexer.YYText();
+            if (nomes_classes_unicos.find(nome_classe) == nomes_classes_unicos.end()) {
+                nomes_classes_unicos.insert(nome_classe);
+                total_classes++;
+                saida << "Classe: " << nome_classe << endl;
+            }
+        }
+        if (token == INVALIDO) {
+            total_invalidos++;
+        }
+        if (token == SIMBOLO_ESPECIAL) {
+            total_simbolos++;
+            //saida << "Símbolo Especial: " << lexer.YYText() << endl;
+        }
+        if (token == DADOS_CRIADOS) {
+            total_dados_criados++;
+            //saida << "Novo Tipo de Dado: " << lexer.YYText() << endl;
         }
     }
+
+        //rececbe o token do lexer e verifica se é diferente de 0, 
+    //apenas vai ser 0 quando o arquivo acabar.
+    saida << "=====================================================" << endl;
+    saida << "                TABELA DE SINTESE                    " << endl;
+    saida << "=====================================================" << endl;
     saida << "CATEGORIA                 | QUANTIDADE               " << endl;
     saida << "Palavras Reservadas       | " << total_palavras_reservadas << endl;
-    saida << "Estereótipos              | " << total_estereotipos << endl;
+    saida << "Estereótipos de classe    | " << total_estereotipos << endl;
     saida << "Classes                   | " << total_classes << endl;
+    saida << "Inválidos                 | " << total_invalidos << endl;
+    saida << "Símbolos Especiais        | " << total_simbolos << endl;
+
 
     entrada.close();
     saida.close();
