@@ -1,0 +1,7 @@
+=====================================================
+                TABELA DE SINTESE                    
+=====================================================
+CATEGORIA                 | QUANTIDADE               
+Palavras Reservadas       | 3
+Estereótipos              | 1
+Classes                   | 3
