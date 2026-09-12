@@ -1,5 +1,5 @@
 kind University specializes Organization {
-address: Address
+address: AddressDataType
 @componentOf
 [1] <>-- has -- [1..*] Department
 @componentOf

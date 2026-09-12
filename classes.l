@@ -20,9 +20,12 @@ segmento {letra_maiuscula}{letras}*
     como address: Address, o lexer não reconhece address como um tipo de dado válido, 
     e sim como uma classe, então precisamos criar uma regra para reconhecer tipos de dados que são definidos pelo usuário.
     */
-classe [^":"]{segmento}(_{segmento})*
+novo_tipo_dado {letras}*"DataType"
+/* Captura qualquer palavra que termine com "datatype" (independente de maiúsculas/minúsculas), 
+   EXCETO a que casa com o DataType correto acima */
+tipo_dado_incorreto  [a-zA-Z]*[dD][aA][tT][aA][tT][yY][pP][eE]
+classe {segmento}(_{segmento})*
 simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"
-novo_tipo_dado [a-z]+
 invalido [^ \t\n]+
 
 %%
@@ -64,14 +67,13 @@ invalido [^ \t\n]+
 "time" return DADOS_NATIVOS;
 "datetime" return DADOS_NATIVOS;
 
-{novo_tipo_dado}/":" return DADOS_CRIADOS;
-    /*Simbolos especiais*/
+{novo_tipo_dado} return DADOS_CRIADOS;
+
+{tipo_dado_incorreto} return INVALIDO;
+
 {simbolo_especial} return SIMBOLO_ESPECIAL;
     /* Nome das classes */
 {classe} return CLASSE;
-    /* Novos tipos de dado */
-{novo_tipo_dado} return DADOS_CRIADOS;
-
     /*Precisa definir uma saída */
 {invalido}  return INVALIDO;
 
