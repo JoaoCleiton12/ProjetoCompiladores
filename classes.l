@@ -17,6 +17,7 @@ SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS_NATIVOS, DADOS_CRIADOS, MET
 delim [ \t\n]
 brancos {delim}+
 letra_maiuscula [A-Z]
+letra_minuscula [a-z]
 letras [a-zA-Z]
 digitos [0-9]
 alfanumerico [a-zA-Z0-9]
@@ -26,7 +27,8 @@ novo_tipo_dado {letras}*"DataType"
    EXCETO a que casa com o DataType correto acima */
 tipo_dado_incorreto  [a-zA-Z]*[dD][aA][tT][aA][tT][yY][pP][eE]
 classe {segmento}(_{segmento})*
-simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"
+relacao {letra_minuscula}{alfanumerico}*
+simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"--"|"*"|"@"|":"
 invalido [^ \t\n]+
 
 %%
@@ -51,6 +53,36 @@ invalido [^ \t\n]+
 "phase" return ESTEREOTIPO_CLASSE;
 "role" return ESTEREOTIPO_CLASSE;
 "historicalRole" return ESTEREOTIPO_CLASSE;
+"relator" return ESTEREOTIPO_CLASSE;
+    /* esteriotipos de relacoes */
+"material" return ESTEREOTIPO_RELACAO;  
+"derivation" return ESTEREOTIPO_RELACAO;
+"comparative" return ESTEREOTIPO_RELACAO;
+"mediation" return ESTEREOTIPO_RELACAO;
+"characterization" return ESTEREOTIPO_RELACAO;
+"subCollectionOf" return ESTEREOTIPO_RELACAO;
+"subQualityOf" return ESTEREOTIPO_RELACAO;
+"subQualityof" return ESTEREOTIPO_RELACAO;
+"instantiation" return ESTEREOTIPO_RELACAO;
+"externalDependence" return ESTEREOTIPO_RELACAO;
+"componentOf" return ESTEREOTIPO_RELACAO;
+"componentof" return ESTEREOTIPO_RELACAO;
+"memberOf" return ESTEREOTIPO_RELACAO;
+"memberof" return ESTEREOTIPO_RELACAO;
+"termination" return ESTEREOTIPO_RELACAO;
+"participational" return ESTEREOTIPO_RELACAO;
+"participation" return ESTEREOTIPO_RELACAO;
+"historicalDependence" return ESTEREOTIPO_RELACAO;
+"creation" return ESTEREOTIPO_RELACAO;
+"manifestation" return ESTEREOTIPO_RELACAO;
+"bringsAbout" return ESTEREOTIPO_RELACAO;
+"triggers" return ESTEREOTIPO_RELACAO;
+"composition" return ESTEREOTIPO_RELACAO;
+"aggregation" return ESTEREOTIPO_RELACAO;
+"inherence" return ESTEREOTIPO_RELACAO;
+"value" return ESTEREOTIPO_RELACAO;
+"formal" return ESTEREOTIPO_RELACAO;
+"constitution" return ESTEREOTIPO_RELACAO;
     /* palavras reservadas */
 "genset" return PALAVRA_RESERVADA;
 "disjoint" return PALAVRA_RESERVADA;
@@ -61,6 +93,10 @@ invalido [^ \t\n]+
 "package" return PALAVRA_RESERVADA;
 "import" return PALAVRA_RESERVADA;
 "functional-complexes" return PALAVRA_RESERVADA;
+"relation" return PALAVRA_RESERVADA;
+"specializes" return PALAVRA_RESERVADA;
+"datatype" return PALAVRA_RESERVADA;
+"enum" return PALAVRA_RESERVADA;
     /* dados nativos */
 "number" return DADOS_NATIVOS;
 "string" return DADOS_NATIVOS;
@@ -76,12 +112,14 @@ invalido [^ \t\n]+
 "redefines" return META_ATRIBUTOS;
     /* Tipos de dados criados pelo usuário */
 {novo_tipo_dado} return DADOS_CRIADOS;
+    /* Tipos de dados incorretos */
+{tipo_dado_incorreto} return INVALIDO;
+    /* Nomes de Relações (identificadores iniciando em minúscula) */
+{relacao} return RELACOES;
     /* Nome das classes */
 {classe} return CLASSE;
     /* Símbolos especiais */
 {simbolo_especial} return SIMBOLO_ESPECIAL;
-    /* Tipos de dados incorretos */
-{tipo_dado_incorreto} return INVALIDO;
     /*Precisa definir uma saída */
 {invalido}  return INVALIDO;
 
@@ -105,7 +143,9 @@ int main() {
     int token;
     int total_palavras_reservadas = 0;
     int total_estereotipos = 0;
+    int total_estereotipos_relacao = 0;
     int total_classes = 0;
+    int total_relacoes = 0;
     int total_invalidos = 0;
     int total_simbolos = 0;
     int total_dados_criados = 0;
@@ -131,6 +171,10 @@ int main() {
             total_estereotipos++;
             tokens_agrupados[ESTEREOTIPO_CLASSE].push_back(lexer.YYText());
         }
+        else if (token == ESTEREOTIPO_RELACAO) {
+            total_estereotipos_relacao++;
+            tokens_agrupados[ESTEREOTIPO_RELACAO].push_back(lexer.YYText());
+        }
         else if (token == CLASSE) {
 
             string nome_classe = lexer.YYText();
@@ -140,6 +184,10 @@ int main() {
                 total_classes++;
                 tokens_agrupados[CLASSE].push_back(nome_classe);
             }
+        }
+        else if (token == RELACOES) {
+            total_relacoes++;
+            tokens_agrupados[RELACOES].push_back(lexer.YYText());
         }
         else if (token == SIMBOLO_ESPECIAL) {
             total_simbolos++;
@@ -169,8 +217,10 @@ int main() {
 
     vector<pair<int, string>> ordem_exibicao = {
         {ESTEREOTIPO_CLASSE, "Estereótipo de Classe"},
+        {ESTEREOTIPO_RELACAO, "Estereótipo de Relação"},
         {PALAVRA_RESERVADA,   "Palavra Reservada"},
         {CLASSE,              "Classe"},
+        {RELACOES,            "Nome de Relação"},
         {DADOS_CRIADOS,       "Novo Tipo de Dado"},
         {DADOS_NATIVOS,       "Dado Nativo"},
         {META_ATRIBUTOS,      "Meta-atributo"},
@@ -199,7 +249,9 @@ int main() {
     saida << "CATEGORIA                 | QUANTIDADE               " << endl;
     saida << "Palavras Reservadas       | " << total_palavras_reservadas << endl;
     saida << "Estereótipos de classe    | " << total_estereotipos << endl;
+    saida << "Estereótipos de relação   | " << total_estereotipos_relacao << endl;
     saida << "Classes                   | " << total_classes << endl;
+    saida << "Relações                  | " << total_relacoes << endl;
     saida << "Inválidos                 | " << total_invalidos << endl;
     saida << "Símbolos Especiais        | " << total_simbolos << endl;
     saida << "Dados Nativos             | " << total_dados_nativos << endl;
