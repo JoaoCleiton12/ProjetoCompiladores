@@ -7,3 +7,16 @@ address: AddressDataType
 }
 relation Department [1] <>-- [1] JuniorStaff
 relation Department [1] <>-- [1] SeniorStaff
+ordered
+const
+pizza03
+pizza_doce21
+pIzASs_ola_1
+pizza_1jk
+
+genset
+
+complete
+
+number
+string

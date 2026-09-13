@@ -1,18 +1,58 @@
 =====================================================
                  VISAO ANALITICA                     
 =====================================================
-Classe: University
-Classe: Organization
-Classe: Department
-Classe: Classroom
-Classe: JuniorStaff
-Classe: SeniorStaff
+Estereótipo de Classe : kind
+Palavra Reservada : genset
+Palavra Reservada : complete
+Classe : University
+Classe : Organization
+Classe : Department
+Classe : Classroom
+Classe : JuniorStaff
+Classe : SeniorStaff
+Novo Tipo de Dado : AddressDataType
+Dado Nativo : number
+Dado Nativo : string
+Meta-atributo : ordered
+Meta-atributo : const
+Símbolo Especial : {
+Símbolo Especial : <>--
+Símbolo Especial : <>--
+Símbolo Especial : }
+Símbolo Especial : <>--
+Símbolo Especial : <>--
+Token Inválido : specializes
+Token Inválido : address:
+Token Inválido : @componentOf
+Token Inválido : [1]
+Token Inválido : has
+Token Inválido : --
+Token Inválido : [1..*]
+Token Inválido : @componentOf
+Token Inválido : [1]
+Token Inválido : has
+Token Inválido : --
+Token Inválido : [0..*]
+Token Inválido : relation
+Token Inválido : [1]
+Token Inválido : [1]
+Token Inválido : relation
+Token Inválido : [1]
+Token Inválido : [1]
+Token Inválido : pizza03
+Token Inválido : pizza_doce21
+Token Inválido : pIzASs_ola_1
+Token Inválido : pizza_1jk
 =====================================================
                 TABELA DE SINTESE                    
 =====================================================
 CATEGORIA                 | QUANTIDADE               
-Palavras Reservadas       | 0
+Palavras Reservadas       | 2
 Estereótipos de classe    | 1
 Classes                   | 6
-Inválidos                 | 18
+Inválidos                 | 22
 Símbolos Especiais        | 6
+Dados Nativos             | 2
+Dados Criados             | 1
+Meta-atributos            | 2
+=====================================================
