@@ -6,8 +6,16 @@
 #include <vector>
 #include <string>
 using namespace std;
+
 enum { ESTEREOTIPO_CLASSE = 1, ESTEREOTIPO_RELACAO, PALAVRA_RESERVADA, 
-SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS_NATIVOS, DADOS_CRIADOS, META_ATRIBUTOS, INVALIDO };   
+SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS_NATIVOS, DADOS_CRIADOS, META_ATRIBUTOS, INVALIDO,
+INVALIDO_CLASSE};  
+
+struct ErroLexico {
+    int linha;
+    string lexema;
+    string descricao;
+};
 %}
 
 %option noyywrap
@@ -28,7 +36,9 @@ novo_tipo_dado {letras}*"DataType"
 tipo_dado_incorreto  [a-zA-Z]*[dD][aA][tT][aA][tT][yY][pP][eE]
 classe {segmento}(_{segmento})*
 relacao {letra_minuscula}{alfanumerico}*
-simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"--"|"*"|"@"|":"
+/* Erro: Nome de Classe começando com minúscula */
+classe_invalida_minuscula [a-z]+({segmento})+
+simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"
 invalido [^ \t\n]+
 
 %%
@@ -120,6 +130,7 @@ invalido [^ \t\n]+
 {classe} return CLASSE;
     /* Símbolos especiais */
 {simbolo_especial} return SIMBOLO_ESPECIAL;
+{classe_invalida_minuscula} return INVALIDO_CLASSE;
     /*Precisa definir uma saída */
 {invalido}  return INVALIDO;
 
@@ -139,7 +150,6 @@ int main() {
     //Lê diretamente do arquivo de entrada
     yyFlexLexer lexer(&entrada, &saida);
     
-
     int token;
     int total_palavras_reservadas = 0;
     int total_estereotipos = 0;
@@ -152,17 +162,23 @@ int main() {
     int total_instancias = 0;
     int total_dados_nativos = 0;
     int total_meta_atributos = 0;
+    int total_invalidos_classe = 0;
+
 
     //tabela hash para controlar os nomes de classe únicos
     unordered_set<string> nomes_classes_unicos;
 
     unordered_map<int, vector<string>> tokens_agrupados;
 
+    vector<ErroLexico> lista_erros;
+
     //rececbe o token do lexer e verifica se é diferente de 0, 
     //apenas vai ser 0 quando o arquivo acabar.
-    
     while ((token = lexer.yylex()) != 0) {
         
+        string lexema = lexer.YYText();
+        int linha = lexer.lineno();
+
         if (token == PALAVRA_RESERVADA) {
             total_palavras_reservadas++;
             tokens_agrupados[PALAVRA_RESERVADA].push_back(lexer.YYText());
@@ -209,6 +225,16 @@ int main() {
             total_invalidos++;
             tokens_agrupados[INVALIDO].push_back(lexer.YYText());
         }
+        else if (token == INVALIDO_CLASSE) {
+            total_invalidos++;
+            tokens_agrupados[INVALIDO].push_back(lexema);
+
+            lista_erros.push_back({
+                linha, 
+                lexema, 
+                "Nome de classe inválido (deve começar com letra maiúscula)"
+            });
+        }
     }
 
     saida << "=====================================================" << endl;
@@ -228,20 +254,22 @@ int main() {
         {INVALIDO,            "Token Inválido"}
     };
 
+    // Itera sobre a ordem de exibição e imprime os tokens agrupados
     for(size_t i = 0; i < ordem_exibicao.size(); ++i) {
         int id_token = ordem_exibicao[i].first;
         string rotulo = ordem_exibicao[i].second;
 
+        // verifica se a chave existe no mapa
         if(tokens_agrupados.count(id_token)) {
+            //pega a referencia da lista de string daquela categoria
             const vector<string>& tokens = tokens_agrupados[id_token];
 
+            //percorre a lista de token de cada categoria e imprime no arquivo de saída
             for(size_t j = 0; j < tokens.size(); ++j) {
                 saida << rotulo << " : " << tokens[j] << endl;
             }
         }
     }
-
-   
 
     saida << "=====================================================" << endl;
     saida << "                TABELA DE SINTESE                    " << endl;
@@ -253,11 +281,27 @@ int main() {
     saida << "Classes                   | " << total_classes << endl;
     saida << "Relações                  | " << total_relacoes << endl;
     saida << "Inválidos                 | " << total_invalidos << endl;
+    saida << "Classe Inválida           | " << total_invalidos_classe << endl;
     saida << "Símbolos Especiais        | " << total_simbolos << endl;
     saida << "Dados Nativos             | " << total_dados_nativos << endl;
     saida << "Dados Criados             | " << total_dados_criados << endl;
     saida << "Meta-atributos            | " << total_meta_atributos << endl;
+    saida << "Inválidos                 | " << total_invalidos << endl;
     saida << "=====================================================" << endl;
+
+    saida << "=====================================================" << endl;
+    saida << "              TRATAMENTO DE ERROS                    " << endl;
+    saida << "=====================================================" << endl;
+    if(lista_erros.empty()) {
+        saida << "Nenhum erro léxico encontrado." << endl;
+    } else {
+        for(size_t i = 0; i < lista_erros.size(); ++i) {
+            saida << "Linha: " << lista_erros[i].linha << "] Erro no token '"
+                  << lista_erros[i].lexema << "'" << endl;
+            saida << "  -> Descrição: " << lista_erros[i].descricao << endl;
+            saida << "-----------------------------------------------------" << endl;
+        }
+    }
 
 
     entrada.close();

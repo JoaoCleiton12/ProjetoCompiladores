@@ -43,6 +43,7 @@ Token Inválido : pizza03
 Token Inválido : pizza_doce21
 Token Inválido : pIzASs_ola_1
 Token Inválido : pizza_1jk
+Token Inválido : aMinha_Classe
 =====================================================
                 TABELA DE SINTESE                    
 =====================================================
@@ -50,9 +51,14 @@ CATEGORIA                 | QUANTIDADE
 Palavras Reservadas       | 2
 Estereótipos de classe    | 1
 Classes                   | 6
-Inválidos                 | 22
+Classe Inválida           | 0
 Símbolos Especiais        | 6
 Dados Nativos             | 2
 Dados Criados             | 1
 Meta-atributos            | 2
+Inválidos                 | 23
 =====================================================
+=====================================================
+              TRATAMENTO DE ERROS                    
+=====================================================
+Nenhum erro léxico encontrado.
