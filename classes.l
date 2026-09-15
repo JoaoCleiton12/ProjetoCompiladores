@@ -9,7 +9,7 @@ using namespace std;
 
 enum { ESTEREOTIPO_CLASSE = 1, ESTEREOTIPO_RELACAO, PALAVRA_RESERVADA, 
 SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS_NATIVOS, DADOS_CRIADOS, META_ATRIBUTOS, INVALIDO,
-INVALIDO_CLASSE, ID_ATRIBUTO};  
+INVALIDO_CLASSE, ID_ATRIBUTO, ERRO_DATATYPE};  
 
 struct ErroLexico {
     int linha;
@@ -39,7 +39,7 @@ relacao (has|is)({letras}*(_{letras}+)*)?
 /* Erro: Nome de Classe começando com minúscula */
 classe_invalida_minuscula [a-z]+({segmento})+
 instancia {letras}+(_{letras}+)*{digitos}+
-simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"|"--"|","
+simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"|"--"|","|"<>"
 id_atributo {letra_minuscula}{alfanumerico}*
 invalido [^ \t\n{},()\[\]@:*]+
 
@@ -133,14 +133,13 @@ invalido [^ \t\n{},()\[\]@:*]+
 
 
 {classe} return CLASSE;
-    /* Símbolos especiais */
+    
 {simbolo_especial} return SIMBOLO_ESPECIAL;
 
+{tipo_dado_incorreto} return ERRO_DATATYPE;
 
-    /* Tipos de dados incorretos */
-{tipo_dado_incorreto} return INVALIDO;
 {classe_invalida_minuscula} return INVALIDO_CLASSE;
-    /*Precisa definir uma saída */
+    
 {invalido}  return INVALIDO;
 
 %%
@@ -148,7 +147,7 @@ invalido [^ \t\n{},()\[\]@:*]+
 
 int main() {
 
-    ifstream entrada("input/teste2.txt");
+    ifstream entrada("input/testeErros.txt");
     ofstream saida("output/saida.txt");
 
     if (!entrada.is_open() || !saida.is_open()) {
@@ -237,19 +236,39 @@ int main() {
         else if (token == ID_ATRIBUTO) {
             total_id_atributos++;
             tokens_agrupados[ID_ATRIBUTO].push_back({lexema, linha});
-}
-        else if (token == INVALIDO) {
+        }
+        else if (token == ERRO_DATATYPE) {
             total_invalidos++;
             tokens_agrupados[INVALIDO].push_back({lexema, linha});
-        }
+
+            string base = lexema;
+            size_t pos = lexema.size() >= 8 ? lexema.size() - 8 : string::npos;
+            string sugerido = (pos != string::npos ? lexema.substr(0, pos) : lexema) + "DataType";
+
+            lista_erros.push_back({
+                linha, lexema,
+                "Tipo de dado criado com sufixo inválido: a especificação exige exatamente 'DataType' ao final."
+            });
+        }  
         else if (token == INVALIDO_CLASSE) {
             total_invalidos++;
             tokens_agrupados[INVALIDO].push_back({lexema, linha});
 
+            string sugestao = lexema;
+            if (!sugestao.empty()) sugestao[0] = toupper(sugestao[0]);
+
             lista_erros.push_back({
-                linha, 
-                lexema, 
-                "Nome de classe inválido (deve começar com letra maiúscula)"
+                linha, lexema,
+                "Nome de classe inválido (deve começar com letra maiúscula). Sugestão: renomear para '" + sugestao + "'."
+            });
+        }
+        else if (token == INVALIDO) {
+            total_invalidos++;
+            tokens_agrupados[INVALIDO].push_back({lexema, linha});
+
+            lista_erros.push_back({
+                linha, lexema,
+                "Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados."
             });
         }
     }

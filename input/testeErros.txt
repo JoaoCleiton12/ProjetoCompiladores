@@ -1,0 +1,60 @@
+package TesteErros
+ 
+kind Pessoa {
+    nome : string
+    idade : number
+}
+ 
+kind Carro {
+    placa : PlacaDataType
+}
+ 
+// ---- ERRO: classe começando com letra minúscula ----
+kind carroEletrico {
+    autonomia : number
+}
+ 
+role motorista {
+    habilitado : boolean
+}
+ 
+// ---- ERRO: novo tipo de dado com sufixo "datatype" mal formado ----
+datatype EnderecoDatatype {
+    rua : string
+}
+ 
+datatype telefonedatatype {
+    numero : string
+}
+ 
+datatype CPFdatatype {
+    digitos : string
+}
+ 
+kind Pedido {
+    codigo : CodigoPedidoDataType
+}
+ 
+// ---- ERRO: token inválido (símbolo não suportado pela gramática) ----
+kind Produto {
+    preco# : number
+    descricao : string
+}
+ 
+kind Cliente & {
+    email : string
+}
+ 
+kind Fatura {
+    valor : number
+    ~status : string
+}
+ 
+// ---- combinação de mais de um erro na mesma linha ----
+kind veiculo <> {
+    modeloDatatype : string
+}
+ 
+relation R1 {
+    Pessoa [1] -- [1..*] Carro
+}
