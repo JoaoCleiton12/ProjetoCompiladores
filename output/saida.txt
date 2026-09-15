@@ -2,174 +2,432 @@
                  VISAO ANALITICA                     
 =====================================================
 Estereótipo de Classe: kind [Linha: 3]
-Estereótipo de Classe: kind [Linha: 8]
-Estereótipo de Classe: kind [Linha: 13]
-Estereótipo de Classe: role [Linha: 17]
-Estereótipo de Classe: kind [Linha: 34]
-Estereótipo de Classe: kind [Linha: 39]
-Estereótipo de Classe: kind [Linha: 44]
-Estereótipo de Classe: kind [Linha: 48]
-Estereótipo de Classe: kind [Linha: 54]
+Estereótipo de Classe: kind [Linha: 4]
+Estereótipo de Classe: kind [Linha: 10]
+Estereótipo de Classe: phase [Linha: 14]
+Estereótipo de Classe: phase [Linha: 15]
+Estereótipo de Classe: phase [Linha: 16]
+Estereótipo de Classe: phase [Linha: 17]
+Estereótipo de Classe: role [Linha: 19]
+Estereótipo de Classe: role [Linha: 20]
+Estereótipo de Classe: role [Linha: 21]
+Estereótipo de Classe: role [Linha: 24]
+Estereótipo de Classe: relator [Linha: 75]
+Estereótipo de Classe: relator [Linha: 86]
+Estereótipo de Classe: relator [Linha: 94]
+Estereótipo de Classe: relator [Linha: 101]
+
+Estereótipo de Relação: material [Linha: 73]
+Estereótipo de Relação: mediation [Linha: 78]
+Estereótipo de Relação: mediation [Linha: 79]
+Estereótipo de Relação: material [Linha: 82]
+Estereótipo de Relação: material [Linha: 83]
+Estereótipo de Relação: material [Linha: 84]
+Estereótipo de Relação: mediation [Linha: 87]
+Estereótipo de Relação: mediation [Linha: 88]
+Estereótipo de Relação: mediation [Linha: 89]
+Estereótipo de Relação: material [Linha: 92]
+Estereótipo de Relação: mediation [Linha: 95]
+Estereótipo de Relação: mediation [Linha: 96]
+Estereótipo de Relação: material [Linha: 99]
+Estereótipo de Relação: mediation [Linha: 104]
+Estereótipo de Relação: mediation [Linha: 105]
 
 Palavra Reservada: package [Linha: 1]
-Palavra Reservada: datatype [Linha: 22]
-Palavra Reservada: datatype [Linha: 26]
-Palavra Reservada: datatype [Linha: 30]
-Palavra Reservada: relation [Linha: 58]
+Palavra Reservada: specializes [Linha: 14]
+Palavra Reservada: specializes [Linha: 15]
+Palavra Reservada: specializes [Linha: 16]
+Palavra Reservada: specializes [Linha: 17]
+Palavra Reservada: specializes [Linha: 19]
+Palavra Reservada: specializes [Linha: 20]
+Palavra Reservada: specializes [Linha: 21]
+Palavra Reservada: specializes [Linha: 24]
+Palavra Reservada: enum [Linha: 30]
+Palavra Reservada: enum [Linha: 36]
+Palavra Reservada: enum [Linha: 46]
+Palavra Reservada: enum [Linha: 52]
+Palavra Reservada: enum [Linha: 58]
+Palavra Reservada: disjoint [Linha: 64]
+Palavra Reservada: complete [Linha: 64]
+Palavra Reservada: genset [Linha: 64]
+Palavra Reservada: general [Linha: 65]
+Palavra Reservada: specifics [Linha: 66]
+Palavra Reservada: disjoint [Linha: 68]
+Palavra Reservada: complete [Linha: 68]
+Palavra Reservada: genset [Linha: 68]
+Palavra Reservada: general [Linha: 69]
+Palavra Reservada: specifics [Linha: 70]
+Palavra Reservada: relation [Linha: 73]
+Palavra Reservada: relation [Linha: 82]
+Palavra Reservada: relation [Linha: 83]
+Palavra Reservada: relation [Linha: 84]
+Palavra Reservada: relation [Linha: 92]
+Palavra Reservada: relation [Linha: 99]
 
-Símbolo Especial: { [Linha: 3]
-Símbolo Especial: : [Linha: 4]
+Símbolo Especial: { [Linha: 4]
 Símbolo Especial: : [Linha: 5]
-Símbolo Especial: } [Linha: 6]
-Símbolo Especial: { [Linha: 8]
-Símbolo Especial: : [Linha: 9]
-Símbolo Especial: } [Linha: 10]
-Símbolo Especial: : [Linha: 12]
-Símbolo Especial: { [Linha: 13]
-Símbolo Especial: : [Linha: 14]
-Símbolo Especial: } [Linha: 15]
-Símbolo Especial: { [Linha: 17]
-Símbolo Especial: : [Linha: 18]
-Símbolo Especial: } [Linha: 19]
-Símbolo Especial: : [Linha: 21]
-Símbolo Especial: { [Linha: 22]
-Símbolo Especial: : [Linha: 23]
-Símbolo Especial: } [Linha: 24]
-Símbolo Especial: { [Linha: 26]
+Símbolo Especial: [ [Linha: 5]
+Símbolo Especial: ] [Linha: 5]
+Símbolo Especial: : [Linha: 6]
+Símbolo Especial: [ [Linha: 6]
+Símbolo Especial: ] [Linha: 6]
+Símbolo Especial: : [Linha: 7]
+Símbolo Especial: [ [Linha: 7]
+Símbolo Especial: ] [Linha: 7]
+Símbolo Especial: : [Linha: 8]
+Símbolo Especial: [ [Linha: 8]
+Símbolo Especial: ] [Linha: 8]
+Símbolo Especial: } [Linha: 9]
+Símbolo Especial: { [Linha: 10]
+Símbolo Especial: : [Linha: 11]
+Símbolo Especial: } [Linha: 12]
+Símbolo Especial: { [Linha: 21]
+Símbolo Especial: : [Linha: 22]
+Símbolo Especial: } [Linha: 23]
+Símbolo Especial: { [Linha: 24]
+Símbolo Especial: : [Linha: 25]
+Símbolo Especial: : [Linha: 26]
 Símbolo Especial: : [Linha: 27]
 Símbolo Especial: } [Linha: 28]
 Símbolo Especial: { [Linha: 30]
-Símbolo Especial: : [Linha: 31]
-Símbolo Especial: } [Linha: 32]
-Símbolo Especial: { [Linha: 34]
-Símbolo Especial: : [Linha: 35]
-Símbolo Especial: } [Linha: 36]
-Símbolo Especial: : [Linha: 38]
-Símbolo Especial: ( [Linha: 38]
-Símbolo Especial: ) [Linha: 38]
-Símbolo Especial: { [Linha: 39]
-Símbolo Especial: : [Linha: 40]
-Símbolo Especial: : [Linha: 41]
-Símbolo Especial: } [Linha: 42]
-Símbolo Especial: { [Linha: 44]
-Símbolo Especial: : [Linha: 45]
-Símbolo Especial: } [Linha: 46]
-Símbolo Especial: { [Linha: 48]
-Símbolo Especial: : [Linha: 49]
-Símbolo Especial: : [Linha: 50]
+Símbolo Especial: , [Linha: 31]
+Símbolo Especial: , [Linha: 32]
+Símbolo Especial: , [Linha: 33]
+Símbolo Especial: } [Linha: 35]
+Símbolo Especial: { [Linha: 36]
+Símbolo Especial: , [Linha: 37]
+Símbolo Especial: , [Linha: 38]
+Símbolo Especial: , [Linha: 39]
+Símbolo Especial: , [Linha: 40]
+Símbolo Especial: , [Linha: 41]
+Símbolo Especial: , [Linha: 42]
+Símbolo Especial: , [Linha: 43]
+Símbolo Especial: } [Linha: 45]
+Símbolo Especial: { [Linha: 46]
+Símbolo Especial: , [Linha: 47]
+Símbolo Especial: , [Linha: 48]
+Símbolo Especial: , [Linha: 49]
 Símbolo Especial: } [Linha: 51]
-Símbolo Especial: <> [Linha: 54]
-Símbolo Especial: { [Linha: 54]
-Símbolo Especial: : [Linha: 55]
-Símbolo Especial: } [Linha: 56]
+Símbolo Especial: { [Linha: 52]
+Símbolo Especial: , [Linha: 53]
+Símbolo Especial: , [Linha: 54]
+Símbolo Especial: , [Linha: 55]
+Símbolo Especial: } [Linha: 57]
 Símbolo Especial: { [Linha: 58]
-Símbolo Especial: [ [Linha: 59]
-Símbolo Especial: ] [Linha: 59]
-Símbolo Especial: -- [Linha: 59]
-Símbolo Especial: [ [Linha: 59]
-Símbolo Especial: * [Linha: 59]
-Símbolo Especial: ] [Linha: 59]
-Símbolo Especial: } [Linha: 60]
+Símbolo Especial: , [Linha: 59]
+Símbolo Especial: , [Linha: 60]
+Símbolo Especial: } [Linha: 62]
+Símbolo Especial: { [Linha: 64]
+Símbolo Especial: , [Linha: 66]
+Símbolo Especial: } [Linha: 67]
+Símbolo Especial: { [Linha: 68]
+Símbolo Especial: , [Linha: 70]
+Símbolo Especial: } [Linha: 71]
+Símbolo Especial: @ [Linha: 73]
+Símbolo Especial: [ [Linha: 73]
+Símbolo Especial: .. [Linha: 73]
+Símbolo Especial: * [Linha: 73]
+Símbolo Especial: ] [Linha: 73]
+Símbolo Especial: -- [Linha: 73]
+Símbolo Especial: -- [Linha: 73]
+Símbolo Especial: [ [Linha: 73]
+Símbolo Especial: .. [Linha: 73]
+Símbolo Especial: * [Linha: 73]
+Símbolo Especial: ] [Linha: 73]
+Símbolo Especial: { [Linha: 75]
+Símbolo Especial: : [Linha: 76]
+Símbolo Especial: @ [Linha: 78]
+Símbolo Especial: [ [Linha: 78]
+Símbolo Especial: .. [Linha: 78]
+Símbolo Especial: * [Linha: 78]
+Símbolo Especial: ] [Linha: 78]
+Símbolo Especial: -- [Linha: 78]
+Símbolo Especial: [ [Linha: 78]
+Símbolo Especial: ] [Linha: 78]
+Símbolo Especial: @ [Linha: 79]
+Símbolo Especial: [ [Linha: 79]
+Símbolo Especial: .. [Linha: 79]
+Símbolo Especial: * [Linha: 79]
+Símbolo Especial: ] [Linha: 79]
+Símbolo Especial: -- [Linha: 79]
+Símbolo Especial: [ [Linha: 79]
+Símbolo Especial: ] [Linha: 79]
+Símbolo Especial: } [Linha: 80]
+Símbolo Especial: @ [Linha: 82]
+Símbolo Especial: [ [Linha: 82]
+Símbolo Especial: .. [Linha: 82]
+Símbolo Especial: * [Linha: 82]
+Símbolo Especial: ] [Linha: 82]
+Símbolo Especial: -- [Linha: 82]
+Símbolo Especial: -- [Linha: 82]
+Símbolo Especial: [ [Linha: 82]
+Símbolo Especial: .. [Linha: 82]
+Símbolo Especial: * [Linha: 82]
+Símbolo Especial: ] [Linha: 82]
+Símbolo Especial: @ [Linha: 83]
+Símbolo Especial: [ [Linha: 83]
+Símbolo Especial: .. [Linha: 83]
+Símbolo Especial: * [Linha: 83]
+Símbolo Especial: ] [Linha: 83]
+Símbolo Especial: -- [Linha: 83]
+Símbolo Especial: -- [Linha: 83]
+Símbolo Especial: [ [Linha: 83]
+Símbolo Especial: .. [Linha: 83]
+Símbolo Especial: * [Linha: 83]
+Símbolo Especial: ] [Linha: 83]
+Símbolo Especial: @ [Linha: 84]
+Símbolo Especial: [ [Linha: 84]
+Símbolo Especial: .. [Linha: 84]
+Símbolo Especial: * [Linha: 84]
+Símbolo Especial: ] [Linha: 84]
+Símbolo Especial: -- [Linha: 84]
+Símbolo Especial: -- [Linha: 84]
+Símbolo Especial: [ [Linha: 84]
+Símbolo Especial: .. [Linha: 84]
+Símbolo Especial: * [Linha: 84]
+Símbolo Especial: ] [Linha: 84]
+Símbolo Especial: { [Linha: 86]
+Símbolo Especial: @ [Linha: 87]
+Símbolo Especial: [ [Linha: 87]
+Símbolo Especial: .. [Linha: 87]
+Símbolo Especial: * [Linha: 87]
+Símbolo Especial: ] [Linha: 87]
+Símbolo Especial: -- [Linha: 87]
+Símbolo Especial: [ [Linha: 87]
+Símbolo Especial: ] [Linha: 87]
+Símbolo Especial: @ [Linha: 88]
+Símbolo Especial: [ [Linha: 88]
+Símbolo Especial: .. [Linha: 88]
+Símbolo Especial: * [Linha: 88]
+Símbolo Especial: ] [Linha: 88]
+Símbolo Especial: -- [Linha: 88]
+Símbolo Especial: [ [Linha: 88]
+Símbolo Especial: ] [Linha: 88]
+Símbolo Especial: @ [Linha: 89]
+Símbolo Especial: [ [Linha: 89]
+Símbolo Especial: .. [Linha: 89]
+Símbolo Especial: * [Linha: 89]
+Símbolo Especial: ] [Linha: 89]
+Símbolo Especial: -- [Linha: 89]
+Símbolo Especial: [ [Linha: 89]
+Símbolo Especial: .. [Linha: 89]
+Símbolo Especial: * [Linha: 89]
+Símbolo Especial: ] [Linha: 89]
+Símbolo Especial: } [Linha: 90]
+Símbolo Especial: @ [Linha: 92]
+Símbolo Especial: [ [Linha: 92]
+Símbolo Especial: .. [Linha: 92]
+Símbolo Especial: * [Linha: 92]
+Símbolo Especial: ] [Linha: 92]
+Símbolo Especial: -- [Linha: 92]
+Símbolo Especial: -- [Linha: 92]
+Símbolo Especial: [ [Linha: 92]
+Símbolo Especial: .. [Linha: 92]
+Símbolo Especial: * [Linha: 92]
+Símbolo Especial: ] [Linha: 92]
+Símbolo Especial: { [Linha: 94]
+Símbolo Especial: @ [Linha: 95]
+Símbolo Especial: [ [Linha: 95]
+Símbolo Especial: .. [Linha: 95]
+Símbolo Especial: * [Linha: 95]
+Símbolo Especial: ] [Linha: 95]
+Símbolo Especial: -- [Linha: 95]
+Símbolo Especial: [ [Linha: 95]
+Símbolo Especial: .. [Linha: 95]
+Símbolo Especial: * [Linha: 95]
+Símbolo Especial: ] [Linha: 95]
+Símbolo Especial: @ [Linha: 96]
+Símbolo Especial: [ [Linha: 96]
+Símbolo Especial: .. [Linha: 96]
+Símbolo Especial: * [Linha: 96]
+Símbolo Especial: ] [Linha: 96]
+Símbolo Especial: -- [Linha: 96]
+Símbolo Especial: [ [Linha: 96]
+Símbolo Especial: .. [Linha: 96]
+Símbolo Especial: * [Linha: 96]
+Símbolo Especial: ] [Linha: 96]
+Símbolo Especial: } [Linha: 97]
+Símbolo Especial: @ [Linha: 99]
+Símbolo Especial: [ [Linha: 99]
+Símbolo Especial: .. [Linha: 99]
+Símbolo Especial: * [Linha: 99]
+Símbolo Especial: ] [Linha: 99]
+Símbolo Especial: -- [Linha: 99]
+Símbolo Especial: -- [Linha: 99]
+Símbolo Especial: [ [Linha: 99]
+Símbolo Especial: ] [Linha: 99]
+Símbolo Especial: { [Linha: 101]
+Símbolo Especial: : [Linha: 102]
+Símbolo Especial: @ [Linha: 104]
+Símbolo Especial: [ [Linha: 104]
+Símbolo Especial: .. [Linha: 104]
+Símbolo Especial: * [Linha: 104]
+Símbolo Especial: ] [Linha: 104]
+Símbolo Especial: -- [Linha: 104]
+Símbolo Especial: [ [Linha: 104]
+Símbolo Especial: ] [Linha: 104]
+Símbolo Especial: @ [Linha: 105]
+Símbolo Especial: [ [Linha: 105]
+Símbolo Especial: .. [Linha: 105]
+Símbolo Especial: * [Linha: 105]
+Símbolo Especial: ] [Linha: 105]
+Símbolo Especial: -- [Linha: 105]
+Símbolo Especial: [ [Linha: 105]
+Símbolo Especial: .. [Linha: 105]
+Símbolo Especial: * [Linha: 105]
+Símbolo Especial: ] [Linha: 105]
+Símbolo Especial: } [Linha: 106]
 
-Classe: TesteErros [Linha: 1]
-Classe: Pessoa [Linha: 3]
-Classe: Carro [Linha: 8]
-Classe: ERRO [Linha: 12]
-Classe: ERRO [Linha: 21]
-Classe: EnderecoDatatype [Linha: 22]
-Classe: CPFdatatype [Linha: 30]
-Classe: Pedido [Linha: 34]
-Classe: ERRO [Linha: 38]
-Classe: Produto [Linha: 39]
-Classe: Cliente [Linha: 44]
-Classe: Fatura [Linha: 48]
-Classe: Pessoa [Linha: 59]
-Classe: Carro [Linha: 59]
+Classe: Hospital [Linha: 1]
+Classe: Unidade_Basica_De_Saude [Linha: 3]
+Classe: Pessoa [Linha: 4]
+Classe: Vacina [Linha: 10]
+Classe: Crianca [Linha: 14]
+Classe: Pessoa [Linha: 14]
+Classe: Adolescente [Linha: 15]
+Classe: Pessoa [Linha: 15]
+Classe: Adulto [Linha: 16]
+Classe: Pessoa [Linha: 16]
+Classe: Idoso [Linha: 17]
+Classe: Pessoa [Linha: 17]
+Classe: FuncionarioDaUBS [Linha: 19]
+Classe: Pessoa [Linha: 19]
+Classe: Enfermeiro [Linha: 20]
+Classe: FuncionarioDaUBS [Linha: 20]
+Classe: Medico [Linha: 21]
+Classe: FuncionarioDaUBS [Linha: 21]
+Classe: Especialidade [Linha: 22]
+Classe: Paciente [Linha: 24]
+Classe: Pessoa [Linha: 24]
+Classe: TipoSanguineo [Linha: 25]
+Classe: Especialidade [Linha: 30]
+Classe: TipoSanguineo [Linha: 36]
+Classe: Tipo_De_Consulta [Linha: 46]
+Classe: Tipo_De_Vacina [Linha: 52]
+Classe: Tipo_De_Vinculo [Linha: 58]
+Classe: CargosNaUBS [Linha: 64]
+Classe: FuncionarioDaUBS [Linha: 65]
+Classe: Enfermeiro [Linha: 66]
+Classe: Medico [Linha: 66]
+Classe: Paciente_E_Funcionario [Linha: 68]
+Classe: Pessoa [Linha: 69]
+Classe: Paciente [Linha: 70]
+Classe: FuncionarioDaUBS [Linha: 70]
+Classe: Paciente [Linha: 73]
+Classe: Medico [Linha: 73]
+Classe: Consulta_Medica [Linha: 75]
+Classe: Tipo_De_Consulta [Linha: 76]
+Classe: Paciente [Linha: 78]
+Classe: Medico [Linha: 79]
+Classe: Enfermeiro [Linha: 82]
+Classe: Vacina [Linha: 82]
+Classe: Paciente [Linha: 83]
+Classe: Enfermeiro [Linha: 83]
+Classe: Paciente [Linha: 84]
+Classe: Vacina [Linha: 84]
+Classe: Vacinacao [Linha: 86]
+Classe: Enfermeiro [Linha: 87]
+Classe: Paciente [Linha: 88]
+Classe: Vacina [Linha: 89]
+Classe: Paciente [Linha: 92]
+Classe: Unidade_Basica_De_Saude [Linha: 92]
+Classe: Servico_Basico_De_Saude [Linha: 94]
+Classe: Unidade_Basica_De_Saude [Linha: 95]
+Classe: Paciente [Linha: 96]
+Classe: FuncionarioDaUBS [Linha: 99]
+Classe: Unidade_Basica_De_Saude [Linha: 99]
+Classe: Vinculo_Empregaticio [Linha: 101]
+Classe: Tipo_De_Vinculo [Linha: 102]
+Classe: Unidade_Basica_De_Saude [Linha: 104]
+Classe: FuncionarioDaUBS [Linha: 105]
 
-Instancias: R1 [Linha: 58]
+Nome de Relação: data_nascimento [Linha: 8]
+Nome de Relação: tipo_De_Vacina [Linha: 11]
+Nome de Relação: tipo_Sanguineo [Linha: 25]
+Nome de Relação: numero_Prontuario [Linha: 26]
+Nome de Relação: numero_CNS [Linha: 27]
+Nome de Relação: consultado_Por [Linha: 73]
+Nome de Relação: tipo_De_Consulta [Linha: 76]
+Nome de Relação: verifica [Linha: 82]
+Nome de Relação: vacinado_Por [Linha: 83]
+Nome de Relação: imunizado_Com [Linha: 84]
+Nome de Relação: atendido_Em [Linha: 92]
+Nome de Relação: trabalha_Em [Linha: 99]
+Nome de Relação: tipo_De_Vinculo [Linha: 102]
 
-Dado Nativo: string [Linha: 4]
-Dado Nativo: number [Linha: 5]
-Dado Nativo: number [Linha: 14]
-Dado Nativo: boolean [Linha: 18]
-Dado Nativo: string [Linha: 23]
+Instancias: Clinico_Geral01 [Linha: 31]
+Instancias: Pediatra02 [Linha: 32]
+Instancias: Ginecologista03 [Linha: 33]
+Instancias: Dentista04 [Linha: 34]
+Instancias: A_Plus01 [Linha: 37]
+Instancias: A_Minus02 [Linha: 38]
+Instancias: B_Plus03 [Linha: 39]
+Instancias: B_Minus04 [Linha: 40]
+Instancias: AB_Plus05 [Linha: 41]
+Instancias: AB_Minus06 [Linha: 42]
+Instancias: O_Plus07 [Linha: 43]
+Instancias: O_Minus08 [Linha: 44]
+Instancias: Acompanhamento_Pediatrico01 [Linha: 47]
+Instancias: Atendimento_Odontologico03 [Linha: 49]
+Instancias: Consulta_Clinica_Geral04 [Linha: 50]
+Instancias: Covid01 [Linha: 53]
+Instancias: FebreAmarela02 [Linha: 54]
+Instancias: Tetano03 [Linha: 55]
+Instancias: Influenza04 [Linha: 56]
+Instancias: Estatuario01 [Linha: 59]
+Instancias: CLT02 [Linha: 60]
+Instancias: Temporario03 [Linha: 61]
+
+Dado Nativo: string [Linha: 5]
+Dado Nativo: string [Linha: 6]
+Dado Nativo: string [Linha: 7]
+Dado Nativo: date [Linha: 8]
+Dado Nativo: number [Linha: 26]
 Dado Nativo: string [Linha: 27]
-Dado Nativo: string [Linha: 31]
-Dado Nativo: number [Linha: 40]
-Dado Nativo: string [Linha: 41]
-Dado Nativo: string [Linha: 45]
-Dado Nativo: number [Linha: 49]
-Dado Nativo: string [Linha: 50]
-Dado Nativo: string [Linha: 55]
 
-Novo Tipo de Dado: PlacaDataType [Linha: 9]
-Novo Tipo de Dado: CodigoPedidoDataType [Linha: 35]
+Novo Tipo de Dado: TipoDeVacinaDataType [Linha: 11]
 
-Identificador de Atributo: nome [Linha: 4]
-Identificador de Atributo: idade [Linha: 5]
-Identificador de Atributo: placa [Linha: 9]
-Identificador de Atributo: autonomia [Linha: 14]
-Identificador de Atributo: habilitado [Linha: 18]
-Identificador de Atributo: rua [Linha: 23]
-Identificador de Atributo: numero [Linha: 27]
-Identificador de Atributo: digitos [Linha: 31]
-Identificador de Atributo: codigo [Linha: 35]
-Identificador de Atributo: descricao [Linha: 41]
-Identificador de Atributo: email [Linha: 45]
-Identificador de Atributo: valor [Linha: 49]
-Identificador de Atributo: modeloDatatype [Linha: 55]
+Identificador de Atributo: nome [Linha: 5]
+Identificador de Atributo: endereco [Linha: 6]
+Identificador de Atributo: cpf [Linha: 7]
+Identificador de Atributo: especialidade [Linha: 22]
 
-Token Inválido: // [Linha: 12]
-Token Inválido: ---- [Linha: 12]
-Token Inválido: classe [Linha: 12]
-Token Inválido: começando [Linha: 12]
-Token Inválido: com [Linha: 12]
-Token Inválido: letra [Linha: 12]
-Token Inválido: minúscula [Linha: 12]
-Token Inválido: ---- [Linha: 12]
-Token Inválido: carroEletrico [Linha: 13]
-Token Inválido: motorista [Linha: 17]
-Token Inválido: // [Linha: 21]
-Token Inválido: ---- [Linha: 21]
-Token Inválido: novo [Linha: 21]
-Token Inválido: tipo [Linha: 21]
-Token Inválido: de [Linha: 21]
-Token Inválido: dado [Linha: 21]
-Token Inválido: com [Linha: 21]
-Token Inválido: sufixo [Linha: 21]
-Token Inválido: "datatype" [Linha: 21]
-Token Inválido: mal [Linha: 21]
-Token Inválido: formado [Linha: 21]
-Token Inválido: ---- [Linha: 21]
-Token Inválido: telefonedatatype [Linha: 26]
-Token Inválido: // [Linha: 38]
-Token Inválido: ---- [Linha: 38]
-Token Inválido: token [Linha: 38]
-Token Inválido: inválido [Linha: 38]
-Token Inválido: símbolo [Linha: 38]
-Token Inválido: não [Linha: 38]
-Token Inválido: suportado [Linha: 38]
-Token Inválido: pela [Linha: 38]
-Token Inválido: gramática [Linha: 38]
-Token Inválido: ---- [Linha: 38]
-Token Inválido: preco# [Linha: 40]
-Token Inválido: & [Linha: 44]
-Token Inválido: ~status [Linha: 50]
-Token Inválido: // [Linha: 53]
-Token Inválido: ---- [Linha: 53]
-Token Inválido: combinação [Linha: 53]
-Token Inválido: de [Linha: 53]
-Token Inválido: mais [Linha: 53]
-Token Inválido: de [Linha: 53]
-Token Inválido: um [Linha: 53]
-Token Inválido: erro [Linha: 53]
-Token Inválido: na [Linha: 53]
-Token Inválido: mesma [Linha: 53]
-Token Inválido: linha [Linha: 53]
-Token Inválido: ---- [Linha: 53]
-Token Inválido: veiculo [Linha: 54]
-Token Inválido: 1 [Linha: 59]
-Token Inválido: 1.. [Linha: 59]
+Numeros: 1 [Linha: 5]
+Numeros: 1 [Linha: 6]
+Numeros: 1 [Linha: 7]
+Numeros: 1 [Linha: 8]
+Numeros: 1 [Linha: 73]
+Numeros: 1 [Linha: 73]
+Numeros: 1 [Linha: 78]
+Numeros: 1 [Linha: 78]
+Numeros: 1 [Linha: 79]
+Numeros: 1 [Linha: 79]
+Numeros: 1 [Linha: 82]
+Numeros: 1 [Linha: 82]
+Numeros: 1 [Linha: 83]
+Numeros: 1 [Linha: 83]
+Numeros: 1 [Linha: 84]
+Numeros: 1 [Linha: 84]
+Numeros: 1 [Linha: 87]
+Numeros: 1 [Linha: 87]
+Numeros: 1 [Linha: 88]
+Numeros: 1 [Linha: 88]
+Numeros: 1 [Linha: 89]
+Numeros: 1 [Linha: 89]
+Numeros: 1 [Linha: 92]
+Numeros: 1 [Linha: 92]
+Numeros: 1 [Linha: 95]
+Numeros: 1 [Linha: 95]
+Numeros: 1 [Linha: 96]
+Numeros: 1 [Linha: 96]
+Numeros: 1 [Linha: 99]
+Numeros: 1 [Linha: 99]
+Numeros: 1 [Linha: 104]
+Numeros: 1 [Linha: 104]
+Numeros: 1 [Linha: 105]
+Numeros: 1 [Linha: 105]
+
+Token Inválido: Atendimento_Pre-Natal02 [Linha: 48]
 
 =====================================================
 
@@ -178,175 +436,26 @@ Token Inválido: 1.. [Linha: 59]
                 TABELA DE SINTESE                    
 =====================================================
 CATEGORIA                 | QUANTIDADE               
-Estereótipos de classe    | 9
-Estereótipos de relação   | 0
-Palavras Reservadas       | 5
-Símbolos Especiais        | 53
-Classes                   | 10
-Relações                  | 0
-Instancias                | 1
-Dados Nativos             | 13
-Dados Criados             | 2
-Identificador de atributo | 13
+Estereótipos de classe    | 15
+Estereótipos de relação   | 15
+Palavras Reservadas       | 30
+Símbolos Especiais        | 213
+Classes                   | 23
+Relações                  | 13
+Instancias                | 22
+Dados Nativos             | 6
+Dados Criados             | 1
+Identificador de atributo | 4
 Meta-atributos            | 0
-Inválidos                 | 51
+Números                   | 34
+Inválidos                 | 1
 =====================================================
 
 
 =====================================================
               TRATAMENTO DE ERROS                    
 =====================================================
-Linha: 12] Erro no token '//'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 12] Erro no token '----'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 12] Erro no token 'classe'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 12] Erro no token 'começando'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 12] Erro no token 'com'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 12] Erro no token 'letra'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 12] Erro no token 'minúscula'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 12] Erro no token '----'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 13] Erro no token 'carroEletrico'
-  -> Descrição: Nome de classe inválido (deve começar com letra maiúscula). Sugestão: renomear para 'CarroEletrico'.
------------------------------------------------------
-Linha: 17] Erro no token 'motorista'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token '//'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token '----'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token 'novo'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token 'tipo'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token 'de'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token 'dado'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token 'com'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token 'sufixo'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token '"datatype"'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token 'mal'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token 'formado'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 21] Erro no token '----'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 26] Erro no token 'telefonedatatype'
-  -> Descrição: Tipo de dado criado com sufixo inválido: a especificação exige exatamente 'DataType' ao final.
------------------------------------------------------
-Linha: 38] Erro no token '//'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 38] Erro no token '----'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 38] Erro no token 'token'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 38] Erro no token 'inválido'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 38] Erro no token 'símbolo'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 38] Erro no token 'não'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 38] Erro no token 'suportado'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 38] Erro no token 'pela'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 38] Erro no token 'gramática'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 38] Erro no token '----'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 40] Erro no token 'preco#'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 44] Erro no token '&'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 50] Erro no token '~status'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token '//'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token '----'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token 'combinação'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token 'de'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token 'mais'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token 'de'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token 'um'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token 'erro'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token 'na'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token 'mesma'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token 'linha'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 53] Erro no token '----'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 54] Erro no token 'veiculo'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 59] Erro no token '1'
-  -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
------------------------------------------------------
-Linha: 59] Erro no token '1..'
+Linha: 48] Erro no token 'Atendimento_Pre-Natal02'
   -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
 -----------------------------------------------------
 =====================================================

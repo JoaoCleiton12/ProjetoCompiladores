@@ -8,7 +8,7 @@ kind Pessoa {
     data_nascimento : date [1]
 }
 kind Vacina {
-    tipoDeVacina : TipoDeVacinaDataType
+    tipo_De_Vacina : TipoDeVacinaDataType
 }
 
 phase Crianca specializes Pessoa
@@ -45,7 +45,7 @@ enum TipoSanguineo {
 }
 enum Tipo_De_Consulta {
     Acompanhamento_Pediatrico01,
-    Atendimento_Pre_Natal02,
+    Atendimento_Pre-Natal02,
     Atendimento_Odontologico03,
     Consulta_Clinica_Geral04
 }
@@ -56,7 +56,7 @@ enum Tipo_De_Vacina {
     Influenza04
 }
 enum Tipo_De_Vinculo {
-    Estatutario01,
+    Estatuario01,
     CLT02,
     Temporario03
 }
@@ -70,37 +70,37 @@ disjoint complete genset Paciente_E_Funcionario {
     specifics Paciente, FuncionarioDaUBS
 }
 
-material relation Paciente [1..*] -- is_Consultado_Por -- [1..*] Medico
+@material relation Paciente [1..*] -- consultado_Por -- [1..*] Medico
 
 relator Consulta_Medica {
     tipo_De_Consulta : Tipo_De_Consulta
 
-    mediation [1..*] -- [1] Paciente
-    mediation [1..*] -- [1] Medico
+    @mediation [1..*] -- [1] Paciente
+    @mediation [1..*] -- [1] Medico
 }
 
-material relation Enfermeiro [1..*] -- has_Verificacao -- [1..*] Vacina
-material relation Paciente [1..*] -- is_Vacinado_Por -- [1..*] Enfermeiro
-material relation Paciente [1..*] -- is_Imunizado_Com -- [1..*] Vacina
+@material relation Enfermeiro [1..*] -- verifica -- [1..*] Vacina
+@material relation Paciente [1..*] -- vacinado_Por -- [1..*] Enfermeiro
+@material relation Paciente [1..*] -- imunizado_Com -- [1..*] Vacina
 
 relator Vacinacao {
-    mediation [1..*] -- [1] Enfermeiro
-    mediation [1..*] -- [1] Paciente
-    mediation [1..*] -- [1..*] Vacina
+    @mediation [1..*] -- [1] Enfermeiro
+    @mediation [1..*] -- [1] Paciente
+    @mediation [1..*] -- [1..*] Vacina
 }
 
-material relation Paciente [1..*] -- is_Atendido_Em -- [1..*] Unidade_Basica_De_Saude
+@material relation Paciente [1..*] -- atendido_Em --  [1..*] Unidade_Basica_De_Saude
 
 relator Servico_Basico_De_Saude {
-    mediation [1..*] -- [1..*] Unidade_Basica_De_Saude
-    mediation [1..*] -- [1..*] Paciente
+    @mediation [1..*] -- [1..*] Unidade_Basica_De_Saude
+    @mediation [1..*] -- [1..*] Paciente
 }
 
-material relation FuncionarioDaUBS [1..*] -- has_Trabalho_Em -- [1] Unidade_Basica_De_Saude
+@material relation FuncionarioDaUBS [1..*] -- trabalha_Em -- [1] Unidade_Basica_De_Saude
 
 relator Vinculo_Empregaticio {
     tipo_De_Vinculo : Tipo_De_Vinculo
     
-    mediation [1..*] -- [1] Unidade_Basica_De_Saude
-    mediation [1..*] -- [1..*] FuncionarioDaUBS
+    @mediation [1..*] -- [1] Unidade_Basica_De_Saude
+    @mediation [1..*] -- [1..*] FuncionarioDaUBS
 }

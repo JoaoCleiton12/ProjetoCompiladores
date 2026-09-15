@@ -1,60 +1,192 @@
 package TesteErros
- 
+
+import Modulo_Base
+
+
+
+
 kind Pessoa {
     nome : string
     idade : number
+    dataNascimento : date
+    ativo : boolean
 }
- 
+
 kind Carro {
     placa : PlacaDataType
+    /ordered anoFabricacao : number
 }
- 
-// ---- ERRO: classe começando com letra minúscula ----
+
+role Motorista {
+    habilitado : boolean
+}
+
+datatype EnderecoDataType {
+    rua : string
+    numero : number
+}
+
+kind Pedido1 {
+    codigo : CodigoPedidoDataType
+}
+
+relation R1 {
+    Pessoa [1] -- [1..*] Carro
+}
+
+genset GenPessoa {
+    general Pessoa
+    specifics Motorista, Cliente
+} where disjoint, complete
+
+enum EstadoCivil {
+    Solteiro,
+    Casado,
+    Divorciado
+}
+
+
+
+
+
+
+
 kind carroEletrico {
     autonomia : number
 }
- 
+
 role motorista {
     habilitado : boolean
 }
- 
-// ---- ERRO: novo tipo de dado com sufixo "datatype" mal formado ----
+
+category veiculoTerrestre {
+    rodas : number
+}
+
+
+
+
+
+
+
 datatype EnderecoDatatype {
     rua : string
 }
- 
+
 datatype telefonedatatype {
     numero : string
 }
- 
+
 datatype CPFdatatype {
     digitos : string
 }
- 
-kind Pedido {
-    codigo : CodigoPedidoDataType
+
+datatype ValorMonetarioDATATYPE {
+    valor : number
 }
- 
-// ---- ERRO: token inválido (símbolo não suportado pela gramática) ----
+
+kind Pedido2 {
+    codigo : CodigoPedidoDatatype
+}
+
+
+
+
+
+
 kind Produto {
     preco# : number
     descricao : string
 }
- 
+
 kind Cliente & {
     email : string
 }
- 
+
 kind Fatura {
     valor : number
     ~status : string
 }
- 
-// ---- combinação de mais de um erro na mesma linha ----
+
+kind Nota$Fiscal {
+    codigo : string
+}
+
+
+
+
+
 kind veiculo <> {
     modeloDatatype : string
 }
- 
-relation R1 {
-    Pessoa [1] -- [1..*] Carro
+
+role gerente% {
+    salarioDatatype : number
+}
+
+
+
+
+
+
+kind Planeta {
+    nome : string
+}
+
+instance Planeta1
+instance Planeta2
+instance pizza03
+instance pizza123
+
+// instância mal formada: não termina com número (esperado: INVALIDO/CLASSE dependendo da forma)
+instance PlanetaX
+
+
+
+
+
+
+
+relation hasParent {
+    Pessoa [1] -- [0..*] Pessoa
+}
+
+relation has_parent {
+    Pessoa [1] -- [0..*] Pessoa
+}
+
+relation isPartOf {
+    Carro [1] <>-- [1..*] Pessoa
+}
+
+// relação mal formada: começa com maiúscula
+relation HasChild {
+    Pessoa [1] -- [0..*] Pessoa
+}
+
+
+
+
+
+
+
+kind Funcionario {
+    /derived salarioAnual : number
+    /const codigoInterno : string
+    /subsets nomeCompleto : string
+    /redefines identificador : string
+}
+
+
+
+
+
+
+kind Evento {
+    inicio : datetime
+    duracao : time
+    descricao : string
+    valor : number
+    confirmado : boolean
+    data : date
 }

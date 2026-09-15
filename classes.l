@@ -9,7 +9,7 @@ using namespace std;
 
 enum { ESTEREOTIPO_CLASSE = 1, ESTEREOTIPO_RELACAO, PALAVRA_RESERVADA, 
 SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS_NATIVOS, DADOS_CRIADOS, META_ATRIBUTOS, INVALIDO,
-INVALIDO_CLASSE, ID_ATRIBUTO, ERRO_DATATYPE};  
+INVALIDO_CLASSE, ID_ATRIBUTO, ERRO_DATATYPE, NUMERO};  
 
 struct ErroLexico {
     int linha;
@@ -28,20 +28,18 @@ letra_maiuscula [A-Z]
 letra_minuscula [a-z]
 letras [a-zA-Z]
 digitos [0-9]
+numero {digitos}+
 alfanumerico [a-zA-Z0-9]
 segmento {letra_maiuscula}{letras}*
 novo_tipo_dado {letras}*"DataType"
-/* Captura qualquer palavra que termine com "datatype" (independente de maiúsculas/minúsculas), 
-   EXCETO a que casa com o DataType correto acima */
 tipo_dado_incorreto  [a-zA-Z]*[dD][aA][tT][aA][tT][yY][pP][eE]
 classe {segmento}(_{segmento})*
-relacao (has|is)({letras}*(_{letras}+)*)?
-/* Erro: Nome de Classe começando com minúscula */
+relacao {letra_minuscula}{letras}*(_{letras}+)*
 classe_invalida_minuscula [a-z]+({segmento})+
 instancia {letras}+(_{letras}+)*{digitos}+
 simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"|"--"|","|"<>"
 id_atributo {letra_minuscula}{alfanumerico}*
-invalido [^ \t\n{},()\[\]@:*]+
+invalido [^ \t\n{},()\[\]@:*\.]+
 
 %%
 {brancos}   ;
@@ -131,14 +129,15 @@ invalido [^ \t\n{},()\[\]@:*]+
 
 {instancia} return INSTANCIA;
 
+{tipo_dado_incorreto} return ERRO_DATATYPE;
 
 {classe} return CLASSE;
     
 {simbolo_especial} return SIMBOLO_ESPECIAL;
 
-{tipo_dado_incorreto} return ERRO_DATATYPE;
-
 {classe_invalida_minuscula} return INVALIDO_CLASSE;
+
+{numero} return NUMERO;
     
 {invalido}  return INVALIDO;
 
@@ -147,7 +146,7 @@ invalido [^ \t\n{},()\[\]@:*]+
 
 int main() {
 
-    ifstream entrada("input/testeErros.txt");
+    ifstream entrada("input/teste2.txt");
     ofstream saida("output/saida.txt");
 
     if (!entrada.is_open() || !saida.is_open()) {
@@ -159,23 +158,30 @@ int main() {
     yyFlexLexer lexer(&entrada, &saida);
     
     int token;
-    int total_palavras_reservadas = 0;
-    int total_estereotipos = 0;
+
+    int total_estereotipos_classe = 0;
     int total_estereotipos_relacao = 0;
+    int total_palavras_reservadas = 0;
+    int total_simbolos = 0;
     int total_classes = 0;
     int total_relacoes = 0;
-    int total_invalidos = 0;
-    int total_simbolos = 0;
-    int total_dados_criados = 0;
     int total_instancias = 0;
     int total_dados_nativos = 0;
+    int total_dados_criados = 0;
     int total_meta_atributos = 0;
+    int total_numero = 0;
     int total_invalidos_classe = 0;
     int total_id_atributos = 0;
+    int total_invalidos = 0;
 
     //tabela hash para controlar os nomes de classe únicos
     unordered_set<string> nomes_classes_unicos;
 
+
+    /* Agrupa os tokens encontrados por categoria (chave = código do token no enum).
+       Para cada categoria, guarda uma lista de pares (lexema, número da linha),
+       usada depois para imprimir o relatório organizado por tipo de token.
+    */
     unordered_map<int, vector<pair<string, int>>> tokens_agrupados;
 
     vector<ErroLexico> lista_erros;
@@ -188,7 +194,7 @@ int main() {
         int linha = lexer.lineno();
 
         if (token == ESTEREOTIPO_CLASSE) {
-            total_estereotipos++;
+            total_estereotipos_classe++;
             tokens_agrupados[ESTEREOTIPO_CLASSE].push_back({lexema, linha});
         }
         else if (token == ESTEREOTIPO_RELACAO) {
@@ -249,6 +255,10 @@ int main() {
                 linha, lexema,
                 "Tipo de dado criado com sufixo inválido: a especificação exige exatamente 'DataType' ao final."
             });
+        }
+        else if(token == NUMERO) {
+            total_numero++;
+            tokens_agrupados[NUMERO].push_back({lexema, linha});
         }  
         else if (token == INVALIDO_CLASSE) {
             total_invalidos++;
@@ -287,8 +297,9 @@ int main() {
         {INSTANCIA,           "Instancias"},
         {DADOS_NATIVOS,       "Dado Nativo"},
         {DADOS_CRIADOS,       "Novo Tipo de Dado"},
-        {ID_ATRIBUTO,        "Identificador de Atributo"},
+        {ID_ATRIBUTO,         "Identificador de Atributo"},
         {META_ATRIBUTOS,      "Meta-atributo"},
+        {NUMERO,              "Numeros"},
         {INVALIDO,            "Token Inválido"}
     };
 
@@ -320,7 +331,7 @@ int main() {
     saida << "=====================================================" << endl;
     saida << "CATEGORIA                 | QUANTIDADE               " << endl;
     
-    saida << "Estereótipos de classe    | " << total_estereotipos << endl;
+    saida << "Estereótipos de classe    | " << total_estereotipos_classe << endl;
     saida << "Estereótipos de relação   | " << total_estereotipos_relacao << endl;
     saida << "Palavras Reservadas       | " << total_palavras_reservadas << endl;
     saida << "Símbolos Especiais        | " << total_simbolos << endl;
@@ -331,6 +342,7 @@ int main() {
     saida << "Dados Criados             | " << total_dados_criados << endl;
     saida << "Identificador de atributo | " << total_id_atributos << endl;
     saida << "Meta-atributos            | " << total_meta_atributos << endl;
+    saida << "Números                   | " << total_numero << endl;
     saida << "Inválidos                 | " << total_invalidos << endl;
     saida << "=====================================================" << endl;
     saida << endl;
