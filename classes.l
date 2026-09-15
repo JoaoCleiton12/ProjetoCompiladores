@@ -9,7 +9,7 @@ using namespace std;
 
 enum { ESTEREOTIPO_CLASSE = 1, ESTEREOTIPO_RELACAO, PALAVRA_RESERVADA, 
 SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS_NATIVOS, DADOS_CRIADOS, META_ATRIBUTOS, INVALIDO,
-INVALIDO_CLASSE};  
+INVALIDO_CLASSE, ID_ATRIBUTO};  
 
 struct ErroLexico {
     int linha;
@@ -35,11 +35,13 @@ novo_tipo_dado {letras}*"DataType"
    EXCETO a que casa com o DataType correto acima */
 tipo_dado_incorreto  [a-zA-Z]*[dD][aA][tT][aA][tT][yY][pP][eE]
 classe {segmento}(_{segmento})*
-relacao {letra_minuscula}{alfanumerico}*
+relacao (has|is)({letras}*(_{letras}+)*)?
 /* Erro: Nome de Classe começando com minúscula */
 classe_invalida_minuscula [a-z]+({segmento})+
-simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"
-invalido [^ \t\n]+
+instancia {letras}+(_{letras}+)*{digitos}+
+simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"|"--"|","
+id_atributo {letra_minuscula}{alfanumerico}*
+invalido [^ \t\n{},()\[\]@:*]+
 
 %%
 {brancos}   ;
@@ -120,16 +122,23 @@ invalido [^ \t\n]+
 "derived" return META_ATRIBUTOS;
 "subsets" return META_ATRIBUTOS;
 "redefines" return META_ATRIBUTOS;
-    /* Tipos de dados criados pelo usuário */
+
 {novo_tipo_dado} return DADOS_CRIADOS;
-    /* Tipos de dados incorretos */
-{tipo_dado_incorreto} return INVALIDO;
-    /* Nomes de Relações (identificadores iniciando em minúscula) */
+
+{id_atributo}/[ \t]*":" return ID_ATRIBUTO;
+
 {relacao} return RELACOES;
-    /* Nome das classes */
+
+{instancia} return INSTANCIA;
+
+
 {classe} return CLASSE;
     /* Símbolos especiais */
 {simbolo_especial} return SIMBOLO_ESPECIAL;
+
+
+    /* Tipos de dados incorretos */
+{tipo_dado_incorreto} return INVALIDO;
 {classe_invalida_minuscula} return INVALIDO_CLASSE;
     /*Precisa definir uma saída */
 {invalido}  return INVALIDO;
@@ -139,7 +148,7 @@ invalido [^ \t\n]+
 
 int main() {
 
-    ifstream entrada("input/teste1.txt");
+    ifstream entrada("input/teste2.txt");
     ofstream saida("output/saida.txt");
 
     if (!entrada.is_open() || !saida.is_open()) {
@@ -163,12 +172,12 @@ int main() {
     int total_dados_nativos = 0;
     int total_meta_atributos = 0;
     int total_invalidos_classe = 0;
-
+    int total_id_atributos = 0;
 
     //tabela hash para controlar os nomes de classe únicos
     unordered_set<string> nomes_classes_unicos;
 
-    unordered_map<int, vector<string>> tokens_agrupados;
+    unordered_map<int, vector<pair<string, int>>> tokens_agrupados;
 
     vector<ErroLexico> lista_erros;
 
@@ -179,55 +188,63 @@ int main() {
         string lexema = lexer.YYText();
         int linha = lexer.lineno();
 
-        if (token == PALAVRA_RESERVADA) {
-            total_palavras_reservadas++;
-            tokens_agrupados[PALAVRA_RESERVADA].push_back(lexer.YYText());
-        }
-        else if (token == ESTEREOTIPO_CLASSE) {
+        if (token == ESTEREOTIPO_CLASSE) {
             total_estereotipos++;
-            tokens_agrupados[ESTEREOTIPO_CLASSE].push_back(lexer.YYText());
+            tokens_agrupados[ESTEREOTIPO_CLASSE].push_back({lexema, linha});
         }
         else if (token == ESTEREOTIPO_RELACAO) {
             total_estereotipos_relacao++;
-            tokens_agrupados[ESTEREOTIPO_RELACAO].push_back(lexer.YYText());
+            tokens_agrupados[ESTEREOTIPO_RELACAO].push_back({lexema, linha});
+        }
+        else if (token == PALAVRA_RESERVADA) {
+            total_palavras_reservadas++;
+            tokens_agrupados[PALAVRA_RESERVADA].push_back({lexema, linha});
+        }
+        else if (token == SIMBOLO_ESPECIAL) {
+            total_simbolos++;
+            tokens_agrupados[SIMBOLO_ESPECIAL].push_back({lexema, linha});;
         }
         else if (token == CLASSE) {
 
             string nome_classe = lexer.YYText();
 
-            if (nomes_classes_unicos.find(nome_classe) == nomes_classes_unicos.end()) {
-                nomes_classes_unicos.insert(nome_classe);
+            if (nomes_classes_unicos.find(lexema) == nomes_classes_unicos.end()) {
+                nomes_classes_unicos.insert(lexema);
                 total_classes++;
-                tokens_agrupados[CLASSE].push_back(nome_classe);
             }
+            tokens_agrupados[CLASSE].push_back({lexema, linha});
         }
         else if (token == RELACOES) {
             total_relacoes++;
-            tokens_agrupados[RELACOES].push_back(lexer.YYText());
+            tokens_agrupados[RELACOES].push_back({lexema, linha});
         }
-        else if (token == SIMBOLO_ESPECIAL) {
-            total_simbolos++;
-            tokens_agrupados[SIMBOLO_ESPECIAL].push_back(lexer.YYText());
+        else if (token == INSTANCIA) {
+            total_instancias++;
+            tokens_agrupados[INSTANCIA].push_back({lexema, linha});
         }
         else if (token == DADOS_CRIADOS) {
             total_dados_criados++;
-            tokens_agrupados[DADOS_CRIADOS].push_back(lexer.YYText());
+            tokens_agrupados[DADOS_CRIADOS].push_back({lexema, linha});
         }
         else if (token == DADOS_NATIVOS) {
             total_dados_nativos++;
-            tokens_agrupados[DADOS_NATIVOS].push_back(lexer.YYText());
+            tokens_agrupados[DADOS_NATIVOS].push_back({lexema, linha});
         }
         else if (token == META_ATRIBUTOS) {
             total_meta_atributos++;
-            tokens_agrupados[META_ATRIBUTOS].push_back(lexer.YYText());
+            tokens_agrupados[META_ATRIBUTOS].push_back({lexema, linha});
         }
+        else if (token == ID_ATRIBUTO) {
+            total_id_atributos++;
+            tokens_agrupados[ID_ATRIBUTO].push_back({lexema, linha});
+}
         else if (token == INVALIDO) {
             total_invalidos++;
-            tokens_agrupados[INVALIDO].push_back(lexer.YYText());
+            tokens_agrupados[INVALIDO].push_back({lexema, linha});
         }
         else if (token == INVALIDO_CLASSE) {
             total_invalidos++;
-            tokens_agrupados[INVALIDO].push_back(lexema);
+            tokens_agrupados[INVALIDO].push_back({lexema, linha});
 
             lista_erros.push_back({
                 linha, 
@@ -245,12 +262,14 @@ int main() {
         {ESTEREOTIPO_CLASSE, "Estereótipo de Classe"},
         {ESTEREOTIPO_RELACAO, "Estereótipo de Relação"},
         {PALAVRA_RESERVADA,   "Palavra Reservada"},
+        {SIMBOLO_ESPECIAL,    "Símbolo Especial"},
         {CLASSE,              "Classe"},
         {RELACOES,            "Nome de Relação"},
-        {DADOS_CRIADOS,       "Novo Tipo de Dado"},
+        {INSTANCIA,           "Instancias"},
         {DADOS_NATIVOS,       "Dado Nativo"},
+        {DADOS_CRIADOS,       "Novo Tipo de Dado"},
+        {ID_ATRIBUTO,        "Identificador de Atributo"},
         {META_ATRIBUTOS,      "Meta-atributo"},
-        {SIMBOLO_ESPECIAL,    "Símbolo Especial"},
         {INVALIDO,            "Token Inválido"}
     };
 
@@ -262,32 +281,41 @@ int main() {
         // verifica se a chave existe no mapa
         if(tokens_agrupados.count(id_token)) {
             //pega a referencia da lista de string daquela categoria
-            const vector<string>& tokens = tokens_agrupados[id_token];
+            const vector<pair<string, int>>& tokens = tokens_agrupados[id_token];
 
             //percorre a lista de token de cada categoria e imprime no arquivo de saída
             for(size_t j = 0; j < tokens.size(); ++j) {
-                saida << rotulo << " : " << tokens[j] << endl;
+                string lexema = tokens[j].first;
+                int num_linha = tokens[j].second;
+                saida << rotulo << ": " << lexema << " [Linha: " << num_linha << "]" << endl;
             }
+            saida << endl;
         }
     }
+    saida << "=====================================================" << endl;
+    saida << endl;
+    saida << endl;
 
     saida << "=====================================================" << endl;
     saida << "                TABELA DE SINTESE                    " << endl;
     saida << "=====================================================" << endl;
     saida << "CATEGORIA                 | QUANTIDADE               " << endl;
-    saida << "Palavras Reservadas       | " << total_palavras_reservadas << endl;
+    
     saida << "Estereótipos de classe    | " << total_estereotipos << endl;
     saida << "Estereótipos de relação   | " << total_estereotipos_relacao << endl;
+    saida << "Palavras Reservadas       | " << total_palavras_reservadas << endl;
+    saida << "Símbolos Especiais        | " << total_simbolos << endl;
     saida << "Classes                   | " << total_classes << endl;
     saida << "Relações                  | " << total_relacoes << endl;
-    saida << "Inválidos                 | " << total_invalidos << endl;
-    saida << "Classe Inválida           | " << total_invalidos_classe << endl;
-    saida << "Símbolos Especiais        | " << total_simbolos << endl;
+    saida << "Instancias                | " << total_instancias << endl;
     saida << "Dados Nativos             | " << total_dados_nativos << endl;
     saida << "Dados Criados             | " << total_dados_criados << endl;
+    saida << "Identificador de atributo | " << total_id_atributos << endl;
     saida << "Meta-atributos            | " << total_meta_atributos << endl;
     saida << "Inválidos                 | " << total_invalidos << endl;
     saida << "=====================================================" << endl;
+    saida << endl;
+    saida << endl;
 
     saida << "=====================================================" << endl;
     saida << "              TRATAMENTO DE ERROS                    " << endl;
@@ -302,7 +330,7 @@ int main() {
             saida << "-----------------------------------------------------" << endl;
         }
     }
-
+    saida << "=====================================================" << endl;
 
     entrada.close();
     saida.close();
