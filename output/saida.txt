@@ -455,7 +455,7 @@ Inválidos                 | 1
 =====================================================
               TRATAMENTO DE ERROS                    
 =====================================================
-Linha: 48] Erro no token 'Atendimento_Pre-Natal02'
+Linha: [48] Erro no token 'Atendimento_Pre-Natal02'
   -> Descrição: Token não reconhecido pela gramática da linguagem Tonto. Verifique símbolos não suportados ou identificadores mal formados.
 -----------------------------------------------------
 =====================================================
