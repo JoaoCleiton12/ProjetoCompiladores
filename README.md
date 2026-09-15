@@ -80,6 +80,18 @@ O arquivo de saída gerado pelo C++ é estruturado em três seções principais:
 
 ---
  
+## Teste de Tratamento de Erros (`teste_erros.txt`)
+ 
+Para validar especificamente a seção **Tratamento de Erros** do relatório, o repositório inclui o arquivo `input/teste_erros.txt`, contendo casos propositalmente inválidos misturados a trechos válidos da linguagem. Ele cobre:
+ 
+* **Nome de Classe inválido:** classes iniciadas com letra minúscula (ex: `carroEletrico`, `veiculo`).
+* **Tipo de Dado criado mal formado:** sufixo `datatype` fora do padrão exigido (`DataType` com maiúsculas corretas), como em `EnderecoDatatype`, `telefonedatatype`, `CPFdatatype`.
+* **Tokens inválidos genéricos:** símbolos não previstos pela gramática da linguagem, como `#`, `&` e `~`.
+* **Linhas com múltiplos erros simultâneos**, para verificar se o analisador trata cada ocorrência de forma independente.
+Para rodar esse teste, aponte o `main()` (ou o arquivo de entrada configurado) para `input/teste_erros.txt` e verifique se cada erro aparece corretamente na seção **Tratamento de Erros** do `output/saida.txt`, com linha, lexema e descrição/sugestão de correção.
+ 
+---
+ 
 > **Obs:** Os arquivos `teste1.txt` e `teste2.txt` utilizados como entrada foram retirados do repositório [Compiladores_UFERSA](https://github.com/patricioalencar/Compiladores_UFERSA), sendo:
 > * `teste1` = [Pizzaria_MONO.tonto](https://github.com/patricioalencar/Compiladores_UFERSA/blob/main/Pizzaria_Model/src/Monobloco/Pizzaria_MONO.tonto)
 > * `teste2` = [Hospital.tonto](https://github.com/patricioalencar/Compiladores_UFERSA/blob/main/Hospital_Model/src/Monobloco/Hospital.tonto)
