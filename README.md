@@ -77,3 +77,14 @@ O arquivo de saída gerado pelo C++ é estruturado em três seções principais:
 1. **Visão Analítica:** Listagem detalhada dos tokens capturados por ordem de categoria, com seus respectivos lexemas e números de linha (ex: `Identificador de Atributo: nome [Linha: 5]`).
 2. **Tabela de Síntese:** Resumo quantitativo que exibe o total de ocorrências contabilizadas para cada categoria de token.
 3. **Tratamento de Erros:** Registro completo contendo a linha, o lexema inválido e a descrição legível de erros léxicos encontrados (como nomes de classe iniciados em minúscula ou sufixos de tipos de dados incorretos).
+
+---
+ 
+> **Obs:** Os arquivos `teste1.txt` e `teste2.txt` utilizados como entrada foram retirados do repositório [Compiladores_UFERSA](https://github.com/patricioalencar/Compiladores_UFERSA), sendo:
+> * `teste1` = [Pizzaria_MONO.tonto](https://github.com/patricioalencar/Compiladores_UFERSA/blob/main/Pizzaria_Model/src/Monobloco/Pizzaria_MONO.tonto)
+> * `teste2` = [Hospital.tonto](https://github.com/patricioalencar/Compiladores_UFERSA/blob/main/Hospital_Model/src/Monobloco/Hospital.tonto)
+>
+> Porém, esses arquivos foram alterados para se enquadrar nas regras da linguagem definidas neste projeto, como a adição do sufixo `DataType` em tipos criados pelo usuário e a remoção do `@` de estereótipos de relações, entre outras adaptações.
+>
+> Logo, caso o usuário deseje realizar testes com arquivos originais do repositório [Compiladores_UFERSA](https://github.com/patricioalencar/Compiladores_UFERSA), é necessário aplicar as alterações correspondentes para que o conteúdo esteja de acordo com as regras especificadas no início deste documento.
+ 
