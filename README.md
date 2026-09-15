@@ -67,13 +67,6 @@ Ideal para compilação isolada na pasta `build/` (ou pelo atalho `Ctrl + Shift 
 Ctrl + Shift + B
 ```
 
-* **Outra opção de Compilar:**
-```bash
-mkdir -p build && cd build
-cmake ..
-make
-```
-
 * **Executar (a partir da raiz do projeto):**
 ```bash
 ./build/classes
