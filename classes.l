@@ -27,7 +27,7 @@ digitos [0-9]
 numero {digitos}+
 alfanumerico [a-zA-Z0-9]
 segmento {letra_maiuscula}{letras}*
-novo_tipo_dado {letras}*"DataType"
+novo_tipo_dado {letras}+"DataType"
 tipo_dado_incorreto  [a-zA-Z]*[dD][aA][tT][aA][tT][yY][pP][eE]
 classe {segmento}(_{segmento})*
 relacao {letra_minuscula}{letras}*(_{letras}+)*
