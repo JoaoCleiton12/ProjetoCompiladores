@@ -1,4 +1,4 @@
-# Analisador Léxico OntoUML
+# Analisador Sintático OntoUML
 
 Analisador léxico desenvolvido em **Flex (C++)** para processamento, classificação e validação léxica de linguagens de modelagem conceitual baseadas em **OntoUML**.
 
