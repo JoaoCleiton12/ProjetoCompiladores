@@ -5,17 +5,13 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-using namespace std;
+#include "parser.tab.hpp"
 
-enum { ESTEREOTIPO_CLASSE = 1, ESTEREOTIPO_RELACAO, PALAVRA_RESERVADA, 
-SIMBOLO_ESPECIAL, CLASSE, RELACOES, INSTANCIA, DADOS_NATIVOS, DADOS_CRIADOS, META_ATRIBUTOS, INVALIDO,
-INVALIDO_CLASSE, ID_ATRIBUTO, ERRO_DATATYPE, NUMERO};  
-
+using namespace std; 
 
 %}
 
 %option noyywrap
-%option c++
 %option yylineno
 
 delim [ \t\n]
@@ -39,6 +35,10 @@ invalido [^ \t\n{},()\[\]@:*\.]+
 
 %%
 {brancos}   ;
+
+    /* Regras analise sintatica */
+"package" return PACKAGE;
+"relation" return RELATION;
     /* estereotipos de classe*/
 "event" return ESTEREOTIPO_CLASSE;
 "situation" return ESTEREOTIPO_CLASSE;
@@ -60,35 +60,36 @@ invalido [^ \t\n{},()\[\]@:*\.]+
 "role" return ESTEREOTIPO_CLASSE;
 "historicalRole" return ESTEREOTIPO_CLASSE;
 "relator" return ESTEREOTIPO_CLASSE;
+
     /* esteriotipos de relacoes */
-"material" return ESTEREOTIPO_RELACAO;  
-"derivation" return ESTEREOTIPO_RELACAO;
-"comparative" return ESTEREOTIPO_RELACAO;
-"mediation" return ESTEREOTIPO_RELACAO;
-"characterization" return ESTEREOTIPO_RELACAO;
-"subCollectionOf" return ESTEREOTIPO_RELACAO;
-"subQualityOf" return ESTEREOTIPO_RELACAO;
-"subQualityof" return ESTEREOTIPO_RELACAO;
-"instantiation" return ESTEREOTIPO_RELACAO;
-"externalDependence" return ESTEREOTIPO_RELACAO;
-"componentOf" return ESTEREOTIPO_RELACAO;
-"componentof" return ESTEREOTIPO_RELACAO;
-"memberOf" return ESTEREOTIPO_RELACAO;
-"memberof" return ESTEREOTIPO_RELACAO;
-"termination" return ESTEREOTIPO_RELACAO;
-"participational" return ESTEREOTIPO_RELACAO;
-"participation" return ESTEREOTIPO_RELACAO;
-"historicalDependence" return ESTEREOTIPO_RELACAO;
-"creation" return ESTEREOTIPO_RELACAO;
-"manifestation" return ESTEREOTIPO_RELACAO;
-"bringsAbout" return ESTEREOTIPO_RELACAO;
-"triggers" return ESTEREOTIPO_RELACAO;
-"composition" return ESTEREOTIPO_RELACAO;
-"aggregation" return ESTEREOTIPO_RELACAO;
-"inherence" return ESTEREOTIPO_RELACAO;
-"value" return ESTEREOTIPO_RELACAO;
-"formal" return ESTEREOTIPO_RELACAO;
-"constitution" return ESTEREOTIPO_RELACAO;
+"material" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"derivation" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"comparative" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"mediation" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"characterization" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"subCollectionOf" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"subQualityOf" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"subQualityof" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"instantiation" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"externalDependence" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"componentOf" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"componentof" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"memberOf" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"memberof" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"termination" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"participational" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"participation" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"historicalDependence" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"creation" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"manifestation" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"bringsAbout" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"triggers" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"composition" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"aggregation" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"inherence" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"value" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"formal" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
+"constitution" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
     /* palavras reservadas */
 "genset" return PALAVRA_RESERVADA;
 "disjoint" return PALAVRA_RESERVADA;
@@ -117,25 +118,26 @@ invalido [^ \t\n{},()\[\]@:*\.]+
 "subsets" return META_ATRIBUTOS;
 "redefines" return META_ATRIBUTOS;
 
-{novo_tipo_dado} return DADOS_CRIADOS;
+    /* caputa de texto */
+{novo_tipo_dado} {yylval.str = strdup(yytext); return DADOS_CRIADOS;}
 
-{id_atributo}/[ \t]*":" return ID_ATRIBUTO;
+{id_atributo}/[ \t]*":" {yylval.str = strdup(yytext); return ID_ATRIBUTO;}
 
-{relacao} return RELACOES;
+{relacao} {yylval.str = strdup(yytext); return RELACOES;}
 
-{instancia} return INSTANCIA;
+{instancia} {yylval.str = strdup(yytext); return INSTANCIA;}
 
 {tipo_dado_incorreto} return ERRO_DATATYPE;
 
-{classe} return CLASSE;
-    
+{classe} {yylval.str = strdup(yytext); return CLASSE;}
+
 {simbolo_especial} return SIMBOLO_ESPECIAL;
 
 {classe_invalida_minuscula} return INVALIDO_CLASSE;
 
-{numero} return NUMERO;
-    
-{invalido}  return INVALIDO;
+{numero} {yylval.str = strdup(yytext); return NUMERO;}
+
+{invalido} return INVALIDO;
 
 %%
 
