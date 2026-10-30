@@ -5,34 +5,69 @@
 =====================================================
                  TABELA DE SÍMBOLOS                  
 =====================================================
-Linha: 1 | Categoria: Pacote | Nome: PizzariaMono
-Linha: 115 | Categoria: Relação Externa | Nome: tem_Massa
-Linha: 122 | Categoria: Relação Externa | Nome: tem_Cobertura
-Linha: 129 | Categoria: Relação Externa | Nome: tem_Borda
-Linha: 138 | Categoria: Relação Externa | Nome: atendido_Por
-Linha: 146 | Categoria: Relação Externa | Nome: prepara
-Linha: 153 | Categoria: Relação Externa | Nome: compra_Em
-Linha: 154 | Categoria: Relação Externa | Nome: vende
-Linha: 155 | Categoria: Relação Externa | Nome: compra
-Linha: 57 | Categoria: Relação Interna | Nome: Interna_memberOf_para_Item_Da_Pizzaria_L57
-Linha: 118 | Categoria: Relação Interna | Nome: Interna_mediation_para_Massa_Da_Pizza_L118
-Linha: 119 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizza_L119
-Linha: 125 | Categoria: Relação Interna | Nome: Interna_mediation_para_Cobertura_Da_Pizza_L125
-Linha: 126 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizza_L126
-Linha: 132 | Categoria: Relação Interna | Nome: Interna_mediation_para_Borda_Da_Pizza_L132
-Linha: 133 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizza_L133
-Linha: 141 | Categoria: Relação Interna | Nome: Interna_mediation_para_Atendente_L141
-Linha: 142 | Categoria: Relação Interna | Nome: Interna_mediation_para_Cliente_L142
-Linha: 149 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizzaiolo_L149
-Linha: 150 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizza_L150
-Linha: 158 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizzaria_L158
-Linha: 159 | Categoria: Relação Interna | Nome: Interna_mediation_para_Cliente_L159
-Linha: 160 | Categoria: Relação Interna | Nome: Interna_mediation_para_Item_Da_Pizzaria_L160
+Linha: 6 | Categoria: Enum | Nome: EyeColor
+Linha: 9 | Categoria: Enum | Nome: Tipo_De_Vacina
+Linha: 17 | Categoria: Enum | Nome: PlanetaRochoso
+Linha: 24 | Categoria: Genset | Nome: PersonAgeGroup
+Linha: 27 | Categoria: Genset | Nome: PersonLifeStage
+Linha: 33 | Categoria: Genset | Nome: Opcao_De_Massa
+Linha: 39 | Categoria: Genset | Nome: PapeisDaPessoa
+Linha: 45 | Categoria: Genset | Nome: PhasesOfPerson
+Linha: 46 | Categoria: Genset | Nome: Tipos_de_Clientes
+Linha: 52 | Categoria: Genset | Nome: PhasesByAge
+Linha: 1 | Categoria: Pacote | Nome: PersonPhases
 
 =====================================================
                  TABELA DE SÍNTESE                   
 =====================================================
 Total de Pacotes...........: 1
-Total de Relações Externas.: 8
-Total de Relações Internas.: 14
+Total de Relações Externas.: 0
+Total de Relações Internas.: 0
+Total de Enums.............: 3
+Total de Gensets...........: 7
+=====================================================
+
+=====================================================
+     SÍNTESE: CLASSES ENUMERADAS (enum) — Tópico 4   
+=====================================================
+Total de enums declarados: 3
+Total de literais (instâncias): 12
++---+----------------+--------------+-------+-------------+-----+------------------------------------------------+--------+
+| # | Enum           | Pacote       | Linha | Especializa | Qtd | Literais                                       | Status |
++---+----------------+--------------+-------+-------------+-----+------------------------------------------------+--------+
+| 1 | EyeColor       | PersonPhases | 6     | -           | 4   | Blue, Green, Brown, Black                      | ok     |
+| 2 | Tipo_De_Vacina | PersonPhases | 9     | -           | 4   | Covid01, FebreAmarela02, Tetano03, Influenza04 | ok     |
+| 3 | PlanetaRochoso | PersonPhases | 17    | Planeta     | 4   | Mercurio1, Venus2, Terra3, Marte4              | ok     |
++---+----------------+--------------+-------+-------------+-----+------------------------------------------------+--------+
+
+=====================================================
+   SÍNTESE: GENERALIZAÇÕES (genset) — Tópico 5       
+=====================================================
+Total de generalization sets: 7  (forma curta 'where': 2, forma em bloco '{ }': 5)
++---+-------------------+--------------+-------+-------+------------------------+----------------+-----------------+---------------------------------------+--------+
+| # | Genset            | Pacote       | Linha | Forma | Restrições             | Geral          | Categorizador   | Específicas                           | Status |
++---+-------------------+--------------+-------+-------+------------------------+----------------+-----------------+---------------------------------------+--------+
+| 1 | PersonAgeGroup    | PersonPhases | 24    | curta | disjoint complete      | Person         | -               | Child, Adult                          | ok     |
+| 2 | PersonLifeStage   | PersonPhases | 27    | bloco | (nenhuma)              | Person         | -               | Child, Teenager, Adult, Elder         | ok     |
+| 3 | Opcao_De_Massa    | PersonPhases | 33    | bloco | disjoint complete      | Massa_Da_Pizza | -               | Massa_Fina_e_Crocante, Massa_Pan      | ok     |
+| 4 | PapeisDaPessoa    | PersonPhases | 39    | bloco | overlapping incomplete | Person         | -               | Student, Employee, Volunteer          | ok     |
+| 5 | PhasesOfPerson    | PersonPhases | 45    | curta | disjoint               | Person         | -               | Child, Teenager, Adult                | ok     |
+| 6 | Tipos_de_Clientes | PersonPhases | 46    | bloco | complete               | Cliente        | -               | ClienteIndividual, ClienteEmpresarial | ok     |
+| 7 | PhasesByAge       | PersonPhases | 52    | bloco | disjoint complete      | Person         | PersonTypeByAge | Child, Teenager, YoungAdult, Adult    | ok     |
++---+-------------------+--------------+-------+-------+------------------------+----------------+-----------------+---------------------------------------+--------+
+Gensets por restrição:  (nenhuma) = 1;  complete = 1;  disjoint = 1;  disjoint complete = 3;  overlapping incomplete = 1;
+
+Taxonomia derivada dos gensets (classe-mãe -> classes filhas):
+  Cliente -> ClienteIndividual, ClienteEmpresarial
+  Massa_Da_Pizza -> Massa_Fina_e_Crocante, Massa_Pan
+  Person -> Child, Adult, Teenager, Elder, Student, Employee, Volunteer, YoungAdult
+
+Enums e gensets por pacote:
+  Pacote PersonPhases: 3 enum(s) [EyeColor, Tipo_De_Vacina, PlanetaRochoso]; 7 genset(s) [PersonAgeGroup, PersonLifeStage, Opcao_De_Massa, PapeisDaPessoa, PhasesOfPerson, Tipos_de_Clientes, PhasesByAge]
+=====================================================
+
+=====================================================
+           RELATÓRIO DE ERROS DA ONTOLOGIA           
+=====================================================
+Nenhum erro ou aviso encontrado.
 =====================================================

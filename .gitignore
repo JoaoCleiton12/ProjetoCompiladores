@@ -21,3 +21,7 @@ classes
 # Arquivos de sistema operacional
 .DS_Store
 Thumbs.db
+# Arquivos gerados pelo Bison e executável do analisador sintático
+parser.tab.cpp
+parser.tab.hpp
+sintatico

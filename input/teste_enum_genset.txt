@@ -1,0 +1,56 @@
+package PersonPhases
+
+// ===== Tópico 4: classes enumeradas =====
+
+// exemplo do enunciado (literais no formato de nome de classe)
+enum EyeColor { Blue, Green, Brown, Black }
+
+// literais no formato de instância do analisador léxico (terminam em número)
+enum Tipo_De_Vacina {
+    Covid01,
+    FebreAmarela02,
+    Tetano03,
+    Influenza04
+}
+
+/* enum especializando outro tipo (sintaxe do Tonto) */
+enum PlanetaRochoso specializes Planeta {
+    Mercurio1, Venus2, Terra3, Marte4
+}
+
+// ===== Tópico 5: generalization sets =====
+
+// forma curta (uma linha), exemplo do enunciado
+disjoint complete genset PersonAgeGroup where Child, Adult specializes Person
+
+// forma em bloco, exemplo do enunciado
+genset PersonLifeStage {
+    general Person
+    specifics Child, Teenager, Adult, Elder
+}
+
+// bloco com restrições e lista longa de filhas
+disjoint complete genset Opcao_De_Massa {
+    general Massa_Da_Pizza
+    specifics Massa_Fina_e_Crocante, Massa_Pan
+}
+
+// restrições alternativas
+overlapping incomplete genset PapeisDaPessoa {
+    general Person
+    specifics Student, Employee, Volunteer
+}
+
+// apenas uma restrição
+disjoint genset PhasesOfPerson where Child, Teenager, Adult specializes Person
+complete genset Tipos_de_Clientes {
+    general Cliente
+    specifics ClienteIndividual, ClienteEmpresarial
+}
+
+// com categorizador (Tonto / ML2)
+disjoint complete genset PhasesByAge {
+    general Person
+    categorizer PersonTypeByAge
+    specifics Child, Teenager, YoungAdult, Adult
+}

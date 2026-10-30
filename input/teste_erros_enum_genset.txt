@@ -1,0 +1,58 @@
+package TesteErrosEnumGenset
+
+// ================= erros em enum (Tópico 4) =================
+enum eyeColor { Blue, Green }
+enum Cor1 { Azul, Verde }
+enum { Norte, Sul }
+enum Dia { Segunda, Terca, Segunda }
+enum Naipe { Copas, Espadas, }
+enum Tamanho { Pequeno Medio, Grande }
+enum Consulta { Atendimento_Pre-Natal02, retorno, 42 }
+enum Vazio { }
+enum Unico { SoEsse }
+enum Separador { Um1, Dois2 ; Tres3 }
+enum Estado { Ativo, complete, Inativo }
+enum Moeda specializes { Real, Dolar }
+
+// ================= erros em genset (Tópico 5) =================
+disjoint overlapping genset GrupoA where Aa, Ab specializes Ac
+complete disjoint genset GrupoB where Ba, Bb specializes Bc
+disjoint disjoint genset GrupoC where Ca, Cb specializes Cc
+genset GrupoD where Person, Child specializes Person
+genset GrupoE where Child, Child, Adult specializes Person
+genset GrupoF where Kid Grown specializes Human
+genset GrupoG where Boy, Girl,
+genset GrupoH where Cat, Dog specializes
+genset GrupoI {
+    specifics Rose, Tulip
+    general Flower
+}
+genset GrupoJ {
+    general Vehicle
+}
+genset GrupoK {
+    specifics Car, Bike
+}
+genset GrupoL { }
+genset {
+    general Fruit
+    specifics Apple, Banana
+}
+genset disjoint_complete {
+    general Animal
+    specifics cat, Dog2
+}
+genset disjoint_complete {
+    general Tree
+    specifics Oak, Pine,
+}
+genset GrupoM {
+    general Planet
+    categorizer Planet
+    specifics Earth ; Mars
+}
+genset EyeColor where Blue1, Green2 specializes Cor
+genset GrupoN where Ana, Bia specializes Tamanho
+disjoint complete kind Person
+enum Aberto { X1, Y2
+genset GrupoO where Sun, Moon specializes Star

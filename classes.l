@@ -5,9 +5,24 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <cstring>
 #include "parser.tab.hpp"
 
 using namespace std; 
+
+/* [Tópicos 4/5] Rastreamento de linha e coluna de cada token (yylloc),
+   usado pelo parser para indicar a posição exata dos erros. */
+static int linha_atual = 1;
+static int coluna_atual = 1;
+#define YY_USER_ACTION                                              \
+    yylloc.first_line = linha_atual;                                \
+    yylloc.first_column = coluna_atual;                             \
+    for (int i_ = 0; i_ < (int)yyleng; i_++) {                      \
+        if (yytext[i_] == '\n') { linha_atual++; coluna_atual = 1; } \
+        else if ((yytext[i_] & 0xC0) != 0x80) coluna_atual++;       \
+    }                                                               \
+    yylloc.last_line = linha_atual;                                 \
+    yylloc.last_column = coluna_atual - 1;
 
 %}
 
@@ -25,7 +40,7 @@ alfanumerico [a-zA-Z0-9]
 segmento {letra_maiuscula}{letras}*
 novo_tipo_dado {letras}+"DataType"
 tipo_dado_incorreto  [a-zA-Z]*[dD][aA][tT][aA][tT][yY][pP][eE]
-classe {segmento}(_{segmento})*
+classe {letra_maiuscula}{letras}*(_{letras}+)*
 relacao {letra_minuscula}{letras}*(_{letras}+)*
 classe_invalida_minuscula [a-z]+({segmento})+
 instancia {letras}+(_{letras}+)*{digitos}+
@@ -35,6 +50,10 @@ invalido [^ \t\n{},()\[\]@:*\.]+
 
 %%
 {brancos}   ;
+
+    /* [Tópicos 4/5] comentários de linha e de bloco são ignorados */
+"//"[^\n]*                              ;
+"/*"([^*]|"*"+[^*/])*"*"+"/"            ;
 
     /* Regras analise sintatica */
 "package" return PACKAGE;
@@ -91,19 +110,23 @@ invalido [^ \t\n{},()\[\]@:*\.]+
 "formal" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
 "constitution" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
     /* palavras reservadas */
-"genset" return PALAVRA_RESERVADA;
-"disjoint" return PALAVRA_RESERVADA;
-"general" return PALAVRA_RESERVADA;
-"complete" return PALAVRA_RESERVADA;
-"specifics" return PALAVRA_RESERVADA;
-"where" return PALAVRA_RESERVADA;
+    /* [Tópicos 4/5] palavras reservadas de enum e genset com token próprio */
+"enum" return ENUM;
+"genset" return GENSET;
+"disjoint" return DISJOINT;
+"overlapping" return OVERLAPPING;
+"complete" return COMPLETE;
+"incomplete" return INCOMPLETE;
+"general" return GENERAL;
+"specifics" return SPECIFICS;
+"categorizer" return CATEGORIZER;
+"where" return WHERE;
+"specializes" return SPECIALIZES;
 "package" return PALAVRA_RESERVADA;
 "import" return PALAVRA_RESERVADA;
 "functional-complexes" return PALAVRA_RESERVADA;
 "relation" return PALAVRA_RESERVADA;
-"specializes" return PALAVRA_RESERVADA;
 "datatype" return PALAVRA_RESERVADA;
-"enum" return PALAVRA_RESERVADA;
     /* dados nativos */
 "number" return DADOS_NATIVOS;
 "string" return DADOS_NATIVOS;
@@ -131,13 +154,22 @@ invalido [^ \t\n{},()\[\]@:*\.]+
 
 {classe} {yylval.str = strdup(yytext); return CLASSE;}
 
+    /* [Tópicos 4/5] delimitadores usados em enum/genset com token próprio */
+"{" return ABRE_CHAVE;
+"}" return FECHA_CHAVE;
+"," return VIRGULA;
+
 {simbolo_especial} return SIMBOLO_ESPECIAL;
 
 {classe_invalida_minuscula} return INVALIDO_CLASSE;
 
 {numero} {yylval.str = strdup(yytext); return NUMERO;}
 
-{invalido} return INVALIDO;
+{invalido} {yylval.str = strdup(yytext); return INVALIDO;}
+
+    /* [Tópicos 4/5] qualquer caractere restante (ex.: '.' isolado) vira token inválido,
+       em vez de ser ecoado silenciosamente pelo Flex */
+. {yylval.str = strdup(yytext); return INVALIDO;}
 
 %%
 

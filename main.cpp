@@ -5,6 +5,8 @@
 #include <vector>
 #include <algorithm> // Biblioteca necessária para o sort()
 #include "tabela_simbolos.h"
+#include "relatorio_erros.h"  // [Tópicos 4/5] relatório de erros com sugestões
+#include "enum_genset.h"      // [Tópicos 4/5] enum e genset
 
 using namespace std;
 
@@ -44,6 +46,9 @@ int main(int argc, char* argv[]) {
     int status = yyparse();
     fclose(arquivo);
 
+    // [Tópicos 4/5] verificações que dependem do arquivo inteiro (referências de gensets)
+    verificar_referencias_enum_genset();
+
     // --- ORDENAÇÃO DOS DADOS ---
     // Copia os dados da Hash Table para um Vector para poder ordenar
     vector<Simbolo> lista_ordenada;
@@ -63,6 +68,8 @@ int main(int argc, char* argv[]) {
     int cont_pacotes = 0;
     int cont_relacoes_ext = 0;
     int cont_relacoes_int = 0;
+    int cont_enums = 0;    // [Tópicos 4/5]
+    int cont_gensets = 0;  // [Tópicos 4/5]
 
     // 1. IMPRESSÃO DA TABELA DE SÍMBOLOS
     arquivo_saida << "\n=====================================================" << endl;
@@ -83,6 +90,8 @@ int main(int argc, char* argv[]) {
             if (sim.categoria == "Pacote") cont_pacotes++;
             else if (sim.categoria == "Relação Externa") cont_relacoes_ext++;
             else if (sim.categoria == "Relação Interna") cont_relacoes_int++;
+            else if (sim.categoria == "Enum") cont_enums++;       // [Tópicos 4/5]
+            else if (sim.categoria == "Genset") cont_gensets++;   // [Tópicos 4/5]
         }
     }
 
@@ -93,11 +102,20 @@ int main(int argc, char* argv[]) {
     arquivo_saida << "Total de Pacotes...........: " << cont_pacotes << endl;
     arquivo_saida << "Total de Relações Externas.: " << cont_relacoes_ext << endl;
     arquivo_saida << "Total de Relações Internas.: " << cont_relacoes_int << endl;
+    arquivo_saida << "Total de Enums.............: " << cont_enums << endl;    // [Tópicos 4/5]
+    arquivo_saida << "Total de Gensets...........: " << cont_gensets << endl;  // [Tópicos 4/5]
     arquivo_saida << "=====================================================" << endl;
+
+    // [Tópicos 4/5] síntese detalhada de enums/gensets e relatório de erros da ontologia
+    imprimir_sintese_enum_genset(arquivo_saida);
+    imprimir_relatorio_erros(arquivo_saida);
 
     arquivo_saida.close();
     
     cout << "Analise concluída! Resultados salvos e ordenados em: " << caminho_saida << endl;
+    // [Tópicos 4/5] resumo do relatório de erros no terminal
+    cout << "Relatório de erros: " << total_erros() << " erro(s), "
+         << total_avisos() << " aviso(s)." << endl;
     
     return (status == 0) ? 0 : 1;
 }

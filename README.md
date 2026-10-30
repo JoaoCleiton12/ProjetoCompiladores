@@ -6,6 +6,33 @@ O projeto realiza a identificação de tokens, validação de convenções rígi
 
 ---
 
+## Análise Sintática — Tópicos 4 e 5 (enum e genset)
+
+Declarações de **classes enumeradas** e **generalization sets** são reconhecidas pelo parser Bison,
+com tabela de síntese e relatório de erros com sugestões. Documentação completa (gramática BNF,
+erros tratados, alterações nos arquivos compartilhados): [`docs/TOPICOS_4_5_ENUM_GENSET.md`](docs/TOPICOS_4_5_ENUM_GENSET.md).
+
+```tonto
+enum EyeColor { Blue, Green, Brown, Black }
+
+disjoint complete genset PersonAgeGroup where Child, Adult specializes Person
+
+genset PersonAgeGroup {
+    general Person
+    specifics Child, Adult
+}
+```
+
+```bash
+make
+./sintatico input/teste_enum_genset.txt          # casos válidos
+./sintatico input/teste_erros_enum_genset.txt    # um caso para cada erro tratado
+```
+
+Requer **Bison 3.6+** e Flex 2.6+.
+
+---
+
 ## Estrutura das Regras de Identificação
 
 O analisador utiliza expressões regulares personalizadas no Flex para categorizar e validar cada token da linguagem:
@@ -69,7 +96,7 @@ Ctrl + Shift + B
 
 * **Executar (a partir da raiz do projeto):**
 ```bash
-./build/classes
+./build/sintatico input/teste1.txt
 ```
 
 #### Opção B: Via `Makefile`
@@ -81,9 +108,9 @@ A forma mais simples e direta. Compila os arquivos diretamente na raiz do projet
 make
 ```
 
-* **Executar:**
+* **Executar** (o arquivo de entrada pode ser passado como argumento):
 ```bash
-./classes
+./sintatico input/teste1.txt
 ```
 
 * **Limpar arquivos compilados:**
@@ -95,19 +122,20 @@ make clean
 
 Caso a sua máquina não possua utilitários de build instalados:
 
-1. **Gerar o arquivo C++ do lexer:**
+1. **Gerar o parser e o lexer:**
 ```bash
-flex -o lex.yy.cc classes.l
+bison -d parser.y -o parser.tab.cpp
+flex -o lex.yy.c classes.l
 ```
 
 2. **Compilar o executável com o `g++`:**
 ```bash
-g++ -std=c++11 -Wall lex.yy.cc main.cpp -o classes
+g++ -std=c++11 -Wall parser.tab.cpp lex.yy.c main.cpp relatorio_erros.cpp enum_genset.cpp -o sintatico
 ```
 
 3. **Executar:**
 ```bash
-./classes
+./sintatico input/teste1.txt
 ```
 
 ---

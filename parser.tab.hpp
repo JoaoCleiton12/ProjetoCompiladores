@@ -70,7 +70,22 @@ extern int yydebug;
     ERRO_DATATYPE = 271,           /* ERRO_DATATYPE  */
     SIMBOLO_ESPECIAL = 272,        /* SIMBOLO_ESPECIAL  */
     INVALIDO_CLASSE = 273,         /* INVALIDO_CLASSE  */
-    INVALIDO = 274                 /* INVALIDO  */
+    INVALIDO = 274,                /* INVALIDO  */
+    ENUM = 275,                    /* ENUM  */
+    GENSET = 276,                  /* GENSET  */
+    DISJOINT = 277,                /* DISJOINT  */
+    OVERLAPPING = 278,             /* OVERLAPPING  */
+    COMPLETE = 279,                /* COMPLETE  */
+    INCOMPLETE = 280,              /* INCOMPLETE  */
+    GENERAL = 281,                 /* GENERAL  */
+    SPECIFICS = 282,               /* SPECIFICS  */
+    CATEGORIZER = 283,             /* CATEGORIZER  */
+    WHERE = 284,                   /* WHERE  */
+    SPECIALIZES = 285,             /* SPECIALIZES  */
+    ABRE_CHAVE = 286,              /* ABRE_CHAVE  */
+    FECHA_CHAVE = 287,             /* FECHA_CHAVE  */
+    VIRGULA = 288,                 /* VIRGULA  */
+    REDUZ_INCOMPLETO = 289         /* REDUZ_INCOMPLETO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -79,12 +94,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "parser.y"
+#line 43 "parser.y"
 
     char* str;
     int num;
 
-#line 88 "parser.tab.hpp"
+#line 103 "parser.tab.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -92,9 +107,23 @@ typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
+/* Location type.  */
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE YYLTYPE;
+struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+};
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
 
 extern YYSTYPE yylval;
-
+extern YYLTYPE yylloc;
 
 int yyparse (void);
 
