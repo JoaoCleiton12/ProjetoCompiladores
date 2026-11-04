@@ -52,6 +52,8 @@ static bool eh_simbolo_solto(const char* s) {
 %token <str> ERRO_DATATYPE
 %token SIMBOLO_ESPECIAL INVALIDO_CLASSE
 %token <str> INVALIDO
+%token ABRE_COLCHETE FECHA_COLCHETE PONTOS ASTERISCO
+%type <str> limite_card
 
 /* [Tópicos 4/5] Palavras reservadas e delimitadores de enum / genset */
 %token ENUM GENSET DISJOINT OVERLAPPING COMPLETE INCOMPLETE
@@ -110,11 +112,23 @@ elemento:
 
 // Esta regra agora cobre todos os formatos numéricos, como [1], [*], [1..*] e [0..5]
 cardinalidade:
-    SIMBOLO_ESPECIAL NUMERO SIMBOLO_ESPECIAL
-    | SIMBOLO_ESPECIAL SIMBOLO_ESPECIAL SIMBOLO_ESPECIAL
-    | SIMBOLO_ESPECIAL NUMERO SIMBOLO_ESPECIAL SIMBOLO_ESPECIAL SIMBOLO_ESPECIAL
-    | SIMBOLO_ESPECIAL NUMERO SIMBOLO_ESPECIAL NUMERO SIMBOLO_ESPECIAL
-    | SIMBOLO_ESPECIAL SIMBOLO_ESPECIAL SIMBOLO_ESPECIAL SIMBOLO_ESPECIAL SIMBOLO_ESPECIAL
+    ABRE_COLCHETE limite_card FECHA_COLCHETE
+    | ABRE_COLCHETE limite_card PONTOS limite_card FECHA_COLCHETE {
+        string lo = $2, hi = $4;
+        if (lo == "*" && hi != "*")
+            registrar_erro(@1.first_line, @1.first_column, "Cardinalidade",
+                "Limite inferior '*' com limite superior numérico.",
+                "Use [*] ou [n..*].");
+        else if (lo != "*" && hi != "*" && stol(lo) > stol(hi))
+            registrar_erro(@1.first_line, @1.first_column, "Cardinalidade",
+                "Limite inferior (" + lo + ") maior que o superior (" + hi + ").",
+                "Inverta os limites: [" + hi + ".." + lo + "].");
+    }
+    ;
+
+limite_card:
+    NUMERO { $$ = $1; }
+    | ASTERISCO { $$ = strdup("*"); }
     ;
 
 // Regra atualizada para capturar o nome da relação no meio (ex: -- tem_Massa --)
@@ -133,7 +147,7 @@ token_invalido:
     PACKAGE | RELATION | DATATYPE | DOIS_PONTOS | BARRA | CLASSE | ID_ATRIBUTO | DADOS_CRIADOS | RELACOES
     | INSTANCIA | NUMERO | ESTEREOTIPO_CLASSE | PALAVRA_RESERVADA | DADOS_NATIVOS
     | META_ATRIBUTOS | ERRO_DATATYPE | SIMBOLO_ESPECIAL | INVALIDO_CLASSE
-    | INVALIDO | ESTEREOTIPO_RELACAO
+    | INVALIDO | ESTEREOTIPO_RELACAO| ABRE_COLCHETE | FECHA_COLCHETE | PONTOS | ASTERISCO
     /* [Tópicos 4/5] tokens que antes eram PALAVRA_RESERVADA / SIMBOLO_ESPECIAL e
        também aparecem em classes/datatypes (ex.: specializes, { } ,). enum, genset e
        as restrições NÃO entram aqui, pois iniciam as declarações dos tópicos 4 e 5. */
@@ -179,7 +193,7 @@ nome_classe_decl:
     ;
 
 especializacao_classe_opt:
-    /* vazio */
+    %empty
     | SPECIALIZES lista_especializacoes_classe
     | SPECIALIZES {
         registrar_erro(@1.first_line, @1.first_column, "Classe",
@@ -212,7 +226,7 @@ corpo_classe_opt:
     ;
 
 membros_classe_opt:
-    /* vazio */
+    %empty
     | membros_classe
     ;
 
@@ -227,8 +241,8 @@ membro_classe:
     ;
 
 atributo_classe:
-    meta_atributo_prefix_opt nome_atributo DOIS_PONTOS tipo_atributo meta_atributo_opt cardinalidade_opt {
-        string meta = ($1 && *$1) ? string($1) : string($5 ? $5 : "");
+    meta_atributo_prefix_opt nome_atributo DOIS_PONTOS tipo_atributo cardinalidade_opt meta_atributo_opt {
+        string meta = ($1 && *$1) ? string($1) : string($6 ? $6 : "");
         classe_adicionar_atributo($2, $4, meta.c_str(), @2.first_line, @2.first_column);
     }
     ;
@@ -251,17 +265,17 @@ tipo_atributo:
     ;
 
 meta_atributo_prefix_opt:
-    /* vazio */ { $$ = strdup(""); }
+    %empty { $$ = strdup(""); }
     | BARRA META_ATRIBUTOS { $$ = $2; }
     ;
 
 meta_atributo_opt:
-    /* vazio */ { $$ = strdup(""); }
+    %empty { $$ = strdup(""); }
     | ABRE_CHAVE META_ATRIBUTOS FECHA_CHAVE { $$ = $2; }
     ;
 
 cardinalidade_opt:
-    /* vazio */
+    %empty
     | cardinalidade
     ;
 
@@ -276,21 +290,19 @@ declaracao_datatype:
     DATATYPE nome_datatype {
         datatype_iniciar($2, @1.first_line, @1.first_column);
     }
+    corpo_datatype
+    ;
+
+corpo_datatype:
     ABRE_CHAVE membros_datatype_opt FECHA_CHAVE {
-        datatype_finalizar(false, @6.last_line);
+        datatype_finalizar(false, @3.last_line);
     }
-    | DATATYPE nome_datatype {
-        datatype_iniciar($2, @1.first_line, @1.first_column);
-    }
-    ABRE_CHAVE error FECHA_CHAVE {
-        datatype_finalizar(true, @6.last_line);
+    | ABRE_CHAVE error FECHA_CHAVE {
+        datatype_finalizar(true, @3.last_line);
         yyerrok;
     }
-    | DATATYPE nome_datatype {
-        datatype_iniciar($2, @1.first_line, @1.first_column);
-    }
-    ABRE_CHAVE error %prec REDUZ_INCOMPLETO {
-        datatype_finalizar(true, @5.last_line);
+    | ABRE_CHAVE error %prec REDUZ_INCOMPLETO {
+        datatype_finalizar(true, @2.last_line);
         yyerrok;
     }
     ;
@@ -306,7 +318,7 @@ nome_datatype:
     ;
 
 membros_datatype_opt:
-    /* vazio */
+    %empty
     | membros_datatype
     ;
 
@@ -316,8 +328,8 @@ membros_datatype:
     ;
 
 atributo_datatype:
-    nome_atributo DOIS_PONTOS tipo_atributo meta_atributo_opt cardinalidade_opt {
-        datatype_adicionar_atributo($1, $3, $4, @1.first_line, @1.first_column);
+    nome_atributo DOIS_PONTOS tipo_atributo cardinalidade_opt meta_atributo_opt {
+        datatype_adicionar_atributo($1, $3, $5, @1.first_line, @1.first_column);
     }
     ;
 
@@ -373,7 +385,7 @@ nome_enum:
             capitalizar(sanitizar_identificador($1)) + "'.");
         $$ = $1;
     }
-    | /* vazio */ {
+    | %empty {
         registrar_erro(@$.first_line, @$.first_column, "Enum",
             "Declaração de enum sem nome.",
             "Informe o nome logo após 'enum': enum NomeDoEnum { Literal1, Literal2 }.");
@@ -382,7 +394,7 @@ nome_enum:
     ;
 
 especializacao_enum_opt:
-    /* vazio */
+    %empty
     | SPECIALIZES lista_especializacao_enum
     | SPECIALIZES {
         registrar_erro(@1.first_line, @1.first_column, contexto_enum_genset(),
@@ -407,7 +419,7 @@ corpo_enum:
     ;
 
 literais_enum_opt:
-    /* vazio */
+    %empty
     | lista_literais_enum
     | lista_literais_enum VIRGULA {
         registrar_erro(@2.first_line, @2.first_column, contexto_enum_genset(),
@@ -498,7 +510,7 @@ declaracao_genset:
     ;
 
 modificadores_genset:
-    /* vazio */ { $$ = 0; }
+    %empty { $$ = 0; }
     | modificadores_genset modificador_genset {
         int antes = $1, novo = $2;
         int l = @2.first_line, c = @2.first_column;
@@ -557,7 +569,7 @@ nome_genset:
             "Use letras e sublinhado: '" + capitalizar(sanitizar_identificador($1)) + "'.");
         $$ = $1;
     }
-    | /* vazio */ {
+    | %empty {
         registrar_erro(@$.first_line, @$.first_column, "Genset",
             "Generalization set sem nome.",
             "Informe o nome logo após 'genset': genset NomeDoGenset { ... }.");
@@ -621,7 +633,7 @@ corpo_genset:
             "Generalization set sem a cláusula 'general'.",
             "Informe a classe-mãe antes das filhas: general ClasseMae.");
     }
-    | /* vazio */ {
+    | %empty {
         registrar_erro(@$.first_line, @$.first_column, contexto_enum_genset(),
             "Generalization set com corpo vazio.",
             "Preencha o bloco: { general ClasseMae specifics Filha1, Filha2 }.");
@@ -638,7 +650,7 @@ clausula_general:
     ;
 
 clausula_categorizer_opt:
-    /* vazio */
+    %empty
     | CATEGORIZER ref_classe { genset_definir_categorizador($2, @2.first_line, @2.first_column); }
     ;
 
@@ -753,6 +765,10 @@ static string descrever_token(yysymbol_kind_t t) {
         case YYSYMBOL_ABRE_CHAVE:          return "'{'";
         case YYSYMBOL_FECHA_CHAVE:         return "'}'";
         case YYSYMBOL_VIRGULA:             return "','";
+        case YYSYMBOL_ABRE_COLCHETE:  return "'['";
+        case YYSYMBOL_FECHA_COLCHETE: return "']'";
+        case YYSYMBOL_PONTOS:         return "'..'";
+        case YYSYMBOL_ASTERISCO:      return "'*'";
         default:                           return yysymbol_name(t);
     }
 }

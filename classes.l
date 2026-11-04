@@ -28,6 +28,7 @@ static int coluna_atual = 1;
 
 %option noyywrap
 %option yylineno
+%option nounput noinput
 
 delim [ \t\n]
 brancos {delim}+
@@ -74,7 +75,7 @@ invalido [^ \t\n{},()\[\]@:*\./]+
 "mode" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
 "intrisicMode" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
 "extrinsicMode" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
-"subKind" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"subkind" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
 "phase" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
 "role" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
 "historicalRole" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
@@ -163,6 +164,10 @@ invalido [^ \t\n{},()\[\]@:*\./]+
 "{" return ABRE_CHAVE;
 "}" return FECHA_CHAVE;
 "," return VIRGULA;
+"[" return ABRE_COLCHETE;
+"]" return FECHA_COLCHETE;
+".." return PONTOS;
+"*" return ASTERISCO;
 
 {simbolo_especial} return SIMBOLO_ESPECIAL;
 

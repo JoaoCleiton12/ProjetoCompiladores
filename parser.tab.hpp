@@ -74,21 +74,25 @@ extern int yydebug;
     SIMBOLO_ESPECIAL = 275,        /* SIMBOLO_ESPECIAL  */
     INVALIDO_CLASSE = 276,         /* INVALIDO_CLASSE  */
     INVALIDO = 277,                /* INVALIDO  */
-    ENUM = 278,                    /* ENUM  */
-    GENSET = 279,                  /* GENSET  */
-    DISJOINT = 280,                /* DISJOINT  */
-    OVERLAPPING = 281,             /* OVERLAPPING  */
-    COMPLETE = 282,                /* COMPLETE  */
-    INCOMPLETE = 283,              /* INCOMPLETE  */
-    GENERAL = 284,                 /* GENERAL  */
-    SPECIFICS = 285,               /* SPECIFICS  */
-    CATEGORIZER = 286,             /* CATEGORIZER  */
-    WHERE = 287,                   /* WHERE  */
-    SPECIALIZES = 288,             /* SPECIALIZES  */
-    ABRE_CHAVE = 289,              /* ABRE_CHAVE  */
-    FECHA_CHAVE = 290,             /* FECHA_CHAVE  */
-    VIRGULA = 291,                 /* VIRGULA  */
-    REDUZ_INCOMPLETO = 292         /* REDUZ_INCOMPLETO  */
+    ABRE_COLCHETE = 278,           /* ABRE_COLCHETE  */
+    FECHA_COLCHETE = 279,          /* FECHA_COLCHETE  */
+    PONTOS = 280,                  /* PONTOS  */
+    ASTERISCO = 281,               /* ASTERISCO  */
+    ENUM = 282,                    /* ENUM  */
+    GENSET = 283,                  /* GENSET  */
+    DISJOINT = 284,                /* DISJOINT  */
+    OVERLAPPING = 285,             /* OVERLAPPING  */
+    COMPLETE = 286,                /* COMPLETE  */
+    INCOMPLETE = 287,              /* INCOMPLETE  */
+    GENERAL = 288,                 /* GENERAL  */
+    SPECIFICS = 289,               /* SPECIFICS  */
+    CATEGORIZER = 290,             /* CATEGORIZER  */
+    WHERE = 291,                   /* WHERE  */
+    SPECIALIZES = 292,             /* SPECIALIZES  */
+    ABRE_CHAVE = 293,              /* ABRE_CHAVE  */
+    FECHA_CHAVE = 294,             /* FECHA_CHAVE  */
+    VIRGULA = 295,                 /* VIRGULA  */
+    REDUZ_INCOMPLETO = 296         /* REDUZ_INCOMPLETO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -102,7 +106,7 @@ union YYSTYPE
     char* str;
     int num;
 
-#line 106 "parser.tab.hpp"
+#line 110 "parser.tab.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;
