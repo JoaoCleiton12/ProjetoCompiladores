@@ -102,11 +102,59 @@ O analisador utiliza expressões regulares personalizadas no Flex para categoriz
 | **Nomes de Relações** | Identificadores que iniciam com letra minúscula. Não há mais exigência dos prefixos `has`/`is`. |
 | **Instâncias** | Aceitam letras e sublinhados, mas devem terminar obrigatoriamente com um ou mais números inteiros. |
 | **Identificadores de Atributo** | Nomes iniciados por letra minúscula (`camelCase`), identificados contextualmente pela presença do delimitador de dois pontos (`:`) à sua direita. |
-| **Tipos de Dados do Usuário** | Tipos customizados que devem obrigatoriamente terminar com o sufixo exato `DataType`. |
+| **Tipos de Dados do Usuário** | Tipos customizados declarados por `datatype`; o nome pode ser uma classe convencional ou terminar com o sufixo `DataType`. |
 | **Estereótipos e Palavras Reservadas** | Palavras-chave da linguagem (ex: `kind`, `role`, `material`, `package`, `genset`, etc). |
 | **Símbolos Especiais** | Delimitadores, operadores de cardinalidade e conectores OntoUML (`{`, `}`, `[`, `]`, `..`, `<>--`, `--<>`, `--`, `@`, etc). |
 
 ---
+
+
+## Análise Sintática — Tópicos 2 e 3: Classes e Tipos de Dados
+
+O analisador também reconhece declarações de classes OntoUML e tipos de dados
+personalizados.
+
+### Declaração de classes
+
+```tonto
+kind Person {
+    name: string
+    birthDate: date {const}
+}
+
+phase Child specializes Person
+```
+
+A declaração aceita um estereótipo de classe, um nome, uma lista opcional de
+especializações e um corpo opcional. Dentro do corpo são reconhecidos atributos
+no formato `nome: tipo`, meta-atributos como `{const}` e `/derived`, além de
+relações internas no formato OntoUML já utilizado pelo projeto.
+
+### Declaração de tipos de dados
+
+```tonto
+datatype Address {
+    street: string
+    number: int
+}
+```
+
+Os tipos nativos reconhecidos são `number`, `string`, `boolean`, `date`, `time`
+e `datetime`. O tipo `int` também é aceito como compatibilidade com o exemplo
+da especificação que utiliza `number: int`. Tipos personalizados podem ser
+referenciados por atributos de classes e de outros datatypes.
+
+### Verificações e síntese
+
+O módulo `classes_datatypes.cpp` registra classes, datatypes e atributos,
+verifica identificadores e atributos duplicados, e verifica referências a
+tipos personalizados após a leitura do arquivo. A saída inclui totais e uma
+síntese detalhada de atributos e relações internas.
+
+Arquivos de teste adicionados:
+
+- `input/teste_classes_datatypes.txt`
+- `input/teste_erros_classes_datatypes.txt`
 
 ## Como Compilar e Executar
 
@@ -211,3 +259,4 @@ Para rodar este teste, execute no terminal:
 ```bash
 ./sintatico input/teste_erros.txt
 ```
+    

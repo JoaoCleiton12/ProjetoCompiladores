@@ -7,6 +7,7 @@
 #include "tabela_simbolos.h"
 #include "relatorio_erros.h"   /* [Tópicos 4/5] relatório de erros com sugestões */
 #include "enum_genset.h"       /* [Tópicos 4/5] enum e genset                    */
+#include "classes_datatypes.h" /* [Tópicos 2/3] classes e tipos de dados          */
 
 using namespace std;
 
@@ -45,10 +46,11 @@ static bool eh_simbolo_solto(const char* s) {
     int num;
 }
 
-%token PACKAGE RELATION
-%token <str> ESTEREOTIPO_RELACAO CLASSE ID_ATRIBUTO DADOS_CRIADOS RELACOES INSTANCIA NUMERO
-%token ESTEREOTIPO_CLASSE PALAVRA_RESERVADA DADOS_NATIVOS META_ATRIBUTOS
-%token ERRO_DATATYPE SIMBOLO_ESPECIAL INVALIDO_CLASSE
+%token PACKAGE RELATION DATATYPE DOIS_PONTOS BARRA
+%token <str> ESTEREOTIPO_RELACAO ESTEREOTIPO_CLASSE CLASSE ID_ATRIBUTO DADOS_CRIADOS RELACOES INSTANCIA NUMERO DADOS_NATIVOS META_ATRIBUTOS
+%token PALAVRA_RESERVADA
+%token <str> ERRO_DATATYPE
+%token SIMBOLO_ESPECIAL INVALIDO_CLASSE
 %token <str> INVALIDO
 
 /* [Tópicos 4/5] Palavras reservadas e delimitadores de enum / genset */
@@ -63,7 +65,7 @@ static bool eh_simbolo_solto(const char* s) {
 %precedence REDUZ_INCOMPLETO
 %precedence FECHA_CHAVE SPECIALIZES VIRGULA CLASSE RELACOES INSTANCIA INVALIDO
 
-%type <str> nome_enum literal_enum ref_classe nome_genset
+%type <str> nome_enum literal_enum ref_classe nome_genset tipo_atributo meta_atributo_opt meta_atributo_prefix_opt nome_datatype nome_atributo nome_classe_decl
 %type <num> modificadores_genset modificador_genset
 
 %%
@@ -97,6 +99,8 @@ elemento:
     | declaracao_relacao_interna
     | declaracao_enum            /* Tópico 4 */
     | declaracao_genset          /* Tópico 5 */
+    | declaracao_classe          /* Tópico 2 */
+    | declaracao_datatype        /* Tópico 3 */
     | token_invalido // "Aspirador de pó" para ignorar o código dos colegas com segurança
     | error {
         enum_genset_recuperar_erro();   /* [Tópicos 4/5] fecha enum/genset interrompido */
@@ -121,15 +125,12 @@ declaracao_relacao_externa:
     ;
 
 declaracao_relacao_interna:
-    SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO cardinalidade SIMBOLO_ESPECIAL cardinalidade CLASSE {
-        string identificador = string("Interna_") + $2 + "_para_" + $6 + "_L" + to_string(yylineno);
-        inserir_simbolo(identificador, "Relação Interna", yylineno);
-    }
+    relacao_interna
     ;
 
 // Mapeamento de tudo que não nos interessa para ser ignorado silenciosamente
 token_invalido:
-    PACKAGE | RELATION | CLASSE | ID_ATRIBUTO | DADOS_CRIADOS | RELACOES
+    PACKAGE | RELATION | DATATYPE | DOIS_PONTOS | BARRA | CLASSE | ID_ATRIBUTO | DADOS_CRIADOS | RELACOES
     | INSTANCIA | NUMERO | ESTEREOTIPO_CLASSE | PALAVRA_RESERVADA | DADOS_NATIVOS
     | META_ATRIBUTOS | ERRO_DATATYPE | SIMBOLO_ESPECIAL | INVALIDO_CLASSE
     | INVALIDO | ESTEREOTIPO_RELACAO
@@ -138,6 +139,195 @@ token_invalido:
        as restrições NÃO entram aqui, pois iniciam as declarações dos tópicos 4 e 5. */
     | SPECIALIZES | ABRE_CHAVE | FECHA_CHAVE | VIRGULA
     | GENERAL | SPECIFICS | CATEGORIZER | WHERE
+    ;
+
+/* ======================================================================== */
+/*  TÓPICO 2 — DECLARAÇÃO DE CLASSES                                        */
+/*                                                                          */
+/*  Ex.: kind Person { name: string birthDate: date {const} }               */
+/*       phase Child specializes Person                                    */
+/*  Classes também podem conter relações internas no formato OntoUML.       */
+/* ======================================================================== */
+
+declaracao_classe:
+    ESTEREOTIPO_CLASSE nome_classe_decl {
+        classe_iniciar($1, $2, @1.first_line, @1.first_column);
+    }
+    especializacao_classe_opt corpo_classe_opt
+    ;
+
+nome_classe_decl:
+    CLASSE { $$ = $1; }
+    | RELACOES {
+        registrar_erro(@1.first_line, @1.first_column, "Classe",
+            string("Nome de classe '") + $1 + "' inicia com letra minúscula.",
+            "Nomes de classe iniciam com maiúscula: '" + capitalizar($1) + "'.");
+        $$ = $1;
+    }
+    | INSTANCIA {
+        registrar_erro(@1.first_line, @1.first_column, "Classe",
+            string("Nome de classe '") + $1 + "' contém números.",
+            "Remova os números do nome da classe: '" + remover_digitos($1) + "'.");
+        $$ = $1;
+    }
+    | INVALIDO {
+        registrar_erro(@1.first_line, @1.first_column, "Classe",
+            string("Nome de classe '") + $1 + "' " + motivo_lexema_invalido($1) + ".",
+            "Use letras e sublinhado, com inicial maiúscula.");
+        $$ = $1;
+    }
+    ;
+
+especializacao_classe_opt:
+    /* vazio */
+    | SPECIALIZES lista_especializacoes_classe
+    | SPECIALIZES {
+        registrar_erro(@1.first_line, @1.first_column, "Classe",
+            "'specializes' sem classe especializada.",
+            "Informe a classe-mãe: phase Child specializes Person.");
+    }
+    ;
+
+lista_especializacoes_classe:
+    CLASSE { classe_adicionar_especializacao($1, @1.first_line, @1.first_column); }
+    | lista_especializacoes_classe VIRGULA CLASSE {
+        classe_adicionar_especializacao($3, @3.first_line, @3.first_column);
+    }
+    ;
+
+corpo_classe_opt:
+    /* classe sem atributos ou relações */
+    %empty { classe_finalizar(false, @$.last_line); }
+    | ABRE_CHAVE membros_classe_opt FECHA_CHAVE {
+        classe_finalizar(false, @3.last_line);
+    }
+    | ABRE_CHAVE error FECHA_CHAVE {
+        classe_finalizar(true, @3.last_line);
+        yyerrok;
+    }
+    | ABRE_CHAVE error %prec REDUZ_INCOMPLETO {
+        classe_finalizar(true, @2.last_line);
+        yyerrok;
+    }
+    ;
+
+membros_classe_opt:
+    /* vazio */
+    | membros_classe
+    ;
+
+membros_classe:
+    membro_classe
+    | membros_classe membro_classe
+    ;
+
+membro_classe:
+    atributo_classe
+    | relacao_interna
+    ;
+
+atributo_classe:
+    meta_atributo_prefix_opt nome_atributo DOIS_PONTOS tipo_atributo meta_atributo_opt cardinalidade_opt {
+        string meta = ($1 && *$1) ? string($1) : string($5 ? $5 : "");
+        classe_adicionar_atributo($2, $4, meta.c_str(), @2.first_line, @2.first_column);
+    }
+    ;
+
+nome_atributo:
+    ID_ATRIBUTO { $$ = $1; }
+    | RELACOES { $$ = $1; }
+    ;
+
+tipo_atributo:
+    DADOS_NATIVOS { $$ = $1; }
+    | CLASSE { $$ = $1; }
+    | DADOS_CRIADOS { $$ = $1; }
+    | ERRO_DATATYPE {
+        registrar_erro(@1.first_line, @1.first_column, "DataType",
+            string("Tipo de dado '") + $1 + "' utiliza capitalização incorreta do sufixo DataType.",
+            "Utilize o sufixo exato 'DataType' ou declare o tipo com a palavra-chave datatype.");
+        $$ = $1;
+    }
+    ;
+
+meta_atributo_prefix_opt:
+    /* vazio */ { $$ = strdup(""); }
+    | BARRA META_ATRIBUTOS { $$ = $2; }
+    ;
+
+meta_atributo_opt:
+    /* vazio */ { $$ = strdup(""); }
+    | ABRE_CHAVE META_ATRIBUTOS FECHA_CHAVE { $$ = $2; }
+    ;
+
+cardinalidade_opt:
+    /* vazio */
+    | cardinalidade
+    ;
+
+/* ======================================================================== */
+/*  TÓPICO 3 — DECLARAÇÃO DE TIPOS DE DADOS                                 */
+/*                                                                          */
+/*  Ex.: datatype Address { street: string number: int }                    */
+/*  São aceitos os seis tipos nativos e tipos customizados já declarados.   */
+/* ======================================================================== */
+
+declaracao_datatype:
+    DATATYPE nome_datatype {
+        datatype_iniciar($2, @1.first_line, @1.first_column);
+    }
+    ABRE_CHAVE membros_datatype_opt FECHA_CHAVE {
+        datatype_finalizar(false, @6.last_line);
+    }
+    | DATATYPE nome_datatype {
+        datatype_iniciar($2, @1.first_line, @1.first_column);
+    }
+    ABRE_CHAVE error FECHA_CHAVE {
+        datatype_finalizar(true, @6.last_line);
+        yyerrok;
+    }
+    | DATATYPE nome_datatype {
+        datatype_iniciar($2, @1.first_line, @1.first_column);
+    }
+    ABRE_CHAVE error %prec REDUZ_INCOMPLETO {
+        datatype_finalizar(true, @5.last_line);
+        yyerrok;
+    }
+    ;
+nome_datatype:
+    CLASSE { $$ = $1; }
+    | DADOS_CRIADOS { $$ = $1; }
+    | ERRO_DATATYPE {
+        registrar_erro(@1.first_line, @1.first_column, "DataType",
+            string("Nome de tipo de dado '") + $1 + "' utiliza capitalização incorreta do sufixo.",
+            "Quando utilizar o sufixo, escreva exatamente 'DataType' (D e T maiúsculos).");
+        $$ = $1;
+    }
+    ;
+
+membros_datatype_opt:
+    /* vazio */
+    | membros_datatype
+    ;
+
+membros_datatype:
+    atributo_datatype
+    | membros_datatype atributo_datatype
+    ;
+
+atributo_datatype:
+    nome_atributo DOIS_PONTOS tipo_atributo meta_atributo_opt cardinalidade_opt {
+        datatype_adicionar_atributo($1, $3, $4, @1.first_line, @1.first_column);
+    }
+    ;
+
+/* Relação interna reutilizada tanto no nível global quanto dentro de classe. */
+relacao_interna:
+    SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO cardinalidade SIMBOLO_ESPECIAL cardinalidade CLASSE {
+        string identificador = string("Interna_") + $2 + "_para_" + $6 + "_L" + to_string(@1.first_line);
+        inserir_simbolo(identificador, "Relação Interna", @1.first_line);
+        classe_adicionar_relacao_interna(@1.first_line);
+    }
     ;
 
 /* ======================================================================== */
@@ -532,6 +722,9 @@ static string descrever_token(yysymbol_kind_t t) {
     switch (t) {
         case YYSYMBOL_YYEOF:               return "fim do arquivo";
         case YYSYMBOL_PACKAGE:             return "'package'";
+        case YYSYMBOL_DATATYPE:            return "'datatype'";
+        case YYSYMBOL_DOIS_PONTOS:         return "':'";
+        case YYSYMBOL_BARRA:               return "'/'";
         case YYSYMBOL_RELATION:            return "'relation'";
         case YYSYMBOL_ESTEREOTIPO_RELACAO: return "estereótipo de relação";
         case YYSYMBOL_CLASSE:              return "nome de classe";
@@ -612,7 +805,7 @@ static int yyreport_syntax_error(const yypcontext_t* ctx) {
         inesperado == YYSYMBOL_YYEOF || inesperado == YYSYMBOL_ENUM || inesperado == YYSYMBOL_GENSET ||
         inesperado == YYSYMBOL_DISJOINT || inesperado == YYSYMBOL_OVERLAPPING ||
         inesperado == YYSYMBOL_COMPLETE || inesperado == YYSYMBOL_INCOMPLETE ||
-        inesperado == YYSYMBOL_PACKAGE || inesperado == YYSYMBOL_ESTEREOTIPO_CLASSE;
+        inesperado == YYSYMBOL_PACKAGE || inesperado == YYSYMBOL_DATATYPE || inesperado == YYSYMBOL_ESTEREOTIPO_CLASSE;
 
     /* o token inesperado é uma palavra reservada/estereótipo (não pode ser nome)? */
     bool eh_reservada = desc_ja_eh_lexema || inesperado == YYSYMBOL_ESTEREOTIPO_CLASSE ||

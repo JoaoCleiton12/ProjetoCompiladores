@@ -20,4 +20,4 @@ add_executable(sintatico
     ${FLEX_Lexer_OUTPUTS}
     main.cpp
     relatorio_erros.cpp
-    enum_genset.cpp)
+    enum_genset.cpp\n    classes_datatypes.cpp)

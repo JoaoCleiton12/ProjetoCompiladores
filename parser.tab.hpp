@@ -56,36 +56,39 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     PACKAGE = 258,                 /* PACKAGE  */
     RELATION = 259,                /* RELATION  */
-    ESTEREOTIPO_RELACAO = 260,     /* ESTEREOTIPO_RELACAO  */
-    CLASSE = 261,                  /* CLASSE  */
-    ID_ATRIBUTO = 262,             /* ID_ATRIBUTO  */
-    DADOS_CRIADOS = 263,           /* DADOS_CRIADOS  */
-    RELACOES = 264,                /* RELACOES  */
-    INSTANCIA = 265,               /* INSTANCIA  */
-    NUMERO = 266,                  /* NUMERO  */
-    ESTEREOTIPO_CLASSE = 267,      /* ESTEREOTIPO_CLASSE  */
-    PALAVRA_RESERVADA = 268,       /* PALAVRA_RESERVADA  */
-    DADOS_NATIVOS = 269,           /* DADOS_NATIVOS  */
-    META_ATRIBUTOS = 270,          /* META_ATRIBUTOS  */
-    ERRO_DATATYPE = 271,           /* ERRO_DATATYPE  */
-    SIMBOLO_ESPECIAL = 272,        /* SIMBOLO_ESPECIAL  */
-    INVALIDO_CLASSE = 273,         /* INVALIDO_CLASSE  */
-    INVALIDO = 274,                /* INVALIDO  */
-    ENUM = 275,                    /* ENUM  */
-    GENSET = 276,                  /* GENSET  */
-    DISJOINT = 277,                /* DISJOINT  */
-    OVERLAPPING = 278,             /* OVERLAPPING  */
-    COMPLETE = 279,                /* COMPLETE  */
-    INCOMPLETE = 280,              /* INCOMPLETE  */
-    GENERAL = 281,                 /* GENERAL  */
-    SPECIFICS = 282,               /* SPECIFICS  */
-    CATEGORIZER = 283,             /* CATEGORIZER  */
-    WHERE = 284,                   /* WHERE  */
-    SPECIALIZES = 285,             /* SPECIALIZES  */
-    ABRE_CHAVE = 286,              /* ABRE_CHAVE  */
-    FECHA_CHAVE = 287,             /* FECHA_CHAVE  */
-    VIRGULA = 288,                 /* VIRGULA  */
-    REDUZ_INCOMPLETO = 289         /* REDUZ_INCOMPLETO  */
+    DATATYPE = 260,                /* DATATYPE  */
+    DOIS_PONTOS = 261,             /* DOIS_PONTOS  */
+    BARRA = 262,                   /* BARRA  */
+    ESTEREOTIPO_RELACAO = 263,     /* ESTEREOTIPO_RELACAO  */
+    ESTEREOTIPO_CLASSE = 264,      /* ESTEREOTIPO_CLASSE  */
+    CLASSE = 265,                  /* CLASSE  */
+    ID_ATRIBUTO = 266,             /* ID_ATRIBUTO  */
+    DADOS_CRIADOS = 267,           /* DADOS_CRIADOS  */
+    RELACOES = 268,                /* RELACOES  */
+    INSTANCIA = 269,               /* INSTANCIA  */
+    NUMERO = 270,                  /* NUMERO  */
+    DADOS_NATIVOS = 271,           /* DADOS_NATIVOS  */
+    META_ATRIBUTOS = 272,          /* META_ATRIBUTOS  */
+    PALAVRA_RESERVADA = 273,       /* PALAVRA_RESERVADA  */
+    ERRO_DATATYPE = 274,           /* ERRO_DATATYPE  */
+    SIMBOLO_ESPECIAL = 275,        /* SIMBOLO_ESPECIAL  */
+    INVALIDO_CLASSE = 276,         /* INVALIDO_CLASSE  */
+    INVALIDO = 277,                /* INVALIDO  */
+    ENUM = 278,                    /* ENUM  */
+    GENSET = 279,                  /* GENSET  */
+    DISJOINT = 280,                /* DISJOINT  */
+    OVERLAPPING = 281,             /* OVERLAPPING  */
+    COMPLETE = 282,                /* COMPLETE  */
+    INCOMPLETE = 283,              /* INCOMPLETE  */
+    GENERAL = 284,                 /* GENERAL  */
+    SPECIFICS = 285,               /* SPECIFICS  */
+    CATEGORIZER = 286,             /* CATEGORIZER  */
+    WHERE = 287,                   /* WHERE  */
+    SPECIALIZES = 288,             /* SPECIALIZES  */
+    ABRE_CHAVE = 289,              /* ABRE_CHAVE  */
+    FECHA_CHAVE = 290,             /* FECHA_CHAVE  */
+    VIRGULA = 291,                 /* VIRGULA  */
+    REDUZ_INCOMPLETO = 292         /* REDUZ_INCOMPLETO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -94,12 +97,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 43 "parser.y"
+#line 44 "parser.y"
 
     char* str;
     int num;
 
-#line 103 "parser.tab.hpp"
+#line 106 "parser.tab.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -46,7 +46,7 @@ classe_invalida_minuscula [a-z]+({segmento})+
 instancia {letras}+(_{letras}+)*{digitos}+
 simbolo_especial "{"|"}"|"("|")"|"["|"]"|".."|"<>--"|"--<>"|"*"|"@"|":"|"--"|","|"<>"
 id_atributo {letra_minuscula}{alfanumerico}*
-invalido [^ \t\n{},()\[\]@:*\.]+
+invalido [^ \t\n{},()\[\]@:*\./]+
 
 %%
 {brancos}   ;
@@ -59,26 +59,26 @@ invalido [^ \t\n{},()\[\]@:*\.]+
 "package" return PACKAGE;
 "relation" return RELATION;
     /* estereotipos de classe*/
-"event" return ESTEREOTIPO_CLASSE;
-"situation" return ESTEREOTIPO_CLASSE;
-"process" return ESTEREOTIPO_CLASSE;
-"category" return ESTEREOTIPO_CLASSE;
-"mixin" return ESTEREOTIPO_CLASSE;
-"phaseMixin" return ESTEREOTIPO_CLASSE;
-"roleMixin" return ESTEREOTIPO_CLASSE;
-"historicalRoleMixin" return ESTEREOTIPO_CLASSE;
-"kind" return ESTEREOTIPO_CLASSE;
-"collective" return ESTEREOTIPO_CLASSE;
-"quantity" return ESTEREOTIPO_CLASSE;
-"quality" return ESTEREOTIPO_CLASSE;
-"mode" return ESTEREOTIPO_CLASSE;
-"intrisicMode" return ESTEREOTIPO_CLASSE;
-"extrinsicMode" return ESTEREOTIPO_CLASSE;
-"subKind" return ESTEREOTIPO_CLASSE;
-"phase" return ESTEREOTIPO_CLASSE;
-"role" return ESTEREOTIPO_CLASSE;
-"historicalRole" return ESTEREOTIPO_CLASSE;
-"relator" return ESTEREOTIPO_CLASSE;
+"event" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"situation" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"process" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"category" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"mixin" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"phaseMixin" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"roleMixin" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"historicalRoleMixin" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"kind" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"collective" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"quantity" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"quality" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"mode" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"intrisicMode" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"extrinsicMode" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"subKind" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"phase" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"role" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"historicalRole" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
+"relator" {yylval.str = strdup(yytext); return ESTEREOTIPO_CLASSE;}
 
     /* esteriotipos de relacoes */
 "material" {yylval.str = strdup(yytext); return ESTEREOTIPO_RELACAO;}
@@ -126,20 +126,21 @@ invalido [^ \t\n{},()\[\]@:*\.]+
 "import" return PALAVRA_RESERVADA;
 "functional-complexes" return PALAVRA_RESERVADA;
 "relation" return PALAVRA_RESERVADA;
-"datatype" return PALAVRA_RESERVADA;
+"datatype" return DATATYPE;
     /* dados nativos */
-"number" return DADOS_NATIVOS;
-"string" return DADOS_NATIVOS;
-"boolean" return DADOS_NATIVOS;
-"date" return DADOS_NATIVOS;
-"time" return DADOS_NATIVOS;
-"datetime" return DADOS_NATIVOS;
+"number" {yylval.str = strdup(yytext); return DADOS_NATIVOS;}
+"string" {yylval.str = strdup(yytext); return DADOS_NATIVOS;}
+"boolean" {yylval.str = strdup(yytext); return DADOS_NATIVOS;}
+"date" {yylval.str = strdup(yytext); return DADOS_NATIVOS;}
+"time" {yylval.str = strdup(yytext); return DADOS_NATIVOS;}
+"datetime" {yylval.str = strdup(yytext); return DADOS_NATIVOS;}
+"int" {yylval.str = strdup(yytext); return DADOS_NATIVOS;} /* compatibilidade com o exemplo datatype Address */
     /* Meta-atributos */
-"ordered" return META_ATRIBUTOS;
-"const" return META_ATRIBUTOS;
-"derived" return META_ATRIBUTOS;
-"subsets" return META_ATRIBUTOS;
-"redefines" return META_ATRIBUTOS;
+"ordered" {yylval.str = strdup(yytext); return META_ATRIBUTOS;}
+"const" {yylval.str = strdup(yytext); return META_ATRIBUTOS;}
+"derived" {yylval.str = strdup(yytext); return META_ATRIBUTOS;}
+"subsets" {yylval.str = strdup(yytext); return META_ATRIBUTOS;}
+"redefines" {yylval.str = strdup(yytext); return META_ATRIBUTOS;}
 
     /* caputa de texto */
 {novo_tipo_dado} {yylval.str = strdup(yytext); return DADOS_CRIADOS;}
@@ -150,9 +151,13 @@ invalido [^ \t\n{},()\[\]@:*\.]+
 
 {instancia} {yylval.str = strdup(yytext); return INSTANCIA;}
 
-{tipo_dado_incorreto} return ERRO_DATATYPE;
+{tipo_dado_incorreto} {yylval.str = strdup(yytext); return ERRO_DATATYPE;}
 
 {classe} {yylval.str = strdup(yytext); return CLASSE;}
+
+    /* Delimitadores dedicados para atributos e blocos */
+":" return DOIS_PONTOS;
+"/" return BARRA;
 
     /* [Tópicos 4/5] delimitadores usados em enum/genset com token próprio */
 "{" return ABRE_CHAVE;

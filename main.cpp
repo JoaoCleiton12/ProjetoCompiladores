@@ -7,6 +7,7 @@
 #include "tabela_simbolos.h"
 #include "relatorio_erros.h"  // [Tópicos 4/5] relatório de erros com sugestões
 #include "enum_genset.h"      // [Tópicos 4/5] enum e genset
+#include "classes_datatypes.h" // [Tópicos 2/3] classes e tipos de dados
 
 using namespace std;
 
@@ -48,6 +49,7 @@ int main(int argc, char* argv[]) {
 
     // [Tópicos 4/5] verificações que dependem do arquivo inteiro (referências de gensets)
     verificar_referencias_enum_genset();
+    verificar_referencias_classes_datatypes();
 
     // --- ORDENAÇÃO DOS DADOS ---
     // Copia os dados da Hash Table para um Vector para poder ordenar
@@ -68,6 +70,8 @@ int main(int argc, char* argv[]) {
     int cont_pacotes = 0;
     int cont_relacoes_ext = 0;
     int cont_relacoes_int = 0;
+    int cont_classes = 0;  // [Tópico 2]
+    int cont_datatypes = 0; // [Tópico 3]
     int cont_enums = 0;    // [Tópicos 4/5]
     int cont_gensets = 0;  // [Tópicos 4/5]
 
@@ -90,6 +94,8 @@ int main(int argc, char* argv[]) {
             if (sim.categoria == "Pacote") cont_pacotes++;
             else if (sim.categoria == "Relação Externa") cont_relacoes_ext++;
             else if (sim.categoria == "Relação Interna") cont_relacoes_int++;
+            else if (sim.categoria == "Classe") cont_classes++;    // [Tópico 2]
+            else if (sim.categoria == "Tipo de Dado") cont_datatypes++; // [Tópico 3]
             else if (sim.categoria == "Enum") cont_enums++;       // [Tópicos 4/5]
             else if (sim.categoria == "Genset") cont_gensets++;   // [Tópicos 4/5]
         }
@@ -102,12 +108,15 @@ int main(int argc, char* argv[]) {
     arquivo_saida << "Total de Pacotes...........: " << cont_pacotes << endl;
     arquivo_saida << "Total de Relações Externas.: " << cont_relacoes_ext << endl;
     arquivo_saida << "Total de Relações Internas.: " << cont_relacoes_int << endl;
+    arquivo_saida << "Total de Classes...........: " << cont_classes << endl;   // [Tópico 2]
+    arquivo_saida << "Total de DataTypes.........: " << cont_datatypes << endl; // [Tópico 3]
     arquivo_saida << "Total de Enums.............: " << cont_enums << endl;    // [Tópicos 4/5]
     arquivo_saida << "Total de Gensets...........: " << cont_gensets << endl;  // [Tópicos 4/5]
     arquivo_saida << "=====================================================" << endl;
 
     // [Tópicos 4/5] síntese detalhada de enums/gensets e relatório de erros da ontologia
     imprimir_sintese_enum_genset(arquivo_saida);
+    imprimir_sintese_classes_datatypes(arquivo_saida);
     imprimir_relatorio_erros(arquivo_saida);
 
     arquivo_saida.close();
