@@ -63,13 +63,13 @@ declaracao_relacao_interna:
 
 Atendendo aos requisitos de estrutura de dados, os elementos são armazenados em uma Tabela de Dispersão (`unordered_map`). A estratégia de anexar a linha ao identificador único das relações internas foi essencial para evitar a sobrescrita de chaves duplicadas na Hash Table, garantindo o armazenamento integral de todas as ocorrências do arquivo.
 
-#### 3. Recuperação de Erros ("Aspirador de Pó")
+#### 3. Recuperação de Erros
 
-Para lidar com o desenvolvimento modular em equipe, foi criada a técnica do **"Aspirador de Pó"** (`token_invalido`). Essa regra captura silenciosamente palavras reservadas e classes que pertencem aos escopos de outros membros. Em conjunto com a regra de falha (`error { yyerrok; }`), o Bison descarta blocos desconhecidos e continua a varredura das relações, sem disparar loops infinitos de erro sintático e sem poluir o terminal.
+Essa regra captura silenciosamente palavras reservadas e classes que pertencem aos escopos de outros membros. Em conjunto com a regra de falha (`error { yyerrok; }`), o Bison descarta blocos desconhecidos e continua a varredura das relações, sem disparar loops infinitos de erro sintático e sem poluir o terminal.
 
 #### 4. Ordenação da Saída
 
-Embora a Hash Table embaralhe os dados por natureza, o relatório final transfere os dados para um vetor dinâmico e os ordena (via `<algorithm>`) por Categoria e por número da Linha. Isso gera um arquivo `output/saida.txt` agrupado e organizado, acompanhado da Tabela de Síntese contabilizada.
+Embora a Hash Table embaralhe os dados por natureza, o relatório final transfere os dados para um vetor dinâmico e os ordena por Categoria e por número da Linha. Isso gera um arquivo `output/saida.txt` agrupado e organizado, acompanhado da Tabela de Síntese contabilizada.
 
 ---
 
