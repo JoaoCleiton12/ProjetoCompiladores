@@ -11,6 +11,31 @@ Linha: 11 | Categoria: Classe | Nome: Item_Da_Pizzaria
 Linha: 14 | Categoria: Classe | Nome: Massa_Da_Pizza
 Linha: 15 | Categoria: Classe | Nome: Cobertura_Da_Pizza
 Linha: 16 | Categoria: Classe | Nome: Borda_Da_Pizza
+Linha: 18 | Categoria: Classe | Nome: Bebida
+Linha: 19 | Categoria: Classe | Nome: Petisco
+Linha: 20 | Categoria: Classe | Nome: Agua
+Linha: 21 | Categoria: Classe | Nome: Refrigerante
+Linha: 22 | Categoria: Classe | Nome: Suco
+Linha: 23 | Categoria: Classe | Nome: Pizza
+Linha: 24 | Categoria: Classe | Nome: Massa_Fina_e_Crocante
+Linha: 25 | Categoria: Classe | Nome: Massa_Pan
+Linha: 26 | Categoria: Classe | Nome: Carne
+Linha: 27 | Categoria: Classe | Nome: Fruto_Do_Mar
+Linha: 28 | Categoria: Classe | Nome: Queijo
+Linha: 29 | Categoria: Classe | Nome: Vegetal
+Linha: 30 | Categoria: Classe | Nome: Borda_Sem_Recheio
+Linha: 31 | Categoria: Classe | Nome: Borda_Recheada
+Linha: 34 | Categoria: Classe | Nome: Calabresa
+Linha: 35 | Categoria: Classe | Nome: Presunto
+Linha: 36 | Categoria: Classe | Nome: Salame
+Linha: 37 | Categoria: Classe | Nome: Anchova
+Linha: 38 | Categoria: Classe | Nome: Atum
+Linha: 39 | Categoria: Classe | Nome: Camarao
+Linha: 40 | Categoria: Classe | Nome: Mussarela
+Linha: 41 | Categoria: Classe | Nome: Parmesao
+Linha: 42 | Categoria: Classe | Nome: Azeitona
+Linha: 43 | Categoria: Classe | Nome: Pimenta
+Linha: 44 | Categoria: Classe | Nome: Tomate
 Linha: 46 | Categoria: Classe | Nome: Dono_De_Pizzaria
 Linha: 47 | Categoria: Classe | Nome: Funcionario
 Linha: 48 | Categoria: Classe | Nome: Pizzaiolo
@@ -72,10 +97,44 @@ Linha: 160 | Categoria: Relação Interna | Nome: Interna_mediation_para_Item_Da
 Total de Pacotes...........: 1
 Total de Relações Externas.: 10
 Total de Relações Internas.: 15
-Total de Classes...........: 21
+Total de Classes...........: 46
 Total de DataTypes.........: 0
 Total de Enums.............: 1
 Total de Gensets...........: 12
+=====================================================
+
+=====================================================
+     SÍNTESE: PACOTES E RELAÇÕES — Tópicos 1 e 6     
+=====================================================
+Pacotes declarados: 1
+  package PizzariaMono (linha 1)
+Relações externas: 10
+  @material relation tem_Massa (Pizza -> Massa_Da_Pizza) | pacote: PizzariaMono | linha 115
+  @material relation tem_Cobertura (Pizza -> Cobertura_Da_Pizza) | pacote: PizzariaMono | linha 122
+  @material relation tem_Borda (Pizza -> Borda_Da_Pizza) | pacote: PizzariaMono | linha 129
+  @material relation anota (Atendente -> Lista_de_Itens) | pacote: PizzariaMono | linha 136
+  @material relation solicita (Cliente -> Lista_de_Itens) | pacote: PizzariaMono | linha 137
+  @material relation atendido_Por (Cliente -> Atendente) | pacote: PizzariaMono | linha 138
+  @material relation prepara (Pizzaiolo -> Pizza) | pacote: PizzariaMono | linha 146
+  @material relation compra_Em (Cliente -> Pizzaria) | pacote: PizzariaMono | linha 153
+  @material relation vende (Pizzaria -> Item_Da_Pizzaria) | pacote: PizzariaMono | linha 154
+  @material relation compra (Cliente -> Item_Da_Pizzaria) | pacote: PizzariaMono | linha 155
+Relações internas: 15
+  @memberOf -> Item_Da_Pizzaria (Interna_memberOf_para_Item_Da_Pizzaria_L57) | pacote: PizzariaMono | linha 57
+  @mediation -> Massa_Da_Pizza (Interna_mediation_para_Massa_Da_Pizza_L118) | pacote: PizzariaMono | linha 118
+  @mediation -> Pizza (Interna_mediation_para_Pizza_L119) | pacote: PizzariaMono | linha 119
+  @mediation -> Cobertura_Da_Pizza (Interna_mediation_para_Cobertura_Da_Pizza_L125) | pacote: PizzariaMono | linha 125
+  @mediation -> Pizza (Interna_mediation_para_Pizza_L126) | pacote: PizzariaMono | linha 126
+  @mediation -> Borda_Da_Pizza (Interna_mediation_para_Borda_Da_Pizza_L132) | pacote: PizzariaMono | linha 132
+  @mediation -> Pizza (Interna_mediation_para_Pizza_L133) | pacote: PizzariaMono | linha 133
+  @mediation -> Atendente (Interna_mediation_para_Atendente_L141) | pacote: PizzariaMono | linha 141
+  @mediation -> Cliente (Interna_mediation_para_Cliente_L142) | pacote: PizzariaMono | linha 142
+  @mediation -> Lista_de_Itens (Interna_mediation_para_Lista_de_Itens_L143) | pacote: PizzariaMono | linha 143
+  @mediation -> Pizzaiolo (Interna_mediation_para_Pizzaiolo_L149) | pacote: PizzariaMono | linha 149
+  @mediation -> Pizza (Interna_mediation_para_Pizza_L150) | pacote: PizzariaMono | linha 150
+  @mediation -> Pizzaria (Interna_mediation_para_Pizzaria_L158) | pacote: PizzariaMono | linha 158
+  @mediation -> Cliente (Interna_mediation_para_Cliente_L159) | pacote: PizzariaMono | linha 159
+  @mediation -> Item_Da_Pizzaria (Interna_mediation_para_Item_Da_Pizzaria_L160) | pacote: PizzariaMono | linha 160
 =====================================================
 
 =====================================================
@@ -93,22 +152,22 @@ Total de literais (instâncias): 3
    SÍNTESE: GENERALIZAÇÕES (genset) — Tópico 5       
 =====================================================
 Total de generalization sets: 12  (forma curta 'where': 0, forma em bloco '{ }': 12)
-+----+-----------------------+--------------+-------+-------+-------------------+--------------------+---------------+--------------------------------------------------+-----------+
-| #  | Genset                | Pacote       | Linha | Forma | Restrições        | Geral              | Categorizador | Específicas                                      | Status    |
-+----+-----------------------+--------------+-------+-------+-------------------+--------------------+---------------+--------------------------------------------------+-----------+
-| 1  | Papel_Da_Pessoa       | PizzariaMono | 66    | bloco | disjoint complete | Pessoa             | -             | ClienteIndividual, Dono_De_Pizzaria, Funcionario | ok        |
-| 2  | Papel_Do_Funcionario  | PizzariaMono | 70    | bloco | disjoint complete | Funcionario        | -             | Pizzaiolo, Atendente                             | ok        |
-| 3  | Tipos_de_Clientes     | PizzariaMono | 74    | bloco | disjoint complete | Cliente            | -             | ClienteIndividual, ClienteEmpresarial            | ok        |
-| 4  | Opcao_De_Bebida       | PizzariaMono | 78    | bloco | disjoint complete | Bebida             | -             | Agua, Refrigerante, Suco                         | 4 erro(s) |
-| 5  | Opcao_De_Massa        | PizzariaMono | 82    | bloco | disjoint complete | Massa_Da_Pizza     | -             | Massa_Fina_e_Crocante, Massa_Pan                 | 2 erro(s) |
-| 6  | Opcao_De_Cobertura    | PizzariaMono | 86    | bloco | disjoint complete | Cobertura_Da_Pizza | -             | Carne, Fruto_Do_Mar, Queijo, Vegetal             | 4 erro(s) |
-| 7  | Opcao_De_Borda        | PizzariaMono | 90    | bloco | disjoint complete | Borda_Da_Pizza     | -             | Borda_Recheada, Borda_Sem_Recheio                | 2 erro(s) |
-| 8  | Opcao_De_Carne        | PizzariaMono | 94    | bloco | disjoint complete | Carne              | -             | Calabresa, Presunto, Salame                      | 4 erro(s) |
-| 9  | Opcao_De_Fruto_Do_Mar | PizzariaMono | 98    | bloco | disjoint complete | Fruto_Do_Mar       | -             | Anchova, Atum, Camarao                           | 4 erro(s) |
-| 10 | Opcao_De_Queijo       | PizzariaMono | 102   | bloco | disjoint complete | Queijo             | -             | Mussarela, Parmesao                              | 3 erro(s) |
-| 11 | Opcao_De_Vegetal      | PizzariaMono | 106   | bloco | disjoint complete | Vegetal            | -             | Azeitona, Pimenta, Tomate                        | 4 erro(s) |
-| 12 | Tipo_Do_Item          | PizzariaMono | 110   | bloco | disjoint complete | Item_Da_Pizzaria   | -             | Pizza, Bebida, Petisco                           | 3 erro(s) |
-+----+-----------------------+--------------+-------+-------+-------------------+--------------------+---------------+--------------------------------------------------+-----------+
++----+-----------------------+--------------+-------+-------+-------------------+--------------------+---------------+--------------------------------------------------+--------+
+| #  | Genset                | Pacote       | Linha | Forma | Restrições        | Geral              | Categorizador | Específicas                                      | Status |
++----+-----------------------+--------------+-------+-------+-------------------+--------------------+---------------+--------------------------------------------------+--------+
+| 1  | Papel_Da_Pessoa       | PizzariaMono | 66    | bloco | disjoint complete | Pessoa             | -             | ClienteIndividual, Dono_De_Pizzaria, Funcionario | ok     |
+| 2  | Papel_Do_Funcionario  | PizzariaMono | 70    | bloco | disjoint complete | Funcionario        | -             | Pizzaiolo, Atendente                             | ok     |
+| 3  | Tipos_de_Clientes     | PizzariaMono | 74    | bloco | disjoint complete | Cliente            | -             | ClienteIndividual, ClienteEmpresarial            | ok     |
+| 4  | Opcao_De_Bebida       | PizzariaMono | 78    | bloco | disjoint complete | Bebida             | -             | Agua, Refrigerante, Suco                         | ok     |
+| 5  | Opcao_De_Massa        | PizzariaMono | 82    | bloco | disjoint complete | Massa_Da_Pizza     | -             | Massa_Fina_e_Crocante, Massa_Pan                 | ok     |
+| 6  | Opcao_De_Cobertura    | PizzariaMono | 86    | bloco | disjoint complete | Cobertura_Da_Pizza | -             | Carne, Fruto_Do_Mar, Queijo, Vegetal             | ok     |
+| 7  | Opcao_De_Borda        | PizzariaMono | 90    | bloco | disjoint complete | Borda_Da_Pizza     | -             | Borda_Recheada, Borda_Sem_Recheio                | ok     |
+| 8  | Opcao_De_Carne        | PizzariaMono | 94    | bloco | disjoint complete | Carne              | -             | Calabresa, Presunto, Salame                      | ok     |
+| 9  | Opcao_De_Fruto_Do_Mar | PizzariaMono | 98    | bloco | disjoint complete | Fruto_Do_Mar       | -             | Anchova, Atum, Camarao                           | ok     |
+| 10 | Opcao_De_Queijo       | PizzariaMono | 102   | bloco | disjoint complete | Queijo             | -             | Mussarela, Parmesao                              | ok     |
+| 11 | Opcao_De_Vegetal      | PizzariaMono | 106   | bloco | disjoint complete | Vegetal            | -             | Azeitona, Pimenta, Tomate                        | ok     |
+| 12 | Tipo_Do_Item          | PizzariaMono | 110   | bloco | disjoint complete | Item_Da_Pizzaria   | -             | Pizza, Bebida, Petisco                           | ok     |
++----+-----------------------+--------------+-------+-------+-------------------+--------------------+---------------+--------------------------------------------------+--------+
 Gensets por restrição:  disjoint complete = 12;
 
 Taxonomia derivada dos gensets (classe-mãe -> classes filhas):
@@ -132,7 +191,7 @@ Enums e gensets por pacote:
 =====================================================
        SÍNTESE DE CLASSES E TIPOS DE DADOS
 =====================================================
-Classes declaradas: 21
+Classes declaradas: 46
   kind Pessoa | atributos: 2 | relações internas: 0
       - nome: string
       - cpf: string
@@ -144,6 +203,32 @@ Classes declaradas: 21
   kind Massa_Da_Pizza | atributos: 0 | relações internas: 0
   kind Cobertura_Da_Pizza | atributos: 0 | relações internas: 0
   kind Borda_Da_Pizza | atributos: 0 | relações internas: 0
+  subkind Bebida | atributos: 0 | relações internas: 0
+  subkind Petisco | atributos: 0 | relações internas: 0
+  subkind Agua | atributos: 0 | relações internas: 0
+  subkind Refrigerante | atributos: 0 | relações internas: 0
+  subkind Suco | atributos: 0 | relações internas: 0
+  subkind Pizza | atributos: 0 | relações internas: 0
+  subkind Massa_Fina_e_Crocante | atributos: 0 | relações internas: 0
+  subkind Massa_Pan | atributos: 0 | relações internas: 0
+  subkind Carne | atributos: 0 | relações internas: 0
+  subkind Fruto_Do_Mar | atributos: 0 | relações internas: 0
+  subkind Queijo | atributos: 0 | relações internas: 0
+  subkind Vegetal | atributos: 0 | relações internas: 0
+  subkind Borda_Sem_Recheio | atributos: 0 | relações internas: 0
+  subkind Borda_Recheada | atributos: 1 | relações internas: 0
+      - recheio_Da_Borda: Recheio_Da_Borda
+  subkind Calabresa | atributos: 0 | relações internas: 0
+  subkind Presunto | atributos: 0 | relações internas: 0
+  subkind Salame | atributos: 0 | relações internas: 0
+  subkind Anchova | atributos: 0 | relações internas: 0
+  subkind Atum | atributos: 0 | relações internas: 0
+  subkind Camarao | atributos: 0 | relações internas: 0
+  subkind Mussarela | atributos: 0 | relações internas: 0
+  subkind Parmesao | atributos: 0 | relações internas: 0
+  subkind Azeitona | atributos: 0 | relações internas: 0
+  subkind Pimenta | atributos: 0 | relações internas: 0
+  subkind Tomate | atributos: 0 | relações internas: 0
   role Dono_De_Pizzaria | atributos: 0 | relações internas: 0
   role Funcionario | atributos: 0 | relações internas: 0
   role Pizzaiolo | atributos: 0 | relações internas: 0
@@ -160,7 +245,7 @@ Classes declaradas: 21
   relator Preparo_Da_Pizza | atributos: 0 | relações internas: 2
   relator Venda_De_Alimento | atributos: 0 | relações internas: 3
 Tipos de dados declarados: 0
-Total de atributos em classes....: 5
+Total de atributos em classes....: 6
 Total de atributos em datatypes..: 0
 Total de relações internas.......: 15
 =====================================================
@@ -168,96 +253,5 @@ Total de relações internas.......: 15
 =====================================================
            RELATÓRIO DE ERROS DA ONTOLOGIA           
 =====================================================
-[ERRO]  Linha 79, Coluna 13 (Genset 'Opcao_De_Bebida')
-        Problema : Classe geral 'Bebida' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Bebida') ou corrija o nome.
-[ERRO]  Linha 80, Coluna 15 (Genset 'Opcao_De_Bebida')
-        Problema : Classe específica 'Agua' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Agua') ou corrija o nome.
-[ERRO]  Linha 80, Coluna 21 (Genset 'Opcao_De_Bebida')
-        Problema : Classe específica 'Refrigerante' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Refrigerante') ou corrija o nome.
-[ERRO]  Linha 80, Coluna 35 (Genset 'Opcao_De_Bebida')
-        Problema : Classe específica 'Suco' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Suco') ou corrija o nome.
-[ERRO]  Linha 84, Coluna 15 (Genset 'Opcao_De_Massa')
-        Problema : Classe específica 'Massa_Fina_e_Crocante' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Massa_Fina_e_Crocante') ou corrija o nome.
-[ERRO]  Linha 84, Coluna 38 (Genset 'Opcao_De_Massa')
-        Problema : Classe específica 'Massa_Pan' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Massa_Pan') ou corrija o nome.
-[ERRO]  Linha 88, Coluna 15 (Genset 'Opcao_De_Cobertura')
-        Problema : Classe específica 'Carne' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Carne') ou corrija o nome.
-[ERRO]  Linha 88, Coluna 22 (Genset 'Opcao_De_Cobertura')
-        Problema : Classe específica 'Fruto_Do_Mar' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Fruto_Do_Mar') ou corrija o nome.
-[ERRO]  Linha 88, Coluna 36 (Genset 'Opcao_De_Cobertura')
-        Problema : Classe específica 'Queijo' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Queijo') ou corrija o nome.
-[ERRO]  Linha 88, Coluna 44 (Genset 'Opcao_De_Cobertura')
-        Problema : Classe específica 'Vegetal' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Vegetal') ou corrija o nome.
-[ERRO]  Linha 92, Coluna 15 (Genset 'Opcao_De_Borda')
-        Problema : Classe específica 'Borda_Recheada' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Borda_Recheada') ou corrija o nome.
-[ERRO]  Linha 92, Coluna 31 (Genset 'Opcao_De_Borda')
-        Problema : Classe específica 'Borda_Sem_Recheio' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Borda_Sem_Recheio') ou corrija o nome.
-[ERRO]  Linha 95, Coluna 13 (Genset 'Opcao_De_Carne')
-        Problema : Classe geral 'Carne' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Carne') ou corrija o nome.
-[ERRO]  Linha 96, Coluna 15 (Genset 'Opcao_De_Carne')
-        Problema : Classe específica 'Calabresa' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Calabresa') ou corrija o nome.
-[ERRO]  Linha 96, Coluna 26 (Genset 'Opcao_De_Carne')
-        Problema : Classe específica 'Presunto' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Presunto') ou corrija o nome.
-[ERRO]  Linha 96, Coluna 36 (Genset 'Opcao_De_Carne')
-        Problema : Classe específica 'Salame' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Salame') ou corrija o nome.
-[ERRO]  Linha 99, Coluna 13 (Genset 'Opcao_De_Fruto_Do_Mar')
-        Problema : Classe geral 'Fruto_Do_Mar' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Fruto_Do_Mar') ou corrija o nome.
-[ERRO]  Linha 100, Coluna 15 (Genset 'Opcao_De_Fruto_Do_Mar')
-        Problema : Classe específica 'Anchova' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Anchova') ou corrija o nome.
-[ERRO]  Linha 100, Coluna 24 (Genset 'Opcao_De_Fruto_Do_Mar')
-        Problema : Classe específica 'Atum' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Atum') ou corrija o nome.
-[ERRO]  Linha 100, Coluna 30 (Genset 'Opcao_De_Fruto_Do_Mar')
-        Problema : Classe específica 'Camarao' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Camarao') ou corrija o nome.
-[ERRO]  Linha 103, Coluna 13 (Genset 'Opcao_De_Queijo')
-        Problema : Classe geral 'Queijo' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Queijo') ou corrija o nome.
-[ERRO]  Linha 104, Coluna 15 (Genset 'Opcao_De_Queijo')
-        Problema : Classe específica 'Mussarela' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Mussarela') ou corrija o nome.
-[ERRO]  Linha 104, Coluna 26 (Genset 'Opcao_De_Queijo')
-        Problema : Classe específica 'Parmesao' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Parmesao') ou corrija o nome.
-[ERRO]  Linha 107, Coluna 13 (Genset 'Opcao_De_Vegetal')
-        Problema : Classe geral 'Vegetal' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Vegetal') ou corrija o nome.
-[ERRO]  Linha 108, Coluna 15 (Genset 'Opcao_De_Vegetal')
-        Problema : Classe específica 'Azeitona' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Azeitona') ou corrija o nome.
-[ERRO]  Linha 108, Coluna 25 (Genset 'Opcao_De_Vegetal')
-        Problema : Classe específica 'Pimenta' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Pimenta') ou corrija o nome.
-[ERRO]  Linha 108, Coluna 34 (Genset 'Opcao_De_Vegetal')
-        Problema : Classe específica 'Tomate' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Tomate') ou corrija o nome.
-[ERRO]  Linha 112, Coluna 15 (Genset 'Tipo_Do_Item')
-        Problema : Classe específica 'Pizza' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Pizza') ou corrija o nome.
-[ERRO]  Linha 112, Coluna 22 (Genset 'Tipo_Do_Item')
-        Problema : Classe específica 'Bebida' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Bebida') ou corrija o nome.
-[ERRO]  Linha 112, Coluna 30 (Genset 'Tipo_Do_Item')
-        Problema : Classe específica 'Petisco' não foi declarada.
-        Sugestão : Declare a classe antes do genset (ex.: 'kind Petisco') ou corrija o nome.
------------------------------------------------------
-Total: 30 erro(s), 0 aviso(s)
+Nenhum erro ou aviso encontrado.
 =====================================================

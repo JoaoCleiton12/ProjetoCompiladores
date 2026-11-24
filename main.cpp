@@ -2,24 +2,20 @@
 #include <cstdio>
 #include <string>
 #include <fstream>
-#include <vector>
-#include <algorithm> // Biblioteca necessária para o sort()
 #include "tabela_simbolos.h"
-#include "relatorio_erros.h"  // [Tópicos 4/5] relatório de erros com sugestões
-#include "enum_genset.h"      // [Tópicos 4/5] enum e genset
-#include "classes_datatypes.h" // [Tópicos 2/3] classes e tipos de dados
+#include "pacotes_relacoes.h"
+#include "relatorio_erros.h"
+#include "enum_genset.h"
+#include "classes_datatypes.h"
 
 using namespace std;
 
 extern FILE* yyin;
 extern int yyparse();
 
-unordered_map<string, Simbolo> tabela_simbolos;
-ofstream arquivo_saida; 
-
 int main(int argc, char* argv[]) {
     string caminho_entrada = "input/teste1.txt";
-    string caminho_saida = "output/saida.txt"; 
+    string caminho_saida = "output/saida.txt";
 
     if (argc >= 2) {
         caminho_entrada = argv[1];
@@ -31,7 +27,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    arquivo_saida.open(caminho_saida);
+    ofstream arquivo_saida(caminho_saida);
     if (!arquivo_saida.is_open()) {
         cerr << "Erro ao criar o arquivo de saída: " << caminho_saida << endl;
         fclose(arquivo);
@@ -47,84 +43,26 @@ int main(int argc, char* argv[]) {
     int status = yyparse();
     fclose(arquivo);
 
-    // [Tópicos 4/5] verificações que dependem do arquivo inteiro (referências de gensets)
+    // Verificações semânticas pós-análise de cada módulo
+    verificar_referencias_pacotes_relacoes();
     verificar_referencias_enum_genset();
     verificar_referencias_classes_datatypes();
 
-    // --- ORDENAÇÃO DOS DADOS ---
-    // Copia os dados da Hash Table para um Vector para poder ordenar
-    vector<Simbolo> lista_ordenada;
-    for (const auto& par : tabela_simbolos) {
-        lista_ordenada.push_back(par.second);
-    }
+    // Impressão centralizada da Tabela de Símbolos e Síntese Geral
+    imprimir_tabela_simbolos(arquivo_saida);
+    imprimir_tabela_sintese(arquivo_saida);
 
-    // Ordena primeiro por Categoria (ordem alfabética) e depois por Linha
-    sort(lista_ordenada.begin(), lista_ordenada.end(), [](const Simbolo& a, const Simbolo& b) {
-        if (a.categoria == b.categoria) {
-            return a.linha_declaracao < b.linha_declaracao;
-        }
-        return a.categoria < b.categoria;
-    });
-
-    // Variáveis para a Tabela de Síntese
-    int cont_pacotes = 0;
-    int cont_relacoes_ext = 0;
-    int cont_relacoes_int = 0;
-    int cont_classes = 0;  // [Tópico 2]
-    int cont_datatypes = 0; // [Tópico 3]
-    int cont_enums = 0;    // [Tópicos 4/5]
-    int cont_gensets = 0;  // [Tópicos 4/5]
-
-    // 1. IMPRESSÃO DA TABELA DE SÍMBOLOS
-    arquivo_saida << "\n=====================================================" << endl;
-    arquivo_saida << "                 TABELA DE SÍMBOLOS                  " << endl;
-    arquivo_saida << "=====================================================" << endl;
-
-    if (lista_ordenada.empty()) {
-        arquivo_saida << "Nenhum símbolo estrutural foi registrado." << endl;
-    } else {
-        // Agora iteramos sobre a lista ordenada em vez da Hash Table embaralhada
-        for (const auto& sim : lista_ordenada) {
-            
-            arquivo_saida << "Linha: " << sim.linha_declaracao 
-                          << " | Categoria: " << sim.categoria 
-                          << " | Nome: " << sim.nome << endl;
-
-            // Incrementa os contadores
-            if (sim.categoria == "Pacote") cont_pacotes++;
-            else if (sim.categoria == "Relação Externa") cont_relacoes_ext++;
-            else if (sim.categoria == "Relação Interna") cont_relacoes_int++;
-            else if (sim.categoria == "Classe") cont_classes++;    // [Tópico 2]
-            else if (sim.categoria == "Tipo de Dado") cont_datatypes++; // [Tópico 3]
-            else if (sim.categoria == "Enum") cont_enums++;       // [Tópicos 4/5]
-            else if (sim.categoria == "Genset") cont_gensets++;   // [Tópicos 4/5]
-        }
-    }
-
-    // 2. IMPRESSÃO DA TABELA DE SÍNTESE
-    arquivo_saida << "\n=====================================================" << endl;
-    arquivo_saida << "                 TABELA DE SÍNTESE                   " << endl;
-    arquivo_saida << "=====================================================" << endl;
-    arquivo_saida << "Total de Pacotes...........: " << cont_pacotes << endl;
-    arquivo_saida << "Total de Relações Externas.: " << cont_relacoes_ext << endl;
-    arquivo_saida << "Total de Relações Internas.: " << cont_relacoes_int << endl;
-    arquivo_saida << "Total de Classes...........: " << cont_classes << endl;   // [Tópico 2]
-    arquivo_saida << "Total de DataTypes.........: " << cont_datatypes << endl; // [Tópico 3]
-    arquivo_saida << "Total de Enums.............: " << cont_enums << endl;    // [Tópicos 4/5]
-    arquivo_saida << "Total de Gensets...........: " << cont_gensets << endl;  // [Tópicos 4/5]
-    arquivo_saida << "=====================================================" << endl;
-
-    // [Tópicos 4/5] síntese detalhada de enums/gensets e relatório de erros da ontologia
+    // Sínteses específicas de cada módulo e relatório de erros
+    imprimir_sintese_pacotes_relacoes(arquivo_saida);
     imprimir_sintese_enum_genset(arquivo_saida);
     imprimir_sintese_classes_datatypes(arquivo_saida);
     imprimir_relatorio_erros(arquivo_saida);
 
     arquivo_saida.close();
-    
+
     cout << "Analise concluída! Resultados salvos e ordenados em: " << caminho_saida << endl;
-    // [Tópicos 4/5] resumo do relatório de erros no terminal
     cout << "Relatório de erros: " << total_erros() << " erro(s), "
          << total_avisos() << " aviso(s)." << endl;
-    
+
     return (status == 0) ? 0 : 1;
 }

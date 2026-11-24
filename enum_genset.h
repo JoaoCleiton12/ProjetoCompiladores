@@ -54,9 +54,6 @@ struct DeclGenset {
     bool com_erro;
 };
 
-/* Pacote corrente (chamado pela regra de declaração de pacote). */
-void definir_pacote_atual(const std::string& nome);
-
 /* Nome do construto em análise, usado para contextualizar erros sintáticos. */
 std::string contexto_enum_genset();
 bool em_enum();

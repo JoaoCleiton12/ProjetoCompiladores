@@ -19,5 +19,8 @@ add_executable(sintatico
     ${BISON_Parser_OUTPUTS}
     ${FLEX_Lexer_OUTPUTS}
     main.cpp
+    tabela_simbolos.cpp
+    pacotes_relacoes.cpp
     relatorio_erros.cpp
-    enum_genset.cpp\n    classes_datatypes.cpp)
+    enum_genset.cpp\n    
+    classes_datatypes.cpp)

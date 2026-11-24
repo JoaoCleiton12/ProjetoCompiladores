@@ -1,7 +1,7 @@
 #include "enum_genset.h"
 #include "relatorio_erros.h"
 #include "tabela_simbolos.h"
-
+#include "pacotes_relacoes.h"
 #include <algorithm>
 #include <cctype>
 #include <map>
@@ -14,8 +14,6 @@ using namespace std;
 /*  Estado                                                               */
 /* ===================================================================== */
 
-static string pacote_atual = "(sem pacote)";
-
 static vector<DeclEnum>   lista_enums;
 static vector<DeclGenset> lista_gensets;
 
@@ -24,8 +22,6 @@ static DeclEnum enum_corrente;
 
 static bool       genset_aberto = false;
 static DeclGenset genset_corrente;
-
-void definir_pacote_atual(const string& nome) { pacote_atual = nome; }
 
 const vector<DeclEnum>& enums_declarados() { return lista_enums; }
 const vector<DeclGenset>& gensets_declarados() { return lista_gensets; }
@@ -130,7 +126,7 @@ void enum_iniciar(const string& nome, int linha, int coluna) {
     if (enum_aberto) enum_finalizar(true, enum_corrente.linha);
     enum_corrente = DeclEnum();
     enum_corrente.nome = nome;
-    enum_corrente.pacote = pacote_atual;
+    enum_corrente.pacote = obter_pacote_atual();
     enum_corrente.linha = linha;
     enum_corrente.coluna = coluna;
     enum_corrente.com_erro = false;
@@ -183,11 +179,11 @@ void enum_finalizar(bool com_erro_sintatico, int linha_fim) {
                            "Nome '" + e.nome + "' já foi usado por outro " + categoria +
                                " (linha " + to_string(linha_ant) + ").",
                            "Renomeie um dos construtos; nomes de enums e gensets devem ser únicos.");
-        } else if (tabela_simbolos.count(e.nome)) {
+        } else if (const Simbolo* sim = buscar_simbolo(e.nome)) {
             registrar_erro(e.linha, e.coluna, ctx,
                            "Nome '" + e.nome + "' já foi declarado como " +
-                               tabela_simbolos[e.nome].categoria + " (linha " +
-                               to_string(tabela_simbolos[e.nome].linha_declaracao) + ").",
+                               sim->categoria + " (linha " +
+                               to_string(sim->linha_declaracao) + ").",
                            "Escolha outro nome para o enum.");
         } else {
             inserir_simbolo(e.nome, "Enum", e.linha);
@@ -216,7 +212,7 @@ void genset_iniciar(const string& nome, int modificadores, int linha, int coluna
     if (genset_aberto) genset_finalizar(true, genset_corrente.linha);
     genset_corrente = DeclGenset();
     genset_corrente.nome = nome;
-    genset_corrente.pacote = pacote_atual;
+    genset_corrente.pacote = obter_pacote_atual();
     genset_corrente.linha = linha;
     genset_corrente.coluna = coluna;
     genset_corrente.modificadores = modificadores;
@@ -275,11 +271,11 @@ void genset_finalizar(bool com_erro_sintatico, int linha_fim) {
                            "Cada conjunto de generalização deve ter nome único, de preferência "
                                "expressando o aspecto da classificação (ex.: 'Tipos_De_" +
                                (g.tem_geral ? g.geral.nome : string("Classe")) + "').");
-        } else if (tabela_simbolos.count(g.nome)) {
+        } else if (const Simbolo* sim = buscar_simbolo(g.nome)) {
             registrar_erro(g.linha, g.coluna, ctx,
                            "Nome '" + g.nome + "' já foi declarado como " +
-                               tabela_simbolos[g.nome].categoria + " (linha " +
-                               to_string(tabela_simbolos[g.nome].linha_declaracao) + ").",
+                               sim->categoria + " (linha " +
+                               to_string(sim->linha_declaracao) + ").",
                            "Use um nome próprio para o genset, diferente das classes que ele agrupa.");
         } else {
             inserir_simbolo(g.nome, "Genset", g.linha);
@@ -369,13 +365,13 @@ void verificar_referencias_enum_genset() {
     /* Referências a classes: só é possível verificar se a declaração de classes
        registrar os símbolos na tabela com categoria iniciada por "Classe". */
     bool ha_classes = false;
-    for (const auto& par : tabela_simbolos)
+    for (const auto& par : obter_tabela_simbolos())
         if (eh_categoria_classe(par.second.categoria)) { ha_classes = true; break; }
 
     auto verificar = [&](const DeclGenset& g, const Referencia& r, const string& papel) {
         string ctx = "Genset '" + g.nome + "'";
-        auto it = tabela_simbolos.find(r.nome);
-        if (it != tabela_simbolos.end() && it->second.categoria == "Enum") {
+        const Simbolo* sim = buscar_simbolo(r.nome);
+        if (sim && sim->categoria == "Enum") {
             registrar_erro(r.linha, r.coluna, ctx,
                            "'" + r.nome + "' é um enum e não pode ser " + papel + " de uma generalização.",
                            "Gensets relacionam classes (kind, subkind, role, phase...); "
@@ -383,15 +379,15 @@ void verificar_referencias_enum_genset() {
             return;
         }
         if (!ha_classes) return;
-        if (it == tabela_simbolos.end() || !eh_categoria_classe(it->second.categoria)) {
+        if (!sim || !eh_categoria_classe(sim->categoria)) {
             registrar_erro(r.linha, r.coluna, ctx,
                            "Classe " + papel + " '" + r.nome + "' não foi declarada.",
                            "Declare a classe antes do genset (ex.: 'kind " + r.nome +
-                               "') ou corrija o nome.");
-        } else if (it->second.linha_declaracao > g.linha) {
+                               "') ou corrija o name.");
+        } else if (sim->linha_declaracao > g.linha) {
             registrar_aviso(r.linha, r.coluna, ctx,
                             "Classe " + papel + " '" + r.nome + "' só é declarada depois (linha " +
-                                to_string(it->second.linha_declaracao) + ").",
+                                to_string(sim->linha_declaracao) + ").",
                             "Declare as classes antes do genset que as agrupa.");
         }
     };

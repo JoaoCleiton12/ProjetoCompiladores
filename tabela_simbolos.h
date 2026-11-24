@@ -1,30 +1,24 @@
 #ifndef TABELA_SIMBOLOS_H
 #define TABELA_SIMBOLOS_H
 
-#include <iostream>
+#include <ostream>
 #include <string>
 #include <unordered_map>
-#include <fstream>
-
-using namespace std;
 
 struct Simbolo {
-    string nome;
-    string categoria;
+    std::string nome;
+    std::string categoria;
     int linha_declaracao;
 };
 
-extern unordered_map<string, Simbolo> tabela_simbolos;
-extern ofstream arquivo_saida; // Declara que o arquivo de saída existe no main.cpp
+// Inserção e consultas encapsuladas
+bool inserir_simbolo(const std::string& nome, const std::string& categoria, int linha, int coluna = 0);
+bool simbolo_existe(const std::string& nome);
+const Simbolo* buscar_simbolo(const std::string& nome);
+const std::unordered_map<std::string, Simbolo>& obter_tabela_simbolos();
 
-inline void inserir_simbolo(string nome, string categoria, int linha) {
-    if (tabela_simbolos.find(nome) == tabela_simbolos.end()) {
-        tabela_simbolos[nome] = {nome, categoria, linha};
-    } else {
-        // Agora os avisos também vão para o arquivo de texto em vez do terminal
-        arquivo_saida << "[Aviso Semântico] Linha " << linha 
-                      << ": O símbolo '" << nome << "' já foi declarado!" << endl;
-    }
-}
+// Impressão da Tabela de Símbolos e da Tabela de Síntese Geral
+void imprimir_tabela_simbolos(std::ostream& out);
+void imprimir_tabela_sintese(std::ostream& out);
 
 #endif

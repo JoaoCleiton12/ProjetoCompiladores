@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cctype>
 #include "tabela_simbolos.h"
+#include "pacotes_relacoes.h"
 #include "relatorio_erros.h"   /* [Tópicos 4/5] relatório de erros com sugestões */
 #include "enum_genset.h"       /* [Tópicos 4/5] enum e genset                    */
 #include "classes_datatypes.h" /* [Tópicos 2/3] classes e tipos de dados          */
@@ -84,8 +85,8 @@ declaracoes_pacotes:
     ;
 
 declaracao_pacote:
-    PACKAGE CLASSE { inserir_simbolo($2, "Pacote", yylineno); definir_pacote_atual($2); }
-    | PACKAGE ID_ATRIBUTO { inserir_simbolo($2, "Pacote", yylineno); definir_pacote_atual($2); }
+    PACKAGE CLASSE { registrar_pacote($2, @1.first_line, @1.first_column); }
+    | PACKAGE ID_ATRIBUTO { registrar_pacote($2, @1.first_line, @1.first_column); }
     ;
 
 /* [Tópicos 4/5] lista não-vazia (equivalente à versão anterior com produção vazia):
@@ -134,7 +135,7 @@ limite_card:
 // Regra atualizada para capturar o nome da relação no meio (ex: -- tem_Massa --)
 declaracao_relacao_externa:
     SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO RELATION CLASSE cardinalidade SIMBOLO_ESPECIAL RELACOES SIMBOLO_ESPECIAL cardinalidade CLASSE {
-        inserir_simbolo($7, "Relação Externa", yylineno);
+        registrar_relacao_externa($2, $4, $7, $10, @1.first_line, @1.first_column);
     }
     ;
 
@@ -336,8 +337,7 @@ atributo_datatype:
 /* Relação interna reutilizada tanto no nível global quanto dentro de classe. */
 relacao_interna:
     SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO cardinalidade SIMBOLO_ESPECIAL cardinalidade CLASSE {
-        string identificador = string("Interna_") + $2 + "_para_" + $6 + "_L" + to_string(@1.first_line);
-        inserir_simbolo(identificador, "Relação Interna", @1.first_line);
+        registrar_relacao_interna($2, $6, @1.first_line, @1.first_column);
         classe_adicionar_relacao_interna(@1.first_line);
     }
     ;

@@ -58,7 +58,7 @@ void classe_iniciar(const char* estereotipo, const char* nome, int linha, int co
     string n = seguro(nome);
     if (n.empty()) return;
 
-    bool duplicado = nome_ja_declarado(n) || tabela_simbolos.find(n) != tabela_simbolos.end();
+    bool duplicado = nome_ja_declarado(n) || simbolo_existe(n);
     if (duplicado) {
         registrar_erro(linha, coluna, "Classe",
             "O identificador '" + n + "' já foi declarado.",
@@ -108,7 +108,7 @@ void datatype_iniciar(const char* nome, int linha, int coluna) {
     string n = seguro(nome);
     if (n.empty()) return;
 
-    bool duplicado = nome_ja_declarado(n) || tabela_simbolos.find(n) != tabela_simbolos.end();
+    bool duplicado = nome_ja_declarado(n) || simbolo_existe(n);
     if (duplicado) {
         registrar_erro(linha, coluna, "DataType",
             "O identificador '" + n + "' já foi declarado.",
