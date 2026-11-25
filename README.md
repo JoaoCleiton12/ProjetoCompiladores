@@ -10,6 +10,7 @@ O projeto realiza a identificação de tokens, a validação de convenções rí
 
 - [Análise Sintática — Pacotes e Relações](#️-análise-sintática--módulo-de-pacotes-e-relações-joão)
 - [Análise Sintática — Enum e Genset](#-análise-sintática--tópicos-4-e-5-enum-e-genset)
+- [Análise Semântica — Mode e RoleMixin](#análise-semântica--padrões-mode-e-rolemixin)
 - [Regras de Identificação (Léxico)](#-estrutura-das-regras-de-identificação-léxico)
 - [Como Compilar e Executar](#️-como-compilar-e-executar)
 - [Alterando o Arquivo de Entrada](#️-alterando-o-arquivo-de-entrada-de-teste)
@@ -89,6 +90,18 @@ genset PersonAgeGroup {
 ```
 
 > **Requisitos:** Bison 3.6+ e Flex 2.6+.
+
+---
+
+## Análise Semântica — Padrões Mode e RoleMixin
+
+Depois da análise sintática, o analisador semântico verifica os padrões de projeto **Mode** e **RoleMixin** sobre a tabela de símbolos. O "tipo" de cada classe é o seu estereótipo. Os padrões são identificados **por sobrecarga** (pelo tipo dos operandos de cada construção), e os erros com conversão permitida são corrigidos **por coerção** (`[COERÇÃO]` no relatório). A saída lista **(1) os padrões completos** e **(2) os padrões incompletos**, com o que falta em cada um. Documentação completa: [`docs/SEMANTICO_MODE_ROLEMIXIN.md`](docs/SEMANTICO_MODE_ROLEMIXIN.md).
+
+```bash
+make
+./sintatico input/teste_mode_rolemixin.txt               # padrões completos
+./sintatico input/teste_mode_rolemixin_incompletos.txt   # incompletos e coerções
+```
 
 ---
 

@@ -1,0 +1,24 @@
+package Padroes_Mode_RoleMixin
+
+// ===================== Mode pattern (completo) =====================
+kind Person
+kind Language
+
+mode Language_Fluency {
+    @characterization [1..*] -- [1] Person
+    @externalDependence [1..*] -- [1] Language
+}
+
+// ===================== RoleMixin pattern (completo) =====================
+// forma do enunciado: cada role especializa o seu kind E o roleMixin
+kind Organization
+
+roleMixin Customer
+
+role Personal_Customer specializes Person, Customer
+role Corporate_Customer specializes Organization, Customer
+
+disjoint complete genset Customer_Types {
+    general Customer
+    specifics Personal_Customer, Corporate_Customer
+}

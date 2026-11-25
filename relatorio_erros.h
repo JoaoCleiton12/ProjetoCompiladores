@@ -16,7 +16,9 @@
 #include <string>
 #include <vector>
 
-enum class Severidade { ERRO, AVISO };
+/* [Semântico] COERCAO: erro corrigido automaticamente pelo analisador
+   (conversão permitida pela linguagem, como int -> float no slide). */
+enum class Severidade { ERRO, AVISO, COERCAO };
 
 struct Ocorrencia {
     Severidade severidade;
@@ -31,9 +33,13 @@ void registrar_erro(int linha, int coluna, const std::string& construto,
                     const std::string& mensagem, const std::string& sugestao);
 void registrar_aviso(int linha, int coluna, const std::string& construto,
                      const std::string& mensagem, const std::string& sugestao);
+/* [Semântico] registra uma coerção: o problema encontrado e a correção aplicada. */
+void registrar_coercao(int linha, int coluna, const std::string& construto,
+                       const std::string& problema, const std::string& correcao);
 
 int total_erros();
 int total_avisos();
+int total_coercoes();   /* [Semântico] */
 const std::vector<Ocorrencia>& ocorrencias();
 
 void imprimir_relatorio_erros(std::ostream& out);

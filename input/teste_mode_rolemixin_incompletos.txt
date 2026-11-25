@@ -1,0 +1,68 @@
+package Padroes_Incompletos
+
+kind Person
+kind Car
+kind Organization
+kind Language
+subkind Truck specializes Car
+
+// ================= Mode: incompletos =================
+// sem nenhuma relação
+mode Headache
+
+// sem @externalDependence
+mode Skill {
+    @characterization [1..*] -- [1] Person
+}
+
+// portador não declarado
+mode Fear {
+    @characterization [1..*] -- [1] Animal
+    @externalDependence [1..*] -- [1] Car
+}
+
+// identificado por sobrecarga: relações de mode dentro de um kind
+kind Commitment {
+    @characterization [1..*] -- [1] Person
+    @externalDependence [1..*] -- [1] Organization
+}
+
+// ================= Mode: completo por coerção =================
+// portador [1..*] -> [1]   e   dependência externa [0..*] -> [1..*]
+mode Driving_License {
+    @characterization [1..*] -- [1..*] Person
+    @externalDependence [1..*] -- [0..*] Car
+}
+
+// ================= RoleMixin: incompletos =================
+// roleMixin sem genset
+roleMixin Renter
+role Personal_Renter specializes Person, Renter
+
+// genset overlapping e com uma só classe específica
+roleMixin Supplier
+role Person_Supplier specializes Person, Supplier
+overlapping complete genset Supplier_Types {
+    general Supplier
+    specifics Person_Supplier
+}
+
+// specific que não é role, role sem sortal e role fora do genset
+roleMixin Owner
+role Person_Owner specializes Person, Owner
+role Company_Owner specializes Owner
+role Extra_Owner specializes Organization, Owner
+disjoint complete genset Owner_Types {
+    general Owner
+    specifics Person_Owner, Company_Owner, Truck
+}
+
+// ================= RoleMixin: completo por coerção =================
+// genset sem 'disjoint complete' e roles sem 'specializes Member'
+roleMixin Member
+role Person_Member specializes Person
+role Organization_Member specializes Organization
+genset Member_Types {
+    general Member
+    specifics Person_Member, Organization_Member
+}

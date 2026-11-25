@@ -7,6 +7,7 @@
 #include "relatorio_erros.h"
 #include "enum_genset.h"
 #include "classes_datatypes.h"
+#include "padroes_mode_rolemixin.h"   // [Semântico] padrões Mode e RoleMixin
 
 using namespace std;
 
@@ -48,6 +49,9 @@ int main(int argc, char* argv[]) {
     verificar_referencias_enum_genset();
     verificar_referencias_classes_datatypes();
 
+    // [Semântico] análise dos padrões Mode e RoleMixin (depois de ler o arquivo inteiro)
+    analisar_padroes_mode_rolemixin();
+
     // Impressão centralizada da Tabela de Símbolos e Síntese Geral
     imprimir_tabela_simbolos(arquivo_saida);
     imprimir_tabela_sintese(arquivo_saida);
@@ -56,13 +60,15 @@ int main(int argc, char* argv[]) {
     imprimir_sintese_pacotes_relacoes(arquivo_saida);
     imprimir_sintese_enum_genset(arquivo_saida);
     imprimir_sintese_classes_datatypes(arquivo_saida);
+    imprimir_padroes_mode_rolemixin(arquivo_saida);   // [Semântico]
     imprimir_relatorio_erros(arquivo_saida);
 
     arquivo_saida.close();
 
     cout << "Analise concluída! Resultados salvos e ordenados em: " << caminho_saida << endl;
     cout << "Relatório de erros: " << total_erros() << " erro(s), "
-         << total_avisos() << " aviso(s)." << endl;
+         << total_avisos() << " aviso(s), "
+         << total_coercoes() << " coerção(ões)." << endl;   // [Semântico] coerções
 
     return (status == 0) ? 0 : 1;
 }

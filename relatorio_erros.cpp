@@ -21,13 +21,24 @@ void registrar_aviso(int linha, int coluna, const string& construto,
     registrar(Severidade::AVISO, linha, coluna, construto, mensagem, sugestao);
 }
 
+void registrar_coercao(int linha, int coluna, const string& construto,
+                       const string& problema, const string& correcao) {
+    registrar(Severidade::COERCAO, linha, coluna, construto, problema, correcao);
+}
+
 int total_erros() {
     return (int)count_if(lista_ocorrencias.begin(), lista_ocorrencias.end(),
                          [](const Ocorrencia& o) { return o.severidade == Severidade::ERRO; });
 }
 
 int total_avisos() {
-    return (int)lista_ocorrencias.size() - total_erros();
+    return (int)count_if(lista_ocorrencias.begin(), lista_ocorrencias.end(),
+                         [](const Ocorrencia& o) { return o.severidade == Severidade::AVISO; });
+}
+
+int total_coercoes() {
+    return (int)count_if(lista_ocorrencias.begin(), lista_ocorrencias.end(),
+                         [](const Ocorrencia& o) { return o.severidade == Severidade::COERCAO; });
 }
 
 const vector<Ocorrencia>& ocorrencias() { return lista_ocorrencias; }
@@ -51,15 +62,22 @@ void imprimir_relatorio_erros(ostream& out) {
                 });
 
     for (const Ocorrencia& o : ordenada) {
-        out << (o.severidade == Severidade::ERRO ? "[ERRO]  " : "[AVISO] ")
-            << "Linha " << o.linha;
+        if (o.severidade == Severidade::ERRO)       out << "[ERRO]     ";
+        else if (o.severidade == Severidade::AVISO) out << "[AVISO]    ";
+        else                                        out << "[COERÇÃO]  ";
+        out << "Linha " << o.linha;
         if (o.coluna > 0) out << ", Coluna " << o.coluna;
         out << " (" << o.construto << ")\n";
         out << "        Problema : " << o.mensagem << "\n";
-        if (!o.sugestao.empty())
-            out << "        Sugestão : " << o.sugestao << "\n";
+        if (!o.sugestao.empty()) {
+            if (o.severidade == Severidade::COERCAO)
+                out << "        Correção : " << o.sugestao << "\n";
+            else
+                out << "        Sugestão : " << o.sugestao << "\n";
+        }
     }
     out << "-----------------------------------------------------\n";
-    out << "Total: " << total_erros() << " erro(s), " << total_avisos() << " aviso(s)\n";
+    out << "Total: " << total_erros() << " erro(s), " << total_avisos() << " aviso(s), "
+        << total_coercoes() << " coerção(ões)\n";
     out << "=====================================================\n";
 }

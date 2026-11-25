@@ -22,5 +22,6 @@ add_executable(sintatico
     tabela_simbolos.cpp
     pacotes_relacoes.cpp
     relatorio_erros.cpp
-    enum_genset.cpp\n    
-    classes_datatypes.cpp)
+    enum_genset.cpp
+    classes_datatypes.cpp
+    padroes_mode_rolemixin.cpp)

@@ -9,6 +9,7 @@
 #include "relatorio_erros.h"   /* [Tópicos 4/5] relatório de erros com sugestões */
 #include "enum_genset.h"       /* [Tópicos 4/5] enum e genset                    */
 #include "classes_datatypes.h" /* [Tópicos 2/3] classes e tipos de dados          */
+#include "padroes_mode_rolemixin.h" /* [Semântico] padrões Mode e RoleMixin      */
 
 using namespace std;
 
@@ -55,6 +56,7 @@ static bool eh_simbolo_solto(const char* s) {
 %token <str> INVALIDO
 %token ABRE_COLCHETE FECHA_COLCHETE PONTOS ASTERISCO
 %type <str> limite_card
+%type <str> cardinalidade classe_ref_coagida   /* [Semântico] */
 
 /* [Tópicos 4/5] Palavras reservadas e delimitadores de enum / genset */
 %token ENUM GENSET DISJOINT OVERLAPPING COMPLETE INCOMPLETE
@@ -113,9 +115,10 @@ elemento:
 
 // Esta regra agora cobre todos os formatos numéricos, como [1], [*], [1..*] e [0..5]
 cardinalidade:
-    ABRE_COLCHETE limite_card FECHA_COLCHETE
+    ABRE_COLCHETE limite_card FECHA_COLCHETE { $$ = $2; }   /* [Semântico] valor: "1" ou "*" */
     | ABRE_COLCHETE limite_card PONTOS limite_card FECHA_COLCHETE {
         string lo = $2, hi = $4;
+        $$ = strdup((lo + ".." + hi).c_str());              /* [Semântico] valor: "1..*" */
         if (lo == "*" && hi != "*")
             registrar_erro(@1.first_line, @1.first_column, "Cardinalidade",
                 "Limite inferior '*' com limite superior numérico.",
@@ -196,7 +199,9 @@ nome_classe_decl:
 especializacao_classe_opt:
     %empty
     | SPECIALIZES lista_especializacoes_classe
-    | SPECIALIZES {
+    /* [Semântico] %prec: depois de 'specializes', um nome (com ou sem número)
+       continua a lista em vez de encerrar a declaração */
+    | SPECIALIZES %prec REDUZ_INCOMPLETO {
         registrar_erro(@1.first_line, @1.first_column, "Classe",
             "'specializes' sem classe especializada.",
             "Informe a classe-mãe: phase Child specializes Person.");
@@ -204,8 +209,8 @@ especializacao_classe_opt:
     ;
 
 lista_especializacoes_classe:
-    CLASSE { classe_adicionar_especializacao($1, @1.first_line, @1.first_column); }
-    | lista_especializacoes_classe VIRGULA CLASSE {
+    classe_ref_coagida { classe_adicionar_especializacao($1, @1.first_line, @1.first_column); }
+    | lista_especializacoes_classe VIRGULA classe_ref_coagida {
         classe_adicionar_especializacao($3, @3.first_line, @3.first_column);
     }
     ;
@@ -336,9 +341,28 @@ atributo_datatype:
 
 /* Relação interna reutilizada tanto no nível global quanto dentro de classe. */
 relacao_interna:
-    SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO cardinalidade SIMBOLO_ESPECIAL cardinalidade CLASSE {
+    SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO cardinalidade SIMBOLO_ESPECIAL cardinalidade classe_ref_coagida {
         registrar_relacao_interna($2, $6, @1.first_line, @1.first_column);
         classe_adicionar_relacao_interna(@1.first_line);
+        /* [Semântico] guarda a relação (dona, estereótipo, cardinalidades, alvo) */
+        padroes_registrar_relacao_interna(nome_classe_em_construcao(), $2, $3, $5, $6,
+                                          @1.first_line, @1.first_column);
+    }
+    ;
+
+/* [Semântico] Referência a uma classe com COERÇÃO de identificador.
+   Pela convenção léxica da 1ª unidade, nomes terminados em número são de
+   instância (ex.: ClassName1). Os modelos de padrão do enunciado usam esses
+   nomes para classes; quando aparecem onde se espera uma classe, o nome é
+   convertido para referência de classe e a análise continua. */
+classe_ref_coagida:
+    CLASSE { $$ = $1; }
+    | INSTANCIA {
+        registrar_coercao(@1.first_line, @1.first_column, "Coerção de identificador",
+            string("'") + $1 + "' tem formato de nome de instância (termina com número), "
+            "mas aparece onde se espera uma classe.",
+            string("Convertido para referência à classe '") + $1 + "'.");
+        $$ = $1;
     }
     ;
 
@@ -700,10 +724,11 @@ ref_classe:
         $$ = $1;
     }
     | INSTANCIA {
-        string ctx = contexto_enum_genset();
-        registrar_erro(@1.first_line, @1.first_column, ctx.empty() ? "Genset" : ctx,
-            string("'") + $1 + "' não é um nome de classe válido (contém números).",
-            "Nomes de classe não têm números; se for uma classe, use '" + remover_digitos($1) + "'.");
+        /* [Semântico] antes era erro; agora é corrigido por coerção (ver classe_ref_coagida) */
+        registrar_coercao(@1.first_line, @1.first_column, "Coerção de identificador",
+            string("'") + $1 + "' tem formato de nome de instância (termina com número), "
+            "mas aparece onde se espera uma classe.",
+            string("Convertido para referência à classe '") + $1 + "'.");
         $$ = $1;
     }
     | INVALIDO {

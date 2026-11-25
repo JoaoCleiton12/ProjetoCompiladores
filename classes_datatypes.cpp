@@ -204,4 +204,5 @@ void imprimir_sintese_classes_datatypes(ostream& out) {
 }
 
 const vector<DeclaracaoClasse>& classes_declaradas() { return lista_classes; }
+string nome_classe_em_construcao() { return classe_atual ? classe_atual->nome : string(); }
 const vector<DeclaracaoDataType>& datatypes_declarados() { return lista_datatypes; }

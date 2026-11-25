@@ -47,6 +47,9 @@ void verificar_referencias_classes_datatypes();
 void imprimir_sintese_classes_datatypes(std::ostream& out);
 
 const std::vector<DeclaracaoClasse>& classes_declaradas();
+/* [Semântico] nome da classe cujo bloco { } está sendo lido agora ("" se nenhuma).
+   Usado para saber a qual classe pertence cada relação interna. */
+std::string nome_classe_em_construcao();
 const std::vector<DeclaracaoDataType>& datatypes_declarados();
 
 #endif

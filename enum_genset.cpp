@@ -383,7 +383,7 @@ void verificar_referencias_enum_genset() {
             registrar_erro(r.linha, r.coluna, ctx,
                            "Classe " + papel + " '" + r.nome + "' não foi declarada.",
                            "Declare a classe antes do genset (ex.: 'kind " + r.nome +
-                               "') ou corrija o name.");
+                               "') ou corrija o nome.");
         } else if (sim->linha_declaracao > g.linha) {
             registrar_aviso(r.linha, r.coluna, ctx,
                             "Classe " + papel + " '" + r.nome + "' só é declarada depois (linha " +
