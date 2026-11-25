@@ -8,6 +8,7 @@
 #include "enum_genset.h"
 #include "classes_datatypes.h"
 #include "padroes_mode_rolemixin.h"   // [Semântico] padrões Mode e RoleMixin
+#include "padroes_subkind_relator.h"
 
 using namespace std;
 
@@ -38,7 +39,7 @@ int main(int argc, char* argv[]) {
     yyin = arquivo;
 
     arquivo_saida << "=====================================================" << endl;
-    arquivo_saida << "             INICIANDO ANÁLISE SINTÁTICA             " << endl;
+    arquivo_saida << "             INICIANDO ANÁLISE SEMÂNTICA             " << endl;
     arquivo_saida << "=====================================================" << endl;
 
     int status = yyparse();
@@ -50,6 +51,7 @@ int main(int argc, char* argv[]) {
     verificar_referencias_classes_datatypes();
 
     // [Semântico] análise dos padrões Mode e RoleMixin (depois de ler o arquivo inteiro)
+    analisar_padroes_subkind_relator();   // [Semântico] padrões Subkind e Relator
     analisar_padroes_mode_rolemixin();
 
     // Impressão centralizada da Tabela de Símbolos e Síntese Geral
@@ -60,6 +62,7 @@ int main(int argc, char* argv[]) {
     imprimir_sintese_pacotes_relacoes(arquivo_saida);
     imprimir_sintese_enum_genset(arquivo_saida);
     imprimir_sintese_classes_datatypes(arquivo_saida);
+    imprimir_padroes_subkind_relator(arquivo_saida);   // [Semântico]
     imprimir_padroes_mode_rolemixin(arquivo_saida);   // [Semântico]
     imprimir_relatorio_erros(arquivo_saida);
 

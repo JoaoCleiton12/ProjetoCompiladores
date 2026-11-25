@@ -24,4 +24,5 @@ add_executable(sintatico
     relatorio_erros.cpp
     enum_genset.cpp
     classes_datatypes.cpp
-    padroes_mode_rolemixin.cpp)
+    padroes_mode_rolemixin.cpp
+    padroes_subkind_relator.cpp)

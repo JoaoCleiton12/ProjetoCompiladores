@@ -137,8 +137,11 @@ limite_card:
 
 // Regra atualizada para capturar o nome da relação no meio (ex: -- tem_Massa --)
 declaracao_relacao_externa:
-    SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO RELATION CLASSE cardinalidade SIMBOLO_ESPECIAL RELACOES SIMBOLO_ESPECIAL cardinalidade CLASSE {
-        registrar_relacao_externa($2, $4, $7, $10, @1.first_line, @1.first_column);
+    SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO RELATION classe_ref_coagida cardinalidade SIMBOLO_ESPECIAL RELACOES SIMBOLO_ESPECIAL cardinalidade classe_ref_coagida {
+        registrar_relacao_externa($2, $4, $5, $7, $9, $10, @1.first_line, @1.first_column);
+    }
+    | SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO RELATION classe_ref_coagida cardinalidade RELACOES cardinalidade classe_ref_coagida {
+        registrar_relacao_externa($2, $4, $5, $6, $7, $8, @1.first_line, @1.first_column);
     }
     ;
 
@@ -342,10 +345,15 @@ atributo_datatype:
 /* Relação interna reutilizada tanto no nível global quanto dentro de classe. */
 relacao_interna:
     SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO cardinalidade SIMBOLO_ESPECIAL cardinalidade classe_ref_coagida {
-        registrar_relacao_interna($2, $6, @1.first_line, @1.first_column);
+        registrar_relacao_interna($2, $3, $5, $6, @1.first_line, @1.first_column);
         classe_adicionar_relacao_interna(@1.first_line);
-        /* [Semântico] guarda a relação (dona, estereótipo, cardinalidades, alvo) */
         padroes_registrar_relacao_interna(nome_classe_em_construcao(), $2, $3, $5, $6,
+                                          @1.first_line, @1.first_column);
+    }
+    | SIMBOLO_ESPECIAL ESTEREOTIPO_RELACAO cardinalidade cardinalidade classe_ref_coagida {
+        registrar_relacao_interna($2, $3, $4, $5, @1.first_line, @1.first_column);
+        classe_adicionar_relacao_interna(@1.first_line);
+        padroes_registrar_relacao_interna(nome_classe_em_construcao(), $2, $3, $4, $5,
                                           @1.first_line, @1.first_column);
     }
     ;

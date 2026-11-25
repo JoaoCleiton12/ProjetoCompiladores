@@ -1,4 +1,5 @@
 #include "pacotes_relacoes.h"
+#include "classes_datatypes.h"
 #include "tabela_simbolos.h"
 #include "relatorio_erros.h"
 
@@ -25,28 +26,48 @@ void registrar_pacote(const string& nome, int linha, int coluna) {
 
 void registrar_relacao_externa(const string& estereotipo,
                                const string& origem,
+                               const string& card_origem,
                                const string& nome,
+                               const string& card_destino,
                                const string& destino,
                                int linha, int coluna) {
     if (nome.empty()) return;
     inserir_simbolo(nome, "Relação Externa", linha, coluna);
     lista_relacoes.push_back({
-        nome, estereotipo, pacote_atual, origem, destino, false, linha, coluna
+        nome, estereotipo, pacote_atual, origem, destino,
+        card_origem, card_destino, false, linha, coluna
     });
 }
 
 void registrar_relacao_interna(const string& estereotipo,
+                               const string& card_origem,
+                               const string& card_destino,
                                const string& destino,
                                int linha, int coluna) {
+    string dona = nome_classe_em_construcao();
     string identificador = "Interna_" + estereotipo + "_para_" + destino + "_L" + to_string(linha);
     inserir_simbolo(identificador, "Relação Interna", linha, coluna);
     lista_relacoes.push_back({
-        identificador, estereotipo, pacote_atual, "", destino, true, linha, coluna
+        identificador, estereotipo, pacote_atual, dona, destino,
+        card_origem, card_destino, true, linha, coluna
     });
 }
 
 void verificar_referencias_pacotes_relacoes() {
-    // Gancho preparado para as validações semânticas (existência de classes, regras OntoUML, etc.)
+    for (const DeclRelacao& r : lista_relacoes) {
+        if (!r.origem.empty() && !simbolo_existe(r.origem)) {
+            registrar_erro(r.linha, r.coluna, "Relação",
+                "A classe de origem '" + r.origem + "' da relação '" + r.nome +
+                "' não foi declarada.",
+                "Declare a classe '" + r.origem + "' antes ou depois da relação.");
+        }
+        if (!r.destino.empty() && !simbolo_existe(r.destino)) {
+            registrar_erro(r.linha, r.coluna, "Relação",
+                "A classe de destino '" + r.destino + "' da relação '" + r.nome +
+                "' não foi declarada.",
+                "Declare a classe '" + r.destino + "' antes ou depois da relação.");
+        }
+    }
 }
 
 void imprimir_sintese_pacotes_relacoes(ostream& out) {
@@ -69,7 +90,8 @@ void imprimir_sintese_pacotes_relacoes(ostream& out) {
     for (const auto& r : lista_relacoes) {
         if (!r.interna) {
             out << "  @" << r.estereotipo << " relation " << r.nome
-                << " (" << r.origem << " -> " << r.destino << ")"
+                << " (" << r.origem << " [" << r.card_origem << "] -> ["
+                << r.card_destino << "] " << r.destino << ")"
                 << " | pacote: " << r.pacote << " | linha " << r.linha << "\n";
         }
     }
@@ -77,7 +99,9 @@ void imprimir_sintese_pacotes_relacoes(ostream& out) {
     out << "Relações internas: " << total_internas << "\n";
     for (const auto& r : lista_relacoes) {
         if (r.interna) {
-            out << "  @" << r.estereotipo << " -> " << r.destino
+            out << "  " << (r.origem.empty() ? "" : r.origem + ": ")
+                << "@" << r.estereotipo << " [" << r.card_origem << "] -> ["
+                << r.card_destino << "] " << r.destino
                 << " (" << r.nome << ")"
                 << " | pacote: " << r.pacote << " | linha " << r.linha << "\n";
         }

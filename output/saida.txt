@@ -1,214 +1,416 @@
 =====================================================
-             INICIANDO ANÁLISE SINTÁTICA             
+             INICIANDO ANÁLISE SEMÂNTICA             
 =====================================================
 
 =====================================================
                  TABELA DE SÍMBOLOS                  
 =====================================================
-Linha: 3 | Categoria: Classe | Nome: Person
-Linha: 4 | Categoria: Classe | Nome: Car
-Linha: 5 | Categoria: Classe | Nome: Organization
-Linha: 6 | Categoria: Classe | Nome: Language
-Linha: 7 | Categoria: Classe | Nome: Truck
-Linha: 11 | Categoria: Classe | Nome: Headache
-Linha: 14 | Categoria: Classe | Nome: Skill
-Linha: 19 | Categoria: Classe | Nome: Fear
-Linha: 25 | Categoria: Classe | Nome: Commitment
-Linha: 32 | Categoria: Classe | Nome: Driving_License
-Linha: 39 | Categoria: Classe | Nome: Renter
-Linha: 40 | Categoria: Classe | Nome: Personal_Renter
-Linha: 43 | Categoria: Classe | Nome: Supplier
-Linha: 44 | Categoria: Classe | Nome: Person_Supplier
-Linha: 51 | Categoria: Classe | Nome: Owner
-Linha: 52 | Categoria: Classe | Nome: Person_Owner
-Linha: 53 | Categoria: Classe | Nome: Company_Owner
-Linha: 54 | Categoria: Classe | Nome: Extra_Owner
-Linha: 62 | Categoria: Classe | Nome: Member
-Linha: 63 | Categoria: Classe | Nome: Person_Member
-Linha: 64 | Categoria: Classe | Nome: Organization_Member
-Linha: 45 | Categoria: Genset | Nome: Supplier_Types
-Linha: 55 | Categoria: Genset | Nome: Owner_Types
-Linha: 65 | Categoria: Genset | Nome: Member_Types
-Linha: 1 | Categoria: Pacote | Nome: Padroes_Incompletos
-Linha: 15 | Categoria: Relação Interna | Nome: Interna_characterization_para_Person_L15
-Linha: 20 | Categoria: Relação Interna | Nome: Interna_characterization_para_Animal_L20
-Linha: 21 | Categoria: Relação Interna | Nome: Interna_externalDependence_para_Car_L21
-Linha: 26 | Categoria: Relação Interna | Nome: Interna_characterization_para_Person_L26
-Linha: 27 | Categoria: Relação Interna | Nome: Interna_externalDependence_para_Organization_L27
-Linha: 33 | Categoria: Relação Interna | Nome: Interna_characterization_para_Person_L33
-Linha: 34 | Categoria: Relação Interna | Nome: Interna_externalDependence_para_Car_L34
+Linha: 3 | Categoria: Classe | Nome: Pessoa
+Linha: 7 | Categoria: Classe | Nome: Empresa
+Linha: 11 | Categoria: Classe | Nome: Item_Da_Pizzaria
+Linha: 14 | Categoria: Classe | Nome: Massa_Da_Pizza
+Linha: 15 | Categoria: Classe | Nome: Cobertura_Da_Pizza
+Linha: 16 | Categoria: Classe | Nome: Borda_Da_Pizza
+Linha: 18 | Categoria: Classe | Nome: Bebida
+Linha: 19 | Categoria: Classe | Nome: Petisco
+Linha: 20 | Categoria: Classe | Nome: Agua
+Linha: 21 | Categoria: Classe | Nome: Refrigerante
+Linha: 22 | Categoria: Classe | Nome: Suco
+Linha: 23 | Categoria: Classe | Nome: Pizza
+Linha: 24 | Categoria: Classe | Nome: Massa_Fina_e_Crocante
+Linha: 25 | Categoria: Classe | Nome: Massa_Pan
+Linha: 26 | Categoria: Classe | Nome: Carne
+Linha: 27 | Categoria: Classe | Nome: Fruto_Do_Mar
+Linha: 28 | Categoria: Classe | Nome: Queijo
+Linha: 29 | Categoria: Classe | Nome: Vegetal
+Linha: 30 | Categoria: Classe | Nome: Borda_Sem_Recheio
+Linha: 31 | Categoria: Classe | Nome: Borda_Recheada
+Linha: 34 | Categoria: Classe | Nome: Calabresa
+Linha: 35 | Categoria: Classe | Nome: Presunto
+Linha: 36 | Categoria: Classe | Nome: Salame
+Linha: 37 | Categoria: Classe | Nome: Anchova
+Linha: 38 | Categoria: Classe | Nome: Atum
+Linha: 39 | Categoria: Classe | Nome: Camarao
+Linha: 40 | Categoria: Classe | Nome: Mussarela
+Linha: 41 | Categoria: Classe | Nome: Parmesao
+Linha: 42 | Categoria: Classe | Nome: Azeitona
+Linha: 43 | Categoria: Classe | Nome: Pimenta
+Linha: 44 | Categoria: Classe | Nome: Tomate
+Linha: 46 | Categoria: Classe | Nome: Dono_De_Pizzaria
+Linha: 47 | Categoria: Classe | Nome: Funcionario
+Linha: 48 | Categoria: Classe | Nome: Pizzaiolo
+Linha: 49 | Categoria: Classe | Nome: Atendente
+Linha: 50 | Categoria: Classe | Nome: ClienteIndividual
+Linha: 51 | Categoria: Classe | Nome: ClienteEmpresarial
+Linha: 52 | Categoria: Classe | Nome: Pizzaria
+Linha: 54 | Categoria: Classe | Nome: Cliente
+Linha: 56 | Categoria: Classe | Nome: Lista_de_Itens
+Linha: 117 | Categoria: Classe | Nome: Composicao_Da_Massa
+Linha: 124 | Categoria: Classe | Nome: Montagem_Da_Cobertura
+Linha: 131 | Categoria: Classe | Nome: Montagem_Da_Borda
+Linha: 140 | Categoria: Classe | Nome: Atendimento
+Linha: 148 | Categoria: Classe | Nome: Preparo_Da_Pizza
+Linha: 157 | Categoria: Classe | Nome: Venda_De_Alimento
+Linha: 60 | Categoria: Enum | Nome: Recheio_Da_Borda
+Linha: 66 | Categoria: Genset | Nome: Papel_Da_Pessoa
+Linha: 70 | Categoria: Genset | Nome: Papel_Do_Funcionario
+Linha: 74 | Categoria: Genset | Nome: Tipos_de_Clientes
+Linha: 78 | Categoria: Genset | Nome: Opcao_De_Bebida
+Linha: 82 | Categoria: Genset | Nome: Opcao_De_Massa
+Linha: 86 | Categoria: Genset | Nome: Opcao_De_Cobertura
+Linha: 90 | Categoria: Genset | Nome: Opcao_De_Borda
+Linha: 94 | Categoria: Genset | Nome: Opcao_De_Carne
+Linha: 98 | Categoria: Genset | Nome: Opcao_De_Fruto_Do_Mar
+Linha: 102 | Categoria: Genset | Nome: Opcao_De_Queijo
+Linha: 106 | Categoria: Genset | Nome: Opcao_De_Vegetal
+Linha: 110 | Categoria: Genset | Nome: Tipo_Do_Item
+Linha: 1 | Categoria: Pacote | Nome: PizzariaMono
+Linha: 115 | Categoria: Relação Externa | Nome: tem_Massa
+Linha: 122 | Categoria: Relação Externa | Nome: tem_Cobertura
+Linha: 129 | Categoria: Relação Externa | Nome: tem_Borda
+Linha: 136 | Categoria: Relação Externa | Nome: anota
+Linha: 137 | Categoria: Relação Externa | Nome: solicita
+Linha: 138 | Categoria: Relação Externa | Nome: atendido_Por
+Linha: 146 | Categoria: Relação Externa | Nome: prepara
+Linha: 153 | Categoria: Relação Externa | Nome: compra_Em
+Linha: 154 | Categoria: Relação Externa | Nome: vende
+Linha: 155 | Categoria: Relação Externa | Nome: compra
+Linha: 57 | Categoria: Relação Interna | Nome: Interna_memberOf_para_Item_Da_Pizzaria_L57
+Linha: 118 | Categoria: Relação Interna | Nome: Interna_mediation_para_Massa_Da_Pizza_L118
+Linha: 119 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizza_L119
+Linha: 125 | Categoria: Relação Interna | Nome: Interna_mediation_para_Cobertura_Da_Pizza_L125
+Linha: 126 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizza_L126
+Linha: 132 | Categoria: Relação Interna | Nome: Interna_mediation_para_Borda_Da_Pizza_L132
+Linha: 133 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizza_L133
+Linha: 141 | Categoria: Relação Interna | Nome: Interna_mediation_para_Atendente_L141
+Linha: 142 | Categoria: Relação Interna | Nome: Interna_mediation_para_Cliente_L142
+Linha: 143 | Categoria: Relação Interna | Nome: Interna_mediation_para_Lista_de_Itens_L143
+Linha: 149 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizzaiolo_L149
+Linha: 150 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizza_L150
+Linha: 158 | Categoria: Relação Interna | Nome: Interna_mediation_para_Pizzaria_L158
+Linha: 159 | Categoria: Relação Interna | Nome: Interna_mediation_para_Cliente_L159
+Linha: 160 | Categoria: Relação Interna | Nome: Interna_mediation_para_Item_Da_Pizzaria_L160
 
 =====================================================
                  TABELA DE SÍNTESE                   
 =====================================================
 Total de Pacotes...........: 1
-Total de Relações Externas.: 0
-Total de Relações Internas.: 7
-Total de Classes...........: 21
+Total de Relações Externas.: 10
+Total de Relações Internas.: 15
+Total de Classes...........: 46
 Total de DataTypes.........: 0
-Total de Enums.............: 0
-Total de Gensets...........: 3
+Total de Enums.............: 1
+Total de Gensets...........: 12
 =====================================================
 
 =====================================================
      SÍNTESE: PACOTES E RELAÇÕES — Tópicos 1 e 6     
 =====================================================
 Pacotes declarados: 1
-  package Padroes_Incompletos (linha 1)
-Relações externas: 0
-Relações internas: 7
-  @characterization -> Person (Interna_characterization_para_Person_L15) | pacote: Padroes_Incompletos | linha 15
-  @characterization -> Animal (Interna_characterization_para_Animal_L20) | pacote: Padroes_Incompletos | linha 20
-  @externalDependence -> Car (Interna_externalDependence_para_Car_L21) | pacote: Padroes_Incompletos | linha 21
-  @characterization -> Person (Interna_characterization_para_Person_L26) | pacote: Padroes_Incompletos | linha 26
-  @externalDependence -> Organization (Interna_externalDependence_para_Organization_L27) | pacote: Padroes_Incompletos | linha 27
-  @characterization -> Person (Interna_characterization_para_Person_L33) | pacote: Padroes_Incompletos | linha 33
-  @externalDependence -> Car (Interna_externalDependence_para_Car_L34) | pacote: Padroes_Incompletos | linha 34
+  package PizzariaMono (linha 1)
+Relações externas: 10
+  @material relation tem_Massa (Pizza [1..*] -> [1..*] Massa_Da_Pizza) | pacote: PizzariaMono | linha 115
+  @material relation tem_Cobertura (Pizza [1..*] -> [1..*] Cobertura_Da_Pizza) | pacote: PizzariaMono | linha 122
+  @material relation tem_Borda (Pizza [1..*] -> [1..*] Borda_Da_Pizza) | pacote: PizzariaMono | linha 129
+  @material relation anota (Atendente [1..*] -> [1..*] Lista_de_Itens) | pacote: PizzariaMono | linha 136
+  @material relation solicita (Cliente [1..*] -> [1..*] Lista_de_Itens) | pacote: PizzariaMono | linha 137
+  @material relation atendido_Por (Cliente [1..*] -> [1..*] Atendente) | pacote: PizzariaMono | linha 138
+  @material relation prepara (Pizzaiolo [1..*] -> [1..*] Pizza) | pacote: PizzariaMono | linha 146
+  @material relation compra_Em (Cliente [1..*] -> [1..*] Pizzaria) | pacote: PizzariaMono | linha 153
+  @material relation vende (Pizzaria [1..*] -> [1..*] Item_Da_Pizzaria) | pacote: PizzariaMono | linha 154
+  @material relation compra (Cliente [1..*] -> [1..*] Item_Da_Pizzaria) | pacote: PizzariaMono | linha 155
+Relações internas: 15
+  Lista_de_Itens: @memberOf [0..*] -> [1..*] Item_Da_Pizzaria (Interna_memberOf_para_Item_Da_Pizzaria_L57) | pacote: PizzariaMono | linha 57
+  Composicao_Da_Massa: @mediation [1..*] -> [1..*] Massa_Da_Pizza (Interna_mediation_para_Massa_Da_Pizza_L118) | pacote: PizzariaMono | linha 118
+  Composicao_Da_Massa: @mediation [1..*] -> [1..*] Pizza (Interna_mediation_para_Pizza_L119) | pacote: PizzariaMono | linha 119
+  Montagem_Da_Cobertura: @mediation [1..*] -> [1..*] Cobertura_Da_Pizza (Interna_mediation_para_Cobertura_Da_Pizza_L125) | pacote: PizzariaMono | linha 125
+  Montagem_Da_Cobertura: @mediation [1..*] -> [1..*] Pizza (Interna_mediation_para_Pizza_L126) | pacote: PizzariaMono | linha 126
+  Montagem_Da_Borda: @mediation [1..*] -> [1..*] Borda_Da_Pizza (Interna_mediation_para_Borda_Da_Pizza_L132) | pacote: PizzariaMono | linha 132
+  Montagem_Da_Borda: @mediation [1..*] -> [1..*] Pizza (Interna_mediation_para_Pizza_L133) | pacote: PizzariaMono | linha 133
+  Atendimento: @mediation [1..*] -> [1..*] Atendente (Interna_mediation_para_Atendente_L141) | pacote: PizzariaMono | linha 141
+  Atendimento: @mediation [1..*] -> [1..*] Cliente (Interna_mediation_para_Cliente_L142) | pacote: PizzariaMono | linha 142
+  Atendimento: @mediation [1..*] -> [1..*] Lista_de_Itens (Interna_mediation_para_Lista_de_Itens_L143) | pacote: PizzariaMono | linha 143
+  Preparo_Da_Pizza: @mediation [1..*] -> [1..*] Pizzaiolo (Interna_mediation_para_Pizzaiolo_L149) | pacote: PizzariaMono | linha 149
+  Preparo_Da_Pizza: @mediation [1..*] -> [1..*] Pizza (Interna_mediation_para_Pizza_L150) | pacote: PizzariaMono | linha 150
+  Venda_De_Alimento: @mediation [1..*] -> [1..*] Pizzaria (Interna_mediation_para_Pizzaria_L158) | pacote: PizzariaMono | linha 158
+  Venda_De_Alimento: @mediation [1..*] -> [1..*] Cliente (Interna_mediation_para_Cliente_L159) | pacote: PizzariaMono | linha 159
+  Venda_De_Alimento: @mediation [1..*] -> [1..*] Item_Da_Pizzaria (Interna_mediation_para_Item_Da_Pizzaria_L160) | pacote: PizzariaMono | linha 160
 =====================================================
 
 =====================================================
      SÍNTESE: CLASSES ENUMERADAS (enum) — Tópico 4   
 =====================================================
-Total de enums declarados: 0
+Total de enums declarados: 1
+Total de literais (instâncias): 3
++---+------------------+--------------+-------+-------------+-----+------------------------------------------+--------+
+| # | Enum             | Pacote       | Linha | Especializa | Qtd | Literais                                 | Status |
++---+------------------+--------------+-------+-------------+-----+------------------------------------------+--------+
+| 1 | Recheio_Da_Borda | PizzariaMono | 60    | -           | 3   | Chocolate01, Catupiry02, Molho_Cheddar03 | ok     |
++---+------------------+--------------+-------+-------------+-----+------------------------------------------+--------+
 
 =====================================================
    SÍNTESE: GENERALIZAÇÕES (genset) — Tópico 5       
 =====================================================
-Total de generalization sets: 3  (forma curta 'where': 0, forma em bloco '{ }': 3)
-+---+----------------+---------------------+-------+-------+----------------------+----------+---------------+------------------------------------+--------+
-| # | Genset         | Pacote              | Linha | Forma | Restrições           | Geral    | Categorizador | Específicas                        | Status |
-+---+----------------+---------------------+-------+-------+----------------------+----------+---------------+------------------------------------+--------+
-| 1 | Supplier_Types | Padroes_Incompletos | 45    | bloco | overlapping complete | Supplier | -             | Person_Supplier                    | ok     |
-| 2 | Owner_Types    | Padroes_Incompletos | 55    | bloco | disjoint complete    | Owner    | -             | Person_Owner, Company_Owner, Truck | ok     |
-| 3 | Member_Types   | Padroes_Incompletos | 65    | bloco | (nenhuma)            | Member   | -             | Person_Member, Organization_Member | ok     |
-+---+----------------+---------------------+-------+-------+----------------------+----------+---------------+------------------------------------+--------+
-Gensets por restrição:  (nenhuma) = 1;  disjoint complete = 1;  overlapping complete = 1;
+Total de generalization sets: 12  (forma curta 'where': 0, forma em bloco '{ }': 12)
++----+-----------------------+--------------+-------+-------+-------------------+--------------------+---------------+--------------------------------------------------+--------+
+| #  | Genset                | Pacote       | Linha | Forma | Restrições        | Geral              | Categorizador | Específicas                                      | Status |
++----+-----------------------+--------------+-------+-------+-------------------+--------------------+---------------+--------------------------------------------------+--------+
+| 1  | Papel_Da_Pessoa       | PizzariaMono | 66    | bloco | disjoint complete | Pessoa             | -             | ClienteIndividual, Dono_De_Pizzaria, Funcionario | ok     |
+| 2  | Papel_Do_Funcionario  | PizzariaMono | 70    | bloco | disjoint complete | Funcionario        | -             | Pizzaiolo, Atendente                             | ok     |
+| 3  | Tipos_de_Clientes     | PizzariaMono | 74    | bloco | disjoint complete | Cliente            | -             | ClienteIndividual, ClienteEmpresarial            | ok     |
+| 4  | Opcao_De_Bebida       | PizzariaMono | 78    | bloco | disjoint complete | Bebida             | -             | Agua, Refrigerante, Suco                         | ok     |
+| 5  | Opcao_De_Massa        | PizzariaMono | 82    | bloco | disjoint complete | Massa_Da_Pizza     | -             | Massa_Fina_e_Crocante, Massa_Pan                 | ok     |
+| 6  | Opcao_De_Cobertura    | PizzariaMono | 86    | bloco | disjoint complete | Cobertura_Da_Pizza | -             | Carne, Fruto_Do_Mar, Queijo, Vegetal             | ok     |
+| 7  | Opcao_De_Borda        | PizzariaMono | 90    | bloco | disjoint complete | Borda_Da_Pizza     | -             | Borda_Recheada, Borda_Sem_Recheio                | ok     |
+| 8  | Opcao_De_Carne        | PizzariaMono | 94    | bloco | disjoint complete | Carne              | -             | Calabresa, Presunto, Salame                      | ok     |
+| 9  | Opcao_De_Fruto_Do_Mar | PizzariaMono | 98    | bloco | disjoint complete | Fruto_Do_Mar       | -             | Anchova, Atum, Camarao                           | ok     |
+| 10 | Opcao_De_Queijo       | PizzariaMono | 102   | bloco | disjoint complete | Queijo             | -             | Mussarela, Parmesao                              | ok     |
+| 11 | Opcao_De_Vegetal      | PizzariaMono | 106   | bloco | disjoint complete | Vegetal            | -             | Azeitona, Pimenta, Tomate                        | ok     |
+| 12 | Tipo_Do_Item          | PizzariaMono | 110   | bloco | disjoint complete | Item_Da_Pizzaria   | -             | Pizza, Bebida, Petisco                           | ok     |
++----+-----------------------+--------------+-------+-------+-------------------+--------------------+---------------+--------------------------------------------------+--------+
+Gensets por restrição:  disjoint complete = 12;
 
 Taxonomia derivada dos gensets (classe-mãe -> classes filhas):
-  Member -> Person_Member, Organization_Member
-  Owner -> Person_Owner, Company_Owner, Truck
-  Supplier -> Person_Supplier
+  Bebida -> Agua, Refrigerante, Suco
+  Borda_Da_Pizza -> Borda_Recheada, Borda_Sem_Recheio
+  Carne -> Calabresa, Presunto, Salame
+  Cliente -> ClienteIndividual, ClienteEmpresarial
+  Cobertura_Da_Pizza -> Carne, Fruto_Do_Mar, Queijo, Vegetal
+  Fruto_Do_Mar -> Anchova, Atum, Camarao
+  Funcionario -> Pizzaiolo, Atendente
+  Item_Da_Pizzaria -> Pizza, Bebida, Petisco
+  Massa_Da_Pizza -> Massa_Fina_e_Crocante, Massa_Pan
+  Pessoa -> ClienteIndividual, Dono_De_Pizzaria, Funcionario
+  Queijo -> Mussarela, Parmesao
+  Vegetal -> Azeitona, Pimenta, Tomate
 
 Enums e gensets por pacote:
-  Pacote Padroes_Incompletos: 0 enum(s); 3 genset(s) [Supplier_Types, Owner_Types, Member_Types]
+  Pacote PizzariaMono: 1 enum(s) [Recheio_Da_Borda]; 12 genset(s) [Papel_Da_Pessoa, Papel_Do_Funcionario, Tipos_de_Clientes, Opcao_De_Bebida, Opcao_De_Massa, Opcao_De_Cobertura, Opcao_De_Borda, Opcao_De_Carne, Opcao_De_Fruto_Do_Mar, Opcao_De_Queijo, Opcao_De_Vegetal, Tipo_Do_Item]
 =====================================================
 
 =====================================================
        SÍNTESE DE CLASSES E TIPOS DE DADOS
 =====================================================
-Classes declaradas: 21
-  kind Person | atributos: 0 | relações internas: 0
-  kind Car | atributos: 0 | relações internas: 0
-  kind Organization | atributos: 0 | relações internas: 0
-  kind Language | atributos: 0 | relações internas: 0
-  subkind Truck | atributos: 0 | relações internas: 0
-  mode Headache | atributos: 0 | relações internas: 0
-  mode Skill | atributos: 0 | relações internas: 1
-  mode Fear | atributos: 0 | relações internas: 2
-  kind Commitment | atributos: 0 | relações internas: 2
-  mode Driving_License | atributos: 0 | relações internas: 2
-  roleMixin Renter | atributos: 0 | relações internas: 0
-  role Personal_Renter | atributos: 0 | relações internas: 0
-  roleMixin Supplier | atributos: 0 | relações internas: 0
-  role Person_Supplier | atributos: 0 | relações internas: 0
-  roleMixin Owner | atributos: 0 | relações internas: 0
-  role Person_Owner | atributos: 0 | relações internas: 0
-  role Company_Owner | atributos: 0 | relações internas: 0
-  role Extra_Owner | atributos: 0 | relações internas: 0
-  roleMixin Member | atributos: 0 | relações internas: 0
-  role Person_Member | atributos: 0 | relações internas: 0
-  role Organization_Member | atributos: 0 | relações internas: 0
+Classes declaradas: 46
+  kind Pessoa | atributos: 2 | relações internas: 0
+      - nome: string
+      - cpf: string
+  kind Empresa | atributos: 2 | relações internas: 0
+      - nome: string
+      - cnpj: string
+  kind Item_Da_Pizzaria | atributos: 1 | relações internas: 0
+      - preco: number
+  kind Massa_Da_Pizza | atributos: 0 | relações internas: 0
+  kind Cobertura_Da_Pizza | atributos: 0 | relações internas: 0
+  kind Borda_Da_Pizza | atributos: 0 | relações internas: 0
+  subkind Bebida | atributos: 0 | relações internas: 0
+  subkind Petisco | atributos: 0 | relações internas: 0
+  subkind Agua | atributos: 0 | relações internas: 0
+  subkind Refrigerante | atributos: 0 | relações internas: 0
+  subkind Suco | atributos: 0 | relações internas: 0
+  subkind Pizza | atributos: 0 | relações internas: 0
+  subkind Massa_Fina_e_Crocante | atributos: 0 | relações internas: 0
+  subkind Massa_Pan | atributos: 0 | relações internas: 0
+  subkind Carne | atributos: 0 | relações internas: 0
+  subkind Fruto_Do_Mar | atributos: 0 | relações internas: 0
+  subkind Queijo | atributos: 0 | relações internas: 0
+  subkind Vegetal | atributos: 0 | relações internas: 0
+  subkind Borda_Sem_Recheio | atributos: 0 | relações internas: 0
+  subkind Borda_Recheada | atributos: 1 | relações internas: 0
+      - recheio_Da_Borda: Recheio_Da_Borda
+  subkind Calabresa | atributos: 0 | relações internas: 0
+  subkind Presunto | atributos: 0 | relações internas: 0
+  subkind Salame | atributos: 0 | relações internas: 0
+  subkind Anchova | atributos: 0 | relações internas: 0
+  subkind Atum | atributos: 0 | relações internas: 0
+  subkind Camarao | atributos: 0 | relações internas: 0
+  subkind Mussarela | atributos: 0 | relações internas: 0
+  subkind Parmesao | atributos: 0 | relações internas: 0
+  subkind Azeitona | atributos: 0 | relações internas: 0
+  subkind Pimenta | atributos: 0 | relações internas: 0
+  subkind Tomate | atributos: 0 | relações internas: 0
+  role Dono_De_Pizzaria | atributos: 0 | relações internas: 0
+  role Funcionario | atributos: 0 | relações internas: 0
+  role Pizzaiolo | atributos: 0 | relações internas: 0
+  role Atendente | atributos: 0 | relações internas: 0
+  role ClienteIndividual | atributos: 0 | relações internas: 0
+  role ClienteEmpresarial | atributos: 0 | relações internas: 0
+  role Pizzaria | atributos: 0 | relações internas: 0
+  roleMixin Cliente | atributos: 0 | relações internas: 0
+  collective Lista_de_Itens | atributos: 0 | relações internas: 1
+  relator Composicao_Da_Massa | atributos: 0 | relações internas: 2
+  relator Montagem_Da_Cobertura | atributos: 0 | relações internas: 2
+  relator Montagem_Da_Borda | atributos: 0 | relações internas: 2
+  relator Atendimento | atributos: 0 | relações internas: 3
+  relator Preparo_Da_Pizza | atributos: 0 | relações internas: 2
+  relator Venda_De_Alimento | atributos: 0 | relações internas: 3
 Tipos de dados declarados: 0
-Total de atributos em classes....: 0
+Total de atributos em classes....: 6
 Total de atributos em datatypes..: 0
-Total de relações internas.......: 7
+Total de relações internas.......: 15
+=====================================================
+
+=====================================================
+  ANÁLISE SEMÂNTICA: PADRÕES SUBKIND E RELATOR
+=====================================================
+(1) PADRÕES COMPLETOS: 13
+  [Subkind] Item_Da_Pizzaria (linha 11)
+      identificado por: sobrecarga completa: 'Item_Da_Pizzaria' + 3 subkind(s) + genset 'Tipo_Do_Item'
+      + classe-mãe: kind Item_Da_Pizzaria
+      + genset: Tipo_Do_Item (linha 110)
+      + subkind: Pizza specializes Item_Da_Pizzaria
+      + subkind: Bebida specializes Item_Da_Pizzaria
+      + subkind: Petisco specializes Item_Da_Pizzaria
+  [Subkind] Massa_Da_Pizza (linha 14)
+      identificado por: sobrecarga completa: 'Massa_Da_Pizza' + 2 subkind(s) + genset 'Opcao_De_Massa'
+      + classe-mãe: kind Massa_Da_Pizza
+      + genset: Opcao_De_Massa (linha 82)
+      + subkind: Massa_Fina_e_Crocante specializes Massa_Da_Pizza
+      + subkind: Massa_Pan specializes Massa_Da_Pizza
+  [Subkind] Cobertura_Da_Pizza (linha 15)
+      identificado por: sobrecarga completa: 'Cobertura_Da_Pizza' + 4 subkind(s) + genset 'Opcao_De_Cobertura'
+      + classe-mãe: kind Cobertura_Da_Pizza
+      + genset: Opcao_De_Cobertura (linha 86)
+      + subkind: Carne specializes Cobertura_Da_Pizza
+      + subkind: Fruto_Do_Mar specializes Cobertura_Da_Pizza
+      + subkind: Queijo specializes Cobertura_Da_Pizza
+      + subkind: Vegetal specializes Cobertura_Da_Pizza
+  [Subkind] Borda_Da_Pizza (linha 16)
+      identificado por: sobrecarga completa: 'Borda_Da_Pizza' + 2 subkind(s) + genset 'Opcao_De_Borda'
+      + classe-mãe: kind Borda_Da_Pizza
+      + genset: Opcao_De_Borda (linha 90)
+      + subkind: Borda_Recheada specializes Borda_Da_Pizza
+      + subkind: Borda_Sem_Recheio specializes Borda_Da_Pizza
+  [Subkind] Bebida (linha 18)
+      identificado por: sobrecarga completa: 'Bebida' + 3 subkind(s) + genset 'Opcao_De_Bebida'
+      + classe-mãe: subkind Bebida (herda de kind Item_Da_Pizzaria)
+      + genset: Opcao_De_Bebida (linha 78)
+      + subkind: Agua specializes Bebida
+      + subkind: Refrigerante specializes Bebida
+      + subkind: Suco specializes Bebida
+  [Subkind] Carne (linha 26)
+      identificado por: sobrecarga completa: 'Carne' + 3 subkind(s) + genset 'Opcao_De_Carne'
+      + classe-mãe: subkind Carne (herda de kind Cobertura_Da_Pizza)
+      + genset: Opcao_De_Carne (linha 94)
+      + subkind: Calabresa specializes Carne
+      + subkind: Presunto specializes Carne
+      + subkind: Salame specializes Carne
+  [Subkind] Fruto_Do_Mar (linha 27)
+      identificado por: sobrecarga completa: 'Fruto_Do_Mar' + 3 subkind(s) + genset 'Opcao_De_Fruto_Do_Mar'
+      + classe-mãe: subkind Fruto_Do_Mar (herda de kind Cobertura_Da_Pizza)
+      + genset: Opcao_De_Fruto_Do_Mar (linha 98)
+      + subkind: Anchova specializes Fruto_Do_Mar
+      + subkind: Atum specializes Fruto_Do_Mar
+      + subkind: Camarao specializes Fruto_Do_Mar
+  [Subkind] Queijo (linha 28)
+      identificado por: sobrecarga completa: 'Queijo' + 2 subkind(s) + genset 'Opcao_De_Queijo'
+      + classe-mãe: subkind Queijo (herda de kind Cobertura_Da_Pizza)
+      + genset: Opcao_De_Queijo (linha 102)
+      + subkind: Mussarela specializes Queijo
+      + subkind: Parmesao specializes Queijo
+  [Subkind] Vegetal (linha 29)
+      identificado por: sobrecarga completa: 'Vegetal' + 3 subkind(s) + genset 'Opcao_De_Vegetal'
+      + classe-mãe: subkind Vegetal (herda de kind Cobertura_Da_Pizza)
+      + genset: Opcao_De_Vegetal (linha 106)
+      + subkind: Azeitona specializes Vegetal
+      + subkind: Pimenta specializes Vegetal
+      + subkind: Tomate specializes Vegetal
+  [Relator] Composicao_Da_Massa (linha 117)
+      identificado por: sobrecarga completa: relator 'Composicao_Da_Massa' + 2 @mediation + @material
+      + relator: Composicao_Da_Massa
+      + mediação (@mediation): Massa_Da_Pizza (kind coagido para role)
+      + mediação (@mediation): Pizza (subkind coagido para role)
+      + relação material (@material): tem_Massa (Pizza -> Massa_Da_Pizza)
+      * COERÇÃO: polo 'Massa_Da_Pizza' (kind) coagido para 'role' (linha 118)
+      * COERÇÃO: polo 'Pizza' (subkind) coagido para 'role' (linha 119)
+  [Relator] Montagem_Da_Cobertura (linha 124)
+      identificado por: sobrecarga completa: relator 'Montagem_Da_Cobertura' + 2 @mediation + @material
+      + relator: Montagem_Da_Cobertura
+      + mediação (@mediation): Cobertura_Da_Pizza (kind coagido para role)
+      + mediação (@mediation): Pizza (subkind coagido para role)
+      + relação material (@material): tem_Cobertura (Pizza -> Cobertura_Da_Pizza)
+      * COERÇÃO: polo 'Cobertura_Da_Pizza' (kind) coagido para 'role' (linha 125)
+      * COERÇÃO: polo 'Pizza' (subkind) coagido para 'role' (linha 126)
+  [Relator] Montagem_Da_Borda (linha 131)
+      identificado por: sobrecarga completa: relator 'Montagem_Da_Borda' + 2 @mediation + @material
+      + relator: Montagem_Da_Borda
+      + mediação (@mediation): Borda_Da_Pizza (kind coagido para role)
+      + mediação (@mediation): Pizza (subkind coagido para role)
+      + relação material (@material): tem_Borda (Pizza -> Borda_Da_Pizza)
+      * COERÇÃO: polo 'Borda_Da_Pizza' (kind) coagido para 'role' (linha 132)
+      * COERÇÃO: polo 'Pizza' (subkind) coagido para 'role' (linha 133)
+  [Relator] Preparo_Da_Pizza (linha 148)
+      identificado por: sobrecarga completa: relator 'Preparo_Da_Pizza' + 2 @mediation + @material
+      + relator: Preparo_Da_Pizza
+      + mediação (@mediation): Pizzaiolo (role -> kind Pessoa)
+      + mediação (@mediation): Pizza (subkind coagido para role)
+      + relação material (@material): prepara (Pizzaiolo -> Pizza)
+      * COERÇÃO: polo 'Pizza' (subkind) coagido para 'role' (linha 150)
+
+(2) PADRÕES INCOMPLETOS (identificados por sobrecarga): 2
+  [Relator] Atendimento (linha 140)
+      identificado por: sobrecarga completa: relator 'Atendimento' + 3 @mediation + @material
+      + relator: Atendimento
+      + mediação (@mediation): Atendente (role -> kind Pessoa)
+      + relação material (@material): anota (Atendente -> Lista_de_Itens)
+      + relação material (@material): solicita (Cliente -> Lista_de_Itens)
+      + relação material (@material): atendido_Por (Cliente -> Atendente)
+      - FALTA: Polo 'Cliente' tem estereótipo 'roleMixin', mas @mediation deve ligar o relator a classes 'role'.
+      - FALTA: Polo 'Lista_de_Itens' tem estereótipo 'collective', mas @mediation deve ligar o relator a classes 'role'.
+  [Relator] Venda_De_Alimento (linha 157)
+      identificado por: sobrecarga completa: relator 'Venda_De_Alimento' + 3 @mediation + @material
+      + relator: Venda_De_Alimento
+      + mediação (@mediation): Pizzaria (role -> kind Empresa)
+      + mediação (@mediation): Item_Da_Pizzaria (kind coagido para role)
+      + relação material (@material): compra_Em (Cliente -> Pizzaria)
+      + relação material (@material): vende (Pizzaria -> Item_Da_Pizzaria)
+      + relação material (@material): compra (Cliente -> Item_Da_Pizzaria)
+      - FALTA: Polo 'Cliente' tem estereótipo 'roleMixin', mas @mediation deve ligar o relator a classes 'role'.
+      * COERÇÃO: polo 'Item_Da_Pizzaria' (kind) coagido para 'role' (linha 160)
 =====================================================
 
 =====================================================
   ANÁLISE SEMÂNTICA: PADRÕES MODE E ROLEMIXIN
 =====================================================
-(1) PADRÕES COMPLETOS: 2
-  [Mode] Driving_License (linha 32)
-      identificado por: estereótipo 'mode' da classe 'Driving_License'
-      + portador (@characterization): Person (kind)
-      + dependência externa (@externalDependence): Car (kind)
-      * COERÇÃO: cardinalidade do portador 'Person': [1..*] -> [1] (linha 33)
-      * COERÇÃO: cardinalidade de 'Car': [0..*] -> [1..*] (linha 34)
-  [RoleMixin] Member (linha 62)
-      identificado por: genset 'Member_Types' com 'general Member', classe do tipo roleMixin
-      + roleMixin: Member
-      + genset: Member_Types (linha 65)
-      + role: Person_Member specializes Person (kind)
-      + role: Organization_Member specializes Organization (kind)
-      * COERÇÃO: genset 'Member_Types': 'disjoint' assumido (linha 65)
-      * COERÇÃO: genset 'Member_Types': 'complete' assumido (linha 65)
-      * COERÇÃO: 'Person_Member specializes Member' inserido (linha 67)
-      * COERÇÃO: 'Organization_Member specializes Member' inserido (linha 67)
+(1) PADRÕES COMPLETOS: 1
+  [RoleMixin] Cliente (linha 54)
+      identificado por: genset 'Tipos_de_Clientes' com 'general Cliente', classe do tipo roleMixin
+      + roleMixin: Cliente
+      + genset: Tipos_de_Clientes (linha 74)
+      + role: ClienteIndividual specializes Pessoa (kind)
+      + role: ClienteEmpresarial specializes Empresa (kind)
 
-(2) PADRÕES INCOMPLETOS (identificados por sobrecarga): 7
-  [Mode] Headache (linha 11)
-      identificado por: estereótipo 'mode' da classe 'Headache'
-      - FALTA: Nenhuma @characterization ligando o mode ao seu portador.
-      - FALTA: Nenhuma @externalDependence (o modelo do padrão Mode inclui a dependência externa).
-  [Mode] Skill (linha 14)
-      identificado por: estereótipo 'mode' da classe 'Skill'
-      + portador (@characterization): Person (kind)
-      - FALTA: Nenhuma @externalDependence (o modelo do padrão Mode inclui a dependência externa).
-  [Mode] Fear (linha 19)
-      identificado por: estereótipo 'mode' da classe 'Fear'
-      + dependência externa (@externalDependence): Car (kind)
-      - FALTA: O portador 'Animal' (@characterization, linha 20) não foi declarado como classe.
-  [Mode] Commitment (linha 25)
-      identificado por: relação @characterization (própria de mode) na classe 'Commitment', declarada como 'kind'
-      + portador (@characterization): Person (kind)
-      + dependência externa (@externalDependence): Organization (kind)
-      - FALTA: 'Commitment' foi declarada como 'kind', mas o padrão exige o estereótipo 'mode' (kind não pode ser convertido em mode).
-  [RoleMixin] Renter (linha 39)
-      identificado por: estereótipo 'roleMixin' da classe 'Renter'
-      + roleMixin: Renter
-      + role que especializa o roleMixin: Personal_Renter
-      - FALTA: Nenhum genset com 'general Renter' particionando o roleMixin em roles.
-  [RoleMixin] Supplier (linha 43)
-      identificado por: genset 'Supplier_Types' com 'general Supplier', classe do tipo roleMixin
-      + roleMixin: Supplier
-      + genset: Supplier_Types (linha 45)
-      + role: Person_Supplier specializes Person (kind)
-      - FALTA: O genset 'Supplier_Types' é 'overlapping', mas o padrão exige 'disjoint'.
-      - FALTA: O genset tem 1 classe(s) específica(s); o padrão exige pelo menos 2 roles.
-  [RoleMixin] Owner (linha 51)
-      identificado por: genset 'Owner_Types' com 'general Owner', classe do tipo roleMixin
-      + roleMixin: Owner
-      + genset: Owner_Types (linha 55)
-      + role: Person_Owner specializes Person (kind)
-      - FALTA: O role 'Company_Owner' não especializa nenhum sortal (kind, collective, subkind, phase ou role).
-      - FALTA: 'Truck' foi declarada como 'subkind', mas as specifics de um roleMixin devem ser do tipo 'role'.
-      - FALTA: O role 'Extra_Owner' especializa 'Owner', mas não está nas specifics de nenhum genset do roleMixin.
+(2) PADRÕES INCOMPLETOS (identificados por sobrecarga): 0
+  (nenhum)
 =====================================================
 
 =====================================================
            RELATÓRIO DE ERROS DA ONTOLOGIA           
 =====================================================
-[COERÇÃO]  Linha 33, Coluna 5 (Padrão Mode 'Driving_License')
-        Problema : Cardinalidade do portador 'Person' em @characterization é [1..*], mas um mode inere em exatamente um portador.
-        Correção : Cardinalidade convertida de [1..*] para [1].
-[COERÇÃO]  Linha 34, Coluna 5 (Padrão Mode 'Driving_License')
-        Problema : Cardinalidade de 'Car' em @externalDependence é [0..*] (mínimo 0), mas a dependência externa exige mínimo 1.
-        Correção : Cardinalidade convertida de [0..*] para [1..*].
-[AVISO]    Linha 47, Coluna 15 (Genset 'Supplier_Types')
-        Problema : Generalização com apenas uma classe específica ('Person_Supplier').
-        Sugestão : Um generalization set agrupa as subclasses de um mesmo aspecto; se houver só uma, prefira 'kind/subkind/... Person_Supplier specializes Supplier'.
-[COERÇÃO]  Linha 65, Coluna 1 (Padrão RoleMixin 'Member')
-        Problema : O genset 'Member_Types' não declara 'disjoint', exigido pelo padrão RoleMixin.
-        Correção : Restrição 'disjoint' assumida para o genset.
-[COERÇÃO]  Linha 65, Coluna 1 (Padrão RoleMixin 'Member')
-        Problema : O genset 'Member_Types' não declara 'complete', exigido pelo padrão RoleMixin.
-        Correção : Restrição 'complete' assumida para o genset.
-[COERÇÃO]  Linha 67, Coluna 15 (Padrão RoleMixin 'Member')
-        Problema : O role 'Person_Member' está nas specifics do genset de 'Member', mas não declara 'specializes Member'.
-        Correção : Especialização 'Person_Member specializes Member' inserida a partir do genset.
-[COERÇÃO]  Linha 67, Coluna 30 (Padrão RoleMixin 'Member')
-        Problema : O role 'Organization_Member' está nas specifics do genset de 'Member', mas não declara 'specializes Member'.
-        Correção : Especialização 'Organization_Member specializes Member' inserida a partir do genset.
+[COERÇÃO]  Linha 118, Coluna 5 (Padrão Relator 'Composicao_Da_Massa')
+        Problema : Mediação '@mediation' de 'Composicao_Da_Massa' aponta diretamente para 'kind Massa_Da_Pizza' em vez de um 'role'.
+        Correção : Classe 'Massa_Da_Pizza' coagida para papel contextual ('role') na mediação.
+[COERÇÃO]  Linha 119, Coluna 5 (Padrão Relator 'Composicao_Da_Massa')
+        Problema : Mediação '@mediation' de 'Composicao_Da_Massa' aponta diretamente para 'subkind Pizza' em vez de um 'role'.
+        Correção : Classe 'Pizza' coagida para papel contextual ('role') na mediação.
+[COERÇÃO]  Linha 125, Coluna 5 (Padrão Relator 'Montagem_Da_Cobertura')
+        Problema : Mediação '@mediation' de 'Montagem_Da_Cobertura' aponta diretamente para 'kind Cobertura_Da_Pizza' em vez de um 'role'.
+        Correção : Classe 'Cobertura_Da_Pizza' coagida para papel contextual ('role') na mediação.
+[COERÇÃO]  Linha 126, Coluna 5 (Padrão Relator 'Montagem_Da_Cobertura')
+        Problema : Mediação '@mediation' de 'Montagem_Da_Cobertura' aponta diretamente para 'subkind Pizza' em vez de um 'role'.
+        Correção : Classe 'Pizza' coagida para papel contextual ('role') na mediação.
+[COERÇÃO]  Linha 132, Coluna 5 (Padrão Relator 'Montagem_Da_Borda')
+        Problema : Mediação '@mediation' de 'Montagem_Da_Borda' aponta diretamente para 'kind Borda_Da_Pizza' em vez de um 'role'.
+        Correção : Classe 'Borda_Da_Pizza' coagida para papel contextual ('role') na mediação.
+[COERÇÃO]  Linha 133, Coluna 5 (Padrão Relator 'Montagem_Da_Borda')
+        Problema : Mediação '@mediation' de 'Montagem_Da_Borda' aponta diretamente para 'subkind Pizza' em vez de um 'role'.
+        Correção : Classe 'Pizza' coagida para papel contextual ('role') na mediação.
+[COERÇÃO]  Linha 150, Coluna 5 (Padrão Relator 'Preparo_Da_Pizza')
+        Problema : Mediação '@mediation' de 'Preparo_Da_Pizza' aponta diretamente para 'subkind Pizza' em vez de um 'role'.
+        Correção : Classe 'Pizza' coagida para papel contextual ('role') na mediação.
+[COERÇÃO]  Linha 160, Coluna 5 (Padrão Relator 'Venda_De_Alimento')
+        Problema : Mediação '@mediation' de 'Venda_De_Alimento' aponta diretamente para 'kind Item_Da_Pizzaria' em vez de um 'role'.
+        Correção : Classe 'Item_Da_Pizzaria' coagida para papel contextual ('role') na mediação.
 -----------------------------------------------------
-Total: 0 erro(s), 1 aviso(s), 6 coerção(ões)
+Total: 0 erro(s), 0 aviso(s), 8 coerção(ões)
 =====================================================

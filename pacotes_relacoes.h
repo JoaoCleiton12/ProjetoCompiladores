@@ -17,6 +17,8 @@ struct DeclRelacao {
     std::string pacote;
     std::string origem;   // classe de origem (vazia em relações internas)
     std::string destino;  // classe de destino
+    std::string card_origem;   // cardinalidade da origem (vazia em relações internas)
+    std::string card_destino;  // cardinalidade do destino
     bool interna;
     int linha;
     int coluna;
@@ -30,11 +32,15 @@ void registrar_pacote(const std::string& nome, int linha, int coluna);
 // Registro de relações (Tópico 6)
 void registrar_relacao_externa(const std::string& estereotipo,
                                const std::string& origem,
+                               const std::string& card_origem,
                                const std::string& nome,
+                               const std::string& card_destino,
                                const std::string& destino,
                                int linha, int coluna);
 
 void registrar_relacao_interna(const std::string& estereotipo,
+                               const std::string& card_origem,
+                               const std::string& card_destino,
                                const std::string& destino,
                                int linha, int coluna);
 
