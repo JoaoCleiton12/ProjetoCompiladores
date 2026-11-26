@@ -1,0 +1,75 @@
+package Padroes_Incompletos
+
+kind Person
+kind Car
+kind Building
+kind Animal
+kind Company
+kind Horse
+category Insurable
+
+// ================= Phase: incompletos =================
+// genset 'overlapping' (phases exigem 'disjoint')
+phase New_Car specializes Car
+phase Used_Car specializes Car
+overlapping genset Car_Phases {
+    general Car
+    specifics New_Car, Used_Car
+}
+
+// phases sem genset
+phase Under_Construction specializes Building
+phase Finished specializes Building
+
+// única phase do sortal
+phase Puppy specializes Animal
+
+// genset com uma só phase e phase do mesmo sortal fora dele
+phase Startup specializes Company
+phase Bankrupt specializes Company
+disjoint genset Company_Phases {
+    general Company
+    specifics Startup
+}
+
+// phase isolada (sem specializes e fora de genset)
+phase Orphan
+
+// phase que especializa um não-sortal
+phase Damaged specializes Insurable
+
+// ================= Phase: completo por coerção =================
+// genset sem 'disjoint' e phase sem 'specializes Person'
+phase Living_Person specializes Person
+phase Deceased_Person
+complete genset Life_Status {
+    general Person
+    specifics Living_Person, Deceased_Person
+}
+
+// ================= Role: incompletos =================
+// roles sem genset
+role Owner specializes Car
+role Renter specializes Car
+
+// role isolada (sem specializes e fora de genset)
+role Volunteer
+
+// ================= Role: completo por coerção =================
+// genset 'disjoint' (não se aplica a roles) e role sem 'specializes Person'
+role Student specializes Person
+role Employee
+disjoint complete genset Person_Roles {
+    general Person
+    specifics Student, Employee
+}
+
+// ================= Sobrecarga não resolvida =================
+// genset que mistura phases e roles: tipos incompatíveis
+phase Foal specializes Horse
+phase Adult_Horse specializes Horse
+role Racehorse specializes Horse
+genset Horse_Mix {
+    general Horse
+    specifics Foal, Adult_Horse, Racehorse
+}

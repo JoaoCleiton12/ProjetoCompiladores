@@ -25,4 +25,5 @@ add_executable(sintatico
     enum_genset.cpp
     classes_datatypes.cpp
     padroes_mode_rolemixin.cpp
-    padroes_subkind_relator.cpp)
+    padroes_subkind_relator.cpp
+    padroes_role_phase.cpp)

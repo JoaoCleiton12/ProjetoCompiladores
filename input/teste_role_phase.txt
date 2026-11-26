@@ -1,0 +1,40 @@
+package Padroes_Role_Phase
+
+// ===================== Role pattern (completo) =====================
+// forma do enunciado: "complete" é opcional e "disjoint" não se aplica a roles
+kind Person
+role Student specializes Person
+role Employee specializes Person
+
+complete genset Person_Role_Genset {
+    general Person
+    specifics Student, Employee
+}
+
+// sem nenhuma restrição no genset
+kind Organization
+role Supplier specializes Organization
+role Client specializes Organization
+
+genset Organization_Roles {
+    general Organization
+    specifics Supplier, Client
+}
+
+// ===================== Phase pattern (completo) =====================
+// forma do enunciado: "disjoint" é obrigatório e "complete" é opcional
+phase Child specializes Person
+phase Teenager specializes Person
+phase Adult specializes Person
+
+disjoint complete genset Person_Phase_Genset {
+    general Person
+    specifics Child, Teenager, Adult
+}
+
+// sem "complete" e na forma curta do genset
+kind Car
+phase Available_Car specializes Car
+phase Under_Maintenance_Car specializes Car
+
+disjoint genset Car_Phases where Available_Car, Under_Maintenance_Car specializes Car

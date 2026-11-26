@@ -11,6 +11,7 @@ O projeto realiza a identificação de tokens, a validação de convenções rí
 - [Análise Sintática — Pacotes e Relações](#️-análise-sintática--módulo-de-pacotes-e-relações-joão)
 - [Análise Sintática — Enum e Genset](#-análise-sintática--tópicos-4-e-5-enum-e-genset)
 - [Análise Semântica — Mode e RoleMixin](#análise-semântica--padrões-mode-e-rolemixin)
+- [Análise Semântica — Role e Phase](#análise-semântica--padrões-role-e-phase)
 - [Regras de Identificação (Léxico)](#-estrutura-das-regras-de-identificação-léxico)
 - [Como Compilar e Executar](#️-como-compilar-e-executar)
 - [Alterando o Arquivo de Entrada](#️-alterando-o-arquivo-de-entrada-de-teste)
@@ -101,6 +102,18 @@ Depois da análise sintática, o analisador semântico verifica os padrões de p
 make
 ./sintatico input/teste_mode_rolemixin.txt               # padrões completos
 ./sintatico input/teste_mode_rolemixin_incompletos.txt   # incompletos e coerções
+```
+
+---
+
+## Análise Semântica — Padrões Role e Phase
+
+Depois da análise sintática, o analisador semântico verifica os padrões de projeto **Role** e **Phase**. Cada genset é interpretado **por sobrecarga** pelo tipo das suas classes específicas (todas `phase` → Phase pattern; todas `role` → Role pattern), e cada padrão é avaliado por funções sobrecarregadas (genset completo, especializações sem genset, classe isolada). Erros com conversão permitida são corrigidos **por coerção** (`[COERÇÃO]` no relatório): `disjoint` assumido em genset de phases, `disjoint` removido de genset de roles e `specializes` inserido a partir do genset. A saída lista **(1) os padrões completos** e **(2) os padrões incompletos**, com o que falta em cada um. Documentação completa: [`docs/SEMANTICO_ROLE_PHASE.md`](docs/SEMANTICO_ROLE_PHASE.md).
+
+```bash
+make
+./sintatico input/teste_role_phase.txt               # padrões completos
+./sintatico input/teste_role_phase_incompletos.txt   # incompletos e coerções
 ```
 
 ---
