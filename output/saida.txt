@@ -253,7 +253,7 @@ Total de relações internas.......: 15
 =====================================================
   ANÁLISE SEMÂNTICA: PADRÕES SUBKIND E RELATOR
 =====================================================
-(1) PADRÕES COMPLETOS: 13
+(1) PADRÕES COMPLETOS: 15
   [Subkind] Item_Da_Pizzaria (linha 11)
       identificado por: sobrecarga completa: 'Item_Da_Pizzaria' + 3 subkind(s) + genset 'Tipo_Do_Item'
       + classe-mãe: kind Item_Da_Pizzaria
@@ -339,6 +339,16 @@ Total de relações internas.......: 15
       + relação material (@material): tem_Borda (Pizza -> Borda_Da_Pizza)
       * COERÇÃO: polo 'Borda_Da_Pizza' (kind) coagido para 'role' (linha 132)
       * COERÇÃO: polo 'Pizza' (subkind) coagido para 'role' (linha 133)
+  [Relator] Atendimento (linha 140)
+      identificado por: sobrecarga completa: relator 'Atendimento' + 3 @mediation + @material
+      + relator: Atendimento
+      + mediação (@mediation): Atendente (role -> kind Pessoa)
+      + mediação (@mediation): Cliente (roleMixin)
+      + mediação (@mediation): Lista_de_Itens (collective coagido para role)
+      + relação material (@material): anota (Atendente -> Lista_de_Itens)
+      + relação material (@material): solicita (Cliente -> Lista_de_Itens)
+      + relação material (@material): atendido_Por (Cliente -> Atendente)
+      * COERÇÃO: polo 'Lista_de_Itens' (collective) coagido para 'role' (linha 143)
   [Relator] Preparo_Da_Pizza (linha 148)
       identificado por: sobrecarga completa: relator 'Preparo_Da_Pizza' + 2 @mediation + @material
       + relator: Preparo_Da_Pizza
@@ -346,27 +356,19 @@ Total de relações internas.......: 15
       + mediação (@mediation): Pizza (subkind coagido para role)
       + relação material (@material): prepara (Pizzaiolo -> Pizza)
       * COERÇÃO: polo 'Pizza' (subkind) coagido para 'role' (linha 150)
-
-(2) PADRÕES INCOMPLETOS (identificados por sobrecarga): 2
-  [Relator] Atendimento (linha 140)
-      identificado por: sobrecarga completa: relator 'Atendimento' + 3 @mediation + @material
-      + relator: Atendimento
-      + mediação (@mediation): Atendente (role -> kind Pessoa)
-      + relação material (@material): anota (Atendente -> Lista_de_Itens)
-      + relação material (@material): solicita (Cliente -> Lista_de_Itens)
-      + relação material (@material): atendido_Por (Cliente -> Atendente)
-      - FALTA: Polo 'Cliente' tem estereótipo 'roleMixin', mas @mediation deve ligar o relator a classes 'role'.
-      - FALTA: Polo 'Lista_de_Itens' tem estereótipo 'collective', mas @mediation deve ligar o relator a classes 'role'.
   [Relator] Venda_De_Alimento (linha 157)
       identificado por: sobrecarga completa: relator 'Venda_De_Alimento' + 3 @mediation + @material
       + relator: Venda_De_Alimento
       + mediação (@mediation): Pizzaria (role -> kind Empresa)
+      + mediação (@mediation): Cliente (roleMixin)
       + mediação (@mediation): Item_Da_Pizzaria (kind coagido para role)
       + relação material (@material): compra_Em (Cliente -> Pizzaria)
       + relação material (@material): vende (Pizzaria -> Item_Da_Pizzaria)
       + relação material (@material): compra (Cliente -> Item_Da_Pizzaria)
-      - FALTA: Polo 'Cliente' tem estereótipo 'roleMixin', mas @mediation deve ligar o relator a classes 'role'.
       * COERÇÃO: polo 'Item_Da_Pizzaria' (kind) coagido para 'role' (linha 160)
+
+(2) PADRÕES INCOMPLETOS (identificados por sobrecarga): 0
+  (nenhum)
 =====================================================
 
 =====================================================
@@ -405,6 +407,9 @@ Total de relações internas.......: 15
 [COERÇÃO]  Linha 133, Coluna 5 (Padrão Relator 'Montagem_Da_Borda')
         Problema : Mediação '@mediation' de 'Montagem_Da_Borda' aponta diretamente para 'subkind Pizza' em vez de um 'role'.
         Correção : Classe 'Pizza' coagida para papel contextual ('role') na mediação.
+[COERÇÃO]  Linha 143, Coluna 5 (Padrão Relator 'Atendimento')
+        Problema : Mediação '@mediation' de 'Atendimento' aponta diretamente para 'collective Lista_de_Itens' em vez de um 'role'.
+        Correção : Classe 'Lista_de_Itens' coagida para papel contextual ('role') na mediação.
 [COERÇÃO]  Linha 150, Coluna 5 (Padrão Relator 'Preparo_Da_Pizza')
         Problema : Mediação '@mediation' de 'Preparo_Da_Pizza' aponta diretamente para 'subkind Pizza' em vez de um 'role'.
         Correção : Classe 'Pizza' coagida para papel contextual ('role') na mediação.
@@ -412,5 +417,5 @@ Total de relações internas.......: 15
         Problema : Mediação '@mediation' de 'Venda_De_Alimento' aponta diretamente para 'kind Item_Da_Pizzaria' em vez de um 'role'.
         Correção : Classe 'Item_Da_Pizzaria' coagida para papel contextual ('role') na mediação.
 -----------------------------------------------------
-Total: 0 erro(s), 0 aviso(s), 8 coerção(ões)
+Total: 0 erro(s), 0 aviso(s), 9 coerção(ões)
 =====================================================

@@ -336,11 +336,19 @@ static void analisar_padroes_subkind() {
 /*      role Role_Name1 specializes ClassName1                           */
 /*      role Role_Name2 specializes ClassName2                           */
 /*      relator Relator_Name {                                           */
-/*          @mediation [1..*] -- [1..*] Role_Name1                       */
-/*          @mediation [1..*] -- [1..*] Role_Name2                       */
+/*          @mediation [1..*] [1..*] Role_Name1                          */
+/*          @mediation [1..*] [1..*] Role_Name2                          */
 /*      }                                                                */
 /*      @material relation Role_Name1 [1..*] relationName [1..*] Role_Name2 */
 /* ===================================================================== */
+
+static int valor_min_card(const string& card) {
+    string min_s = card_minimo(card);
+    if (min_s.empty() || min_s == "*") return 0;
+    for (char ch : min_s)
+        if (!isdigit((unsigned char)ch)) return 0;
+    return stoi(min_s);
+}
 
 static void verificar_polos_relator(const DeclaracaoClasse& relator,
                                     const vector<const DeclRelacao*>& mediacoes,
@@ -355,13 +363,13 @@ static void verificar_polos_relator(const DeclaracaoClasse& relator,
             continue;
         }
 
-        // Coerção de cardinalidade: em @mediation, a dependência existencial exige mínimo >= 1
-        if (!med->card_destino.empty() && card_minimo(med->card_destino) == "0") {
+        // Regra UFO: minCard >= 1 e immutable na ponta do Substantial Universal
+        if (!med->card_destino.empty() && valor_min_card(med->card_destino) == 0) {
             string max_c = card_maximo(med->card_destino);
             string nova = (max_c == "1") ? "1" : "1.." + max_c;
             registrar_coercao(med->linha, med->coluna, ctx,
                 "Cardinalidade de '" + med->destino + "' em @mediation é [" + med->card_destino +
-                "] (mínimo 0), mas mediações exigem dependência existencial (mínimo 1).",
+                "] (mínimo 0), mas mediações exigem dependência existencial (minCard >= 1).",
                 "Cardinalidade convertida de [" + med->card_destino + "] para [" + nova + "].");
             oc.coercoes.push_back("cardinalidade de '" + med->destino + "': [" +
                                   med->card_destino + "] -> [" + nova + "] (linha " +
@@ -381,8 +389,35 @@ static void verificar_polos_relator(const DeclaracaoClasse& relator,
                     "Declare 'role " + alvo->nome + " specializes <ClasseKind>'.");
                 oc.faltas.push_back("O role '" + alvo->nome + "' não possui classe-mãe do tipo 'kind'.");
             }
-        } else if (alvo->estereotipo == "kind" || alvo->estereotipo == "subkind") {
-            // Coerção: modelo mediou diretamente uma classe rígida (kind/subkind) em vez de um role
+        } else if (alvo->estereotipo == "roleMixin") {
+            // Mixin anti-rígido (Substantial Universal): válido se especializado por roles com raiz kind
+            unordered_set<string> kinds_distintas;
+            for (const DeclaracaoClasse& c : classes_declaradas()) {
+                if ((c.estereotipo == "role" || c.estereotipo == "historicalRole") &&
+                    contem(c.especializacoes, alvo->nome)) {
+                    unordered_set<string> vis;
+                    string kind_mae;
+                    if (possui_ancestral_kind(c.nome, vis, kind_mae)) {
+                        kinds_distintas.insert(kind_mae);
+                    }
+                }
+            }
+            if (!kinds_distintas.empty()) {
+                oc.elementos.push_back("mediação (@mediation): " + alvo->nome + " (roleMixin)");
+            } else {
+                registrar_coercao(med->linha, med->coluna, ctx,
+                    "O roleMixin '" + alvo->nome + "' mediado por '" + relator.nome +
+                    "' não possui roles especializados vinculados a classes 'kind'.",
+                    "RoleMixin '" + alvo->nome + "' assumido como papel contextual na mediação.");
+                oc.coercoes.push_back("polo '" + alvo->nome +
+                                      "' (roleMixin sem roles vinculados) coagido na mediação (linha " +
+                                      to_string(med->linha) + ")");
+                oc.elementos.push_back("mediação (@mediation): " + alvo->nome + " (roleMixin coagido)");
+            }
+        } else if (alvo->estereotipo == "kind" || alvo->estereotipo == "subkind" ||
+                   alvo->estereotipo == "collective" || alvo->estereotipo == "quantity" ||
+                   alvo->estereotipo == "phase" || alvo->estereotipo == "category") {
+            // Substantial Universal válido na UFO geral, coagido para 'role' conforme o template TONTO
             registrar_coercao(med->linha, med->coluna, ctx,
                 "Mediação '@mediation' de '" + relator.nome + "' aponta diretamente para '" +
                 alvo->estereotipo + " " + alvo->nome + "' em vez de um 'role'.",
@@ -392,13 +427,18 @@ static void verificar_polos_relator(const DeclaracaoClasse& relator,
             oc.elementos.push_back("mediação (@mediation): " + alvo->nome +
                                    " (" + alvo->estereotipo + " coagido para role)");
         } else {
+            // Moment Universals (mode, relator) ou não-endurants (enum, datatype) são proibidos pela UFO
+            registrar_erro(med->linha, med->coluna, ctx,
+                "Polo '" + alvo->nome + "' possui estereótipo '" + alvo->estereotipo +
+                "', que não é um Substantial Universal válido para '@mediation'.",
+                "Relators devem mediar classes 'role' (especializando 'kind').");
             oc.faltas.push_back("Polo '" + alvo->nome + "' tem estereótipo '" + alvo->estereotipo +
-                                "', mas @mediation deve ligar o relator a classes 'role'.");
+                                "', incompatível com '@mediation'.");
         }
     }
 }
 
-// Sobrecarga 1 (Completa): Relator + >=2 Mediações + Relação Material
+// Sobrecarga 1 (Completa): Relator + Sum(minCard) >= 2 + Relação Material (Variant 2)
 static void avaliar_relator_pattern(const DeclaracaoClasse& relator,
                                     const vector<const DeclRelacao*>& mediacoes,
                                     const vector<const DeclRelacao*>& materiais) {
@@ -420,7 +460,7 @@ static void avaliar_relator_pattern(const DeclaracaoClasse& relator,
     ocorrencias_sr.push_back(oc);
 }
 
-// Sobrecarga 2 (Incompleta): Relator + >=2 Mediações, sem Relação Material
+// Sobrecarga 2 (Incompleta): Relator + Sum(minCard) >= 2, sem Relação Material (apenas Variant 1)
 static void avaliar_relator_pattern(const DeclaracaoClasse& relator,
                                     const vector<const DeclRelacao*>& mediacoes) {
     OcorrenciaPadraoSR oc;
@@ -434,28 +474,36 @@ static void avaliar_relator_pattern(const DeclaracaoClasse& relator,
     verificar_polos_relator(relator, mediacoes, oc);
 
     string p1 = mediacoes.size() >= 1 ? mediacoes[0]->destino : "Role1";
-    string p2 = mediacoes.size() >= 2 ? mediacoes[1]->destino : "Role2";
-    oc.faltas.push_back("Relators exigem uma relação externa '@material' entre os polos mediados (ex.: @material relation " +
-                        p1 + " [1..*] relacao [1..*] " + p2 + ").");
+    string p2 = mediacoes.size() >= 2 ? mediacoes[1]->destino : p1;
+    string msg = "Relators sempre exigem uma relação externa '@material' entre os polos mediados.";
+    string sug = "Declare: @material relation " + p1 + " [1..*] nomeRelacao [1..*] " + p2;
+
+    registrar_erro(relator.linha, relator.coluna, "Padrão Relator '" + relator.nome + "'", msg, sug);
+    oc.faltas.push_back(msg + " (" + sug + ")");
 
     ocorrencias_sr.push_back(oc);
 }
 
-// Sobrecarga 3 (Mínima/Incompleta): Relator com menos de 2 mediações
+// Sobrecarga 3 (Mínima/Incompleta): Relator com Sum(minCard) < 2
 static void avaliar_relator_pattern(const DeclaracaoClasse& relator,
-                                    size_t qtd_mediacoes,
+                                    int soma_min_card,
                                     const vector<const DeclRelacao*>& mediacoes) {
     OcorrenciaPadraoSR oc;
     oc.padrao = "Relator";
     oc.nome = relator.nome;
     oc.linha = relator.linha;
-    oc.identificado_por = "sobrecarga por estereótipo: 'relator " + relator.nome + "' com " +
-                          to_string(qtd_mediacoes) + " mediação(ões)";
+    oc.identificado_por = "sobrecarga por estereótipo: 'relator " + relator.nome +
+                          "' com Sum(minCard) = " + to_string(soma_min_card);
 
     oc.elementos.push_back("relator: " + relator.nome);
     verificar_polos_relator(relator, mediacoes, oc);
-    oc.faltas.push_back("Relators sempre exigem pelo menos duas relações '@mediation' (encontrada(s): " +
-                        to_string(qtd_mediacoes) + ") e uma relação '@material'.");
+
+    string msg = "Relators exigem pelo menos duas mediações (Sum(minCard) >= 2) e uma relação '@material'.";
+    registrar_erro(relator.linha, relator.coluna, "Padrão Relator '" + relator.nome + "'", msg,
+        "Adicione pelo menos duas relações '@mediation' em '" + relator.nome +
+        "' e uma '@material relation' externa.");
+    oc.faltas.push_back(msg + " Mediações encontradas: " + to_string(mediacoes.size()) +
+                        " (Sum(minCard) = " + to_string(soma_min_card) + ").");
 
     ocorrencias_sr.push_back(oc);
 }
@@ -464,17 +512,34 @@ static void analisar_padroes_relator() {
     const vector<DeclRelacao>& todas_relacoes = relacoes_declaradas();
     set<string> materiais_associadas;
 
+    // Verifica se alguma @mediation foi usada fora de um relator
+    for (const DeclRelacao& r : todas_relacoes) {
+        if (r.interna && r.estereotipo == "mediation" && !r.origem.empty()) {
+            const DeclaracaoClasse* dona = buscar_classe(r.origem);
+            if (dona && dona->estereotipo != "relator") {
+                registrar_erro(r.linha, r.coluna, "Padrão Relator",
+                    "Relação '@mediation' declarada dentro de '" + r.origem +
+                    "' (" + dona->estereotipo + ").",
+                    "Relações '@mediation' pertencem exclusivamente a classes 'relator'.");
+            }
+        }
+    }
+
     for (const DeclaracaoClasse& c : classes_declaradas()) {
         if (c.estereotipo != "relator") continue;
 
         vector<const DeclRelacao*> mediacoes;
         unordered_set<string> polos_diretos;
         unordered_set<string> kinds_ancestrais;
+        int soma_min_card = 0;
 
         for (const DeclRelacao& r : todas_relacoes) {
             if (r.interna && r.origem == c.nome && r.estereotipo == "mediation") {
                 mediacoes.push_back(&r);
                 polos_diretos.insert(r.destino);
+
+                int min_efetivo = max(1, valor_min_card(r.card_destino));
+                soma_min_card += min_efetivo;
 
                 unordered_set<string> vis;
                 string kind_raiz;
@@ -484,19 +549,21 @@ static void analisar_padroes_relator() {
             }
         }
 
-        // Sobrecarga 3: menos de 2 mediações
-        if (mediacoes.size() < 2) {
-            avaliar_relator_pattern(c, mediacoes.size(), mediacoes);
+        // Regra UFO: Sum(minCard) >= 2 (cobre >= 2 mediações ou 1 mediação com card >= 2)
+        if (soma_min_card < 2) {
+            avaliar_relator_pattern(c, soma_min_card, mediacoes);
             continue;
         }
 
-        // Busca relações externas que ligam dois polos mediados por este relator
+        // Busca relações externas que ligam os polos mediados por este relator
         vector<const DeclRelacao*> materiais;
         for (const DeclRelacao& r : todas_relacoes) {
-            if (r.interna || r.origem == r.destino) continue;
+            if (r.interna) continue;
 
             bool liga_polos = polos_diretos.count(r.origem) && polos_diretos.count(r.destino);
-            bool liga_kinds = kinds_ancestrais.count(r.origem) && kinds_ancestrais.count(r.destino);
+            bool liga_kinds = (r.origem != r.destino) &&
+                              kinds_ancestrais.count(r.origem) &&
+                              kinds_ancestrais.count(r.destino);
 
             if (r.estereotipo == "material" && liga_polos) {
                 materiais.push_back(&r);
@@ -521,10 +588,10 @@ static void analisar_padroes_relator() {
         }
 
         if (!materiais.empty()) {
-            // Sobrecarga 1: completa
+            // Sobrecarga 1: completa (Variant 2)
             avaliar_relator_pattern(c, mediacoes, materiais);
         } else {
-            // Sobrecarga 2: incompleta (falta @material)
+            // Sobrecarga 2: incompleta — falta @material (apenas Variant 1)
             avaliar_relator_pattern(c, mediacoes);
         }
     }
