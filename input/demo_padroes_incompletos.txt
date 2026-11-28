@@ -1,0 +1,59 @@
+package Demo_Padroes_Incompletos
+
+// ===== 1. Subkind: genset 'overlapping' (subkinds exigem disjoint) =====
+kind Vehicle
+subkind Car specializes Vehicle
+subkind Motorcycle specializes Vehicle
+overlapping genset Vehicle_Types {
+    general Vehicle
+    specifics Car, Motorcycle
+}
+
+// ===== 2. Role: roles sem genset =====
+kind Person
+role Student specializes Person
+role Teacher specializes Person
+
+// ===== 3. Phase: uma phase sozinha (fase exige partição) =====
+kind Animal
+phase Puppy specializes Animal
+
+// ===== 4. Relator: apenas uma @mediation =====
+relator Contract {
+    @mediation [1..*] -- [1..*] Teacher
+}
+
+// ===== 5. Mode: sem @externalDependence =====
+mode Skill {
+    @characterization [1..*] -- [1] Person
+}
+
+// ===== 6. RoleMixin: roleMixin sem genset =====
+roleMixin Renter
+
+// ===== COERÇÕES: erros corrigidos automaticamente =====
+// Subkind: genset sem 'disjoint'
+kind Shape
+subkind Circle specializes Shape
+subkind Square specializes Shape
+genset Shape_Types {
+    general Shape
+    specifics Circle, Square
+}
+
+// Mode: portador [1..*] vira [1]
+kind Language
+mode Fluency {
+    @characterization [1..*] -- [1..*] Person
+    @externalDependence [1..*] -- [1] Language
+}
+
+// RoleMixin: genset sem 'disjoint complete' e roles sem 'specializes Member'
+kind Organization
+roleMixin Member
+role Person_Member specializes Person
+role Organization_Member specializes Organization
+genset Member_Types {
+    general Member
+    specifics Person_Member, Organization_Member
+}

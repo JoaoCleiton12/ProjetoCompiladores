@@ -1,0 +1,51 @@
+package Demo_Padroes_Completos
+
+// ===== 1. Subkind pattern =====
+kind Vehicle
+subkind Car specializes Vehicle
+subkind Motorcycle specializes Vehicle
+disjoint complete genset Vehicle_Types {
+    general Vehicle
+    specifics Car, Motorcycle
+}
+
+// ===== 2. Role pattern =====
+kind Person
+role Student specializes Person
+role Teacher specializes Person
+complete genset Person_Roles {
+    general Person
+    specifics Student, Teacher
+}
+
+// ===== 3. Phase pattern =====
+phase Child specializes Person
+phase Adult specializes Person
+disjoint complete genset Person_Phases {
+    general Person
+    specifics Child, Adult
+}
+
+// ===== 4. Relator pattern =====
+relator Enrollment {
+    @mediation [1..*] -- [1..*] Teacher
+    @mediation [1..*] -- [1..*] Student
+}
+@material relation Teacher [1..*] -- teaches -- [1..*] Student
+
+// ===== 5. Mode pattern =====
+kind Language
+mode Language_Fluency {
+    @characterization [1..*] -- [1] Person
+    @externalDependence [1..*] -- [1] Language
+}
+
+// ===== 6. RoleMixin pattern =====
+kind Organization
+roleMixin Customer
+role Personal_Customer specializes Person, Customer
+role Corporate_Customer specializes Organization, Customer
+disjoint complete genset Customer_Types {
+    general Customer
+    specifics Personal_Customer, Corporate_Customer
+}
