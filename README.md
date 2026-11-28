@@ -1,4 +1,4 @@
-# Analisador Léxico e Sintático OntoUML
+# Analisador Léxico, Sintático e Semântico OntoUML
 
 Analisador desenvolvido em **Flex e Bison (C++)** para processamento, classificação léxica e validação sintática de linguagens de modelagem conceitual baseadas em **OntoUML** (linguagem Tonto).
 
